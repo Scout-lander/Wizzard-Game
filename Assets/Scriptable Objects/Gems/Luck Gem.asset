@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e70fc4c82112efb4a9a254ec59c2c180, type: 3}
+  m_Name: Luck Gem
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 8570da0318aa49743a6dec3e42b6b45f, type: 3}
+  gemName: LuckRune
+  description: A mystical Rune that brings good fortune, enhancing luck. However,
+    it also attracts a dark curse.
+  rarity: 0
+  isInitialized: 0
+  minLuckIncrease: 1
+  maxLuckIncrease: 2
+  luckIncrease: 1
+  minCurseIncrease: 1
+  maxCurseIncrease: 2
+  curseIncrease: 1

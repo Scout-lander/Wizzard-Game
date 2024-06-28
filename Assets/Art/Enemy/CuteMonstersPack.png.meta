@@ -1,0 +1,1126 @@
+fileFormatVersion: 2
+guid: 8a9c92270426643caa8e76f74177545b
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 50
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: CuteMonstersPack_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 160
+        width: 22
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59096153d02224747b66b026d5496eef
+      internalID: -72814142
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 160
+        width: 22
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66546b8d1b126446e86a724268d68f89
+      internalID: -669289601
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_2
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 224
+        width: 22
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3da054dc83cc4f378fc0b6eaf6229c3
+      internalID: 1705371927
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_3
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 160
+        width: 22
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4b77488e370448c3a65afa15c900a78
+      internalID: 1970456941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_4
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 160
+        width: 22
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a057782c22bd14df2a653bad5785e168
+      internalID: -1090269457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 227
+        width: 96
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a8c0e805d2fe84f0882f6b2c3e225103
+      internalID: 320380428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_6
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 192
+        width: 22
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f005e41bedc34cbdaf5ba4b580b0be4
+      internalID: -2092391854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_7
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 195
+        width: 96
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1d446e3e8e7d4c569e679f451e8fab3
+      internalID: -742199316
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_8
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 160
+        width: 22
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8e781d28851d4985ac04f8a19ae8169
+      internalID: -1918196745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_9
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 160
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 034e37eefe4974808bb868cb4c265245
+      internalID: -49661077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_10
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 160
+        width: 20
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f433e325ecc4041f1968a9d36bfae47b
+      internalID: -1219817170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_11
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 160
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 19f75005ed0d746dc8c4e8a8795f00ad
+      internalID: -801535944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 131
+        width: 256
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72aeccfd3e5524a08a356522c927cfa1
+      internalID: 1828626252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_13
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 96
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c672a120ac02442acad50787de58a557
+      internalID: 36713095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_14
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 96
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2356e44e969284c7ba2cf87a7fb82ce8
+      internalID: 256107595
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_15
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 96
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 304ef6f4054f34cd4919c64ff2b88652
+      internalID: -270478404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_16
+      rect:
+        serializedVersion: 2
+        x: 102
+        y: 96
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c69b29c7698a445f9a337eccfa97b606
+      internalID: 2113856736
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_17
+      rect:
+        serializedVersion: 2
+        x: 134
+        y: 96
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 045ebe220b89c43bc8d53ab6745e6667
+      internalID: -1167730229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_18
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 96
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e24236699e67439a9f3ac5f791564f7
+      internalID: -680329308
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_19
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 96
+        width: 20
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e401d65b084b481195b1b205a0f7623
+      internalID: 26256831
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_20
+      rect:
+        serializedVersion: 2
+        x: 230
+        y: 96
+        width: 20
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a49ba04869eaa4b33814b78eebed7e74
+      internalID: 2021669925
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_21
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 64
+        width: 28
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5a1b51ff0c3e4d9096357b79ab1e02a
+      internalID: 483517417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_22
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 64
+        width: 28
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ee178f1d2e0d4a929bad8cbd503f56e
+      internalID: -1629416712
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_23
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 64
+        width: 28
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3c4a4638996f4714a3618bd90abd149
+      internalID: -1123664621
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_24
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 64
+        width: 28
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be59ac254c0c7419e9574918e8e91135
+      internalID: 664232947
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_25
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 64
+        width: 28
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dad4082cab1d94b049a052e02a150d77
+      internalID: 283649093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_26
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 64
+        width: 28
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b7d2dda241ce4204b75727bcec7303a
+      internalID: 225158763
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_27
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 64
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eacf8ab48c5a24687b4604a12c1e65ab
+      internalID: -296406977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_28
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 64
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d6359d8e520848ed87b208725d42b9b
+      internalID: 1194686768
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_29
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 32
+        width: 28
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b910c348da30a42a19827135afeac68a
+      internalID: -603133339
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_30
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 32
+        width: 28
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5ef5a902d736544829cc043c67229c49
+      internalID: 301200720
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_31
+      rect:
+        serializedVersion: 2
+        x: 66
+        y: 32
+        width: 28
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a1cc3bcc1aba64cbe90d4fbffc3b8a7d
+      internalID: -1449937926
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_32
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 32
+        width: 28
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 078390df65f674d93b0cd4f7be5a2d9a
+      internalID: -94413038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_33
+      rect:
+        serializedVersion: 2
+        x: 130
+        y: 32
+        width: 28
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c2c20b9a7d7d44a0a7eadcbc4a83bf3
+      internalID: 487844306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_34
+      rect:
+        serializedVersion: 2
+        x: 162
+        y: 32
+        width: 28
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0f01541be04f4df782c7afa6eb8a6a8
+      internalID: 505226048
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_35
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 32
+        width: 29
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1008433279fb4491a6453287ba4495e
+      internalID: -1811019572
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_36
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 32
+        width: 29
+        height: 28
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c24e8541d1f0c480786e636be03adf4d
+      internalID: -503399252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_37
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4ada267d6be174efeac5d6bd780ba588
+      internalID: -7713981
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_38
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 0
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e953b840a57db42b88d6b44cee9a63ab
+      internalID: -1949463494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_39
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 0
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 590679728f94a429db42f7001c26a84d
+      internalID: 852034569
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_40
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 0
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2265a020d149f40ce84ccde5aaa9babe
+      internalID: 98018267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_41
+      rect:
+        serializedVersion: 2
+        x: 129
+        y: 0
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a301dcfdb0af94713b0e8fb53786fcc1
+      internalID: 2019722733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_42
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 0
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d0fd6438648694e85aa73e69250f57eb
+      internalID: -1149661028
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_43
+      rect:
+        serializedVersion: 2
+        x: 193
+        y: 0
+        width: 29
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b1ea69a0f708a41dc9b5b64d9a357665
+      internalID: 1727021093
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_44
+      rect:
+        serializedVersion: 2
+        x: 225
+        y: 0
+        width: 29
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 855d6f5fbe85c495e8d3cc0f7f7c41e5
+      internalID: -1891998894
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CuteMonstersPack_45
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 0
+        width: 61
+        height: 256
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4321987c55fe34443a360a5db89d9817
+      internalID: 1431885325
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      CuteMonstersPack_0: -72814142
+      CuteMonstersPack_1: -669289601
+      CuteMonstersPack_10: -1219817170
+      CuteMonstersPack_11: -801535944
+      CuteMonstersPack_12: 1828626252
+      CuteMonstersPack_13: 36713095
+      CuteMonstersPack_14: 256107595
+      CuteMonstersPack_15: -270478404
+      CuteMonstersPack_16: 2113856736
+      CuteMonstersPack_17: -1167730229
+      CuteMonstersPack_18: -680329308
+      CuteMonstersPack_19: 26256831
+      CuteMonstersPack_2: 1705371927
+      CuteMonstersPack_20: 2021669925
+      CuteMonstersPack_21: 483517417
+      CuteMonstersPack_22: -1629416712
+      CuteMonstersPack_23: -1123664621
+      CuteMonstersPack_24: 664232947
+      CuteMonstersPack_25: 283649093
+      CuteMonstersPack_26: 225158763
+      CuteMonstersPack_27: -296406977
+      CuteMonstersPack_28: 1194686768
+      CuteMonstersPack_29: -603133339
+      CuteMonstersPack_3: 1970456941
+      CuteMonstersPack_30: 301200720
+      CuteMonstersPack_31: -1449937926
+      CuteMonstersPack_32: -94413038
+      CuteMonstersPack_33: 487844306
+      CuteMonstersPack_34: 505226048
+      CuteMonstersPack_35: -1811019572
+      CuteMonstersPack_36: -503399252
+      CuteMonstersPack_37: -7713981
+      CuteMonstersPack_38: -1949463494
+      CuteMonstersPack_39: 852034569
+      CuteMonstersPack_4: -1090269457
+      CuteMonstersPack_40: 98018267
+      CuteMonstersPack_41: 2019722733
+      CuteMonstersPack_42: -1149661028
+      CuteMonstersPack_43: 1727021093
+      CuteMonstersPack_44: -1891998894
+      CuteMonstersPack_45: 1431885325
+      CuteMonstersPack_5: 320380428
+      CuteMonstersPack_6: -2092391854
+      CuteMonstersPack_7: -742199316
+      CuteMonstersPack_8: -1918196745
+      CuteMonstersPack_9: -49661077
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

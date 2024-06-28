@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c051637b016ccf45b52f33f75a930bb, type: 3}
+  m_Name: Defense Gem
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: ccd4f80786552ea4cb3faa8943c0983a, type: 3}
+  gemName: Defence Rune
+  description: A sturdy Rune that enhances defensive capabilities by boosting armor.
+    Unfortunately, it also hinders the wielder's attack speed.
+  rarity: 0
+  isInitialized: 0
+  cMaxArmorIncrease: 0.3
+  cMinArmorIncrease: 0.1
+  cMaxAttackSpeedDecrease: 1
+  cMinAttackSpeedDecrease: 0.1
+  commonProbabilities: 0.5
+  uMaxArmorIncrease: 0.5
+  uMinArmorIncrease: 0.3
+  uMaxAttackSpeedDecrease: 0.15
+  uMinAttackSpeedDecrease: 0.1
+  uncommonProbabilities: 0.3
+  rMaxArmorIncrease: 1
+  rMinArmorIncrease: 0.5
+  rMaxAttackSpeedDecrease: 0.2
+  rMinAttackSpeedDecrease: 0.15
+  rareProbabilities: 0.1
+  eMaxArmorIncrease: 1.5
+  eMinArmorIncrease: 1
+  eMaxAttackSpeedDecrease: 0.25
+  eMinAttackSpeedDecrease: 0.2
+  epicProbabilities: 0.07
+  lMaxArmorIncrease: 2
+  lMinArmorIncrease: 1.5
+  lMaxAttackSpeedDecrease: 0.3
+  lMinAttackSpeedDecrease: 0.25
+  legendaryProbabilities: 0.03
+  armorIncrease: 1.2082722
+  attackSpeedDecrease: 2.7906876

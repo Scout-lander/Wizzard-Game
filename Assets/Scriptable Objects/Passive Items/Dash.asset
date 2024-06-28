@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d531c6a981a4bbf4a9fbbeb73cb20eca, type: 3}
+  m_Name: Dash
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: c4be692aee70d7e4697b311a3e2693db, type: 3}
+  weaponName: 
+  weaponDescription: 
+  maxLevel: 6
+  levelUpChance: 80
+  evolutionData: []
+  baseStats:
+    name: Dash Level 1
+    description: CoolDOwn - .5
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0
+      area: 0
+      speed: 0
+      duration: 0
+      amount: 0
+      cooldown: 0
+      luck: 0
+      growth: 0
+      greed: 0
+      curse: 0
+      magnet: 0
+      revival: 0
+      dashDuration: 0
+      dashCooldown: -0.5
+      maxDashes: 0
+      StunReduction: 0
+      BurnReduction: 0
+      SlowReduction: 0
+  growth: []
+  randomGrowth:
+  - name: 'Dash '
+    description: Dash Distance  + .1
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0
+      area: 0
+      speed: 0
+      duration: 0
+      amount: 0
+      cooldown: 0
+      luck: 0
+      growth: 0
+      greed: 0
+      curse: 0
+      magnet: 0
+      revival: 0
+      dashDuration: 0.1
+      dashCooldown: 0
+      maxDashes: 0
+      StunReduction: 0
+      BurnReduction: 0
+      SlowReduction: 0
+  - name: 'Dash '
+    description: Dash CoolDown - 0.5
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0
+      area: 0
+      speed: 0
+      duration: 0
+      amount: 0
+      cooldown: 0
+      luck: 0
+      growth: 0
+      greed: 0
+      curse: 0
+      magnet: 0
+      revival: 0
+      dashDuration: 0
+      dashCooldown: -0.5
+      maxDashes: 0
+      StunReduction: 0
+      BurnReduction: 0
+      SlowReduction: 0
+  - name: 'Dash '
+    description: Add 1 Dash
+    boosts:
+      maxHealth: 0
+      recovery: 0
+      armor: 0
+      moveSpeed: 0
+      might: 0
+      area: 0
+      speed: 0
+      duration: 0
+      amount: 0
+      cooldown: 0
+      luck: 0
+      growth: 0
+      greed: 0
+      curse: 0
+      magnet: 0
+      revival: 0
+      dashDuration: 0
+      dashCooldown: 0
+      maxDashes: 1
+      StunReduction: 0
+      BurnReduction: 0
+      SlowReduction: 0

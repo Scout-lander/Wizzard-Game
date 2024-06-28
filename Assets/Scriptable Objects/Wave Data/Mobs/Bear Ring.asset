@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19f6dc428185e704aaee3d1c2746da00, type: 3}
+  m_Name: Bear Ring
+  m_EditorClassIdentifier: 
+  possibleSpawnPrefabs:
+  - {fileID: 3585417497295723144, guid: e56bb35b240fa40e0b8113f297428e2d, type: 3}
+  spawnInterval: {x: 2, y: 3}
+  spawnsPerTick: {x: 40, y: 40}
+  duration: 1
+  probability: 1
+  luckFactor: 1
+  activeAfter: 0
+  spawnEffectPrefab: {fileID: 0}
+  scale: {x: 1, y: 1}
+  spawnRadius: 10
+  lifespan: 15

@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ScaledTIme
+  m_Shader: {fileID: 4800000, guid: a36b7719ff0465b42ab1407d67672c5f, type: 3}
+  m_Parent: {fileID: 2100000, guid: ac4b8e6fe50927d4d8d70eeaa923df6e, type: 2}
+  m_ModifiedSerializedProperties: 16
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - ETC1_EXTERNAL_ALPHA
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _OutlineDistortTex:
+        m_Texture: {fileID: 2800000, guid: 7aad8c583ef292e48b06af0d1f2fab97, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OutlineTex:
+        m_Texture: {fileID: 2800000, guid: 74087f6d03f233e4a8a142fa01f9e5cf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaOutlineGlow: 5
+    - _AlphaOutlineMinAlpha: 0
+    - _AlphaOutlinePower: 1
+    - _BlurHD: 0
+    - _BlurIntensity: 10
+    - _ClipUvDown: 1
+    - _ClipUvLeft: 1
+    - _ClipUvRight: 1
+    - _ClipUvUp: 1
+    - _ColorSwapGreenLuminosity: 0.5
+    - _ColorSwapRedLuminosity: 0.5
+    - _FlickerFreq: 0.2
+    - _FlickerPercent: 0.05
+    - _GhostColorBoost: 1
+    - _GhostTransparency: 0
+    - _GlitchAmount: 3
+    - _GlitchSize: 1
+    - _Glow: 0
+    - _GradBlend: 1
+    - _GradBoostX: 1.2
+    - _GradBoostY: 1.2
+    - _HandDrawnAmount: 10
+    - _HologramMaxAlpha: 1
+    - _HologramMinAlpha: 0
+    - _HologramStripesAmount: 50
+    - _HologramStripesSpeed: 5
+    - _HologramUnmodAmount: 0.4
+    - _HsvBright: 1
+    - _HsvSaturation: 1
+    - _HsvShift: 180
+    - _InnerOutlineGlow: 1
+    - _InnerOutlineThickness: 1
+    - _OffsetUvX: 0
+    - _OutlineDistortAmount: 0.5
+    - _OutlineGlow: 1.5
+    - _OutlinePixelWidth: 1
+    - _OutlineTexXSpeed: 10
+    - _OutlineTexYSpeed: 0
+    - _OutlineWidth: 0.004
+    - _PosterizeGamma: 0.75
+    - _PosterizeNumColors: 8
+    - _ShakeUvSpeed: 2.5
+    - _ShakeUvX: 1.5
+    - _ShakeUvY: 1
+    m_Colors:
+    - _AlphaOutlineColor: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorSwapGreen: {r: 1, g: 1, b: 1, a: 1}
+    - _ColorSwapRed: {r: 1, g: 1, b: 1, a: 1}
+    - _GlowColor: {r: 1, g: 1, b: 1, a: 1}
+    - _GradBotRightCol: {r: 0, g: 0, b: 1, a: 1}
+    - _GradTopRightCol: {r: 1, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
