@@ -124,7 +124,7 @@ public class SpeedGem : GemData
                 minHealthDecrease = lMinHealthDecrease;
                 maxHealthDecrease = lMaxHealthDecrease;
                 break;
-            case GemRarity.Mithic:
+            case GemRarity.Mythic:
                 minMoveSpeedIncrease = mMinMoveSpeedIncrease;
                 maxMoveSpeedIncrease = mMaxMoveSpeedIncrease;
                 minHealthDecrease = mMinHealthDecrease;

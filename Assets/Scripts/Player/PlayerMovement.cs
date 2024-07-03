@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -54,10 +55,18 @@ public class PlayerMovement : MonoBehaviour
         icedDuration = enemyAbilityInstance.iceSlowDuration;
         frostCoolDown = FindObjectOfType<FrostCoolDownUI>();
         StartCoroutine(LateStart());
+        Physics2D.IgnoreLayerCollision(7, 8, false);
     }
 
     void Update()
     {
+        if (SceneManager.GetActiveScene().name == "Base") // Replace "BaseSceneName" with the actual name of your base scene
+        {
+            if (isStunned || isDashing) return;
+
+            HandleInput();
+            return; // Exit the method if we are in the base scene
+        }
         if (GameManager.instance.isGameOver) return;
         if (isStunned || isDashing) return;
 

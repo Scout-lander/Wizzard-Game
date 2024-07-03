@@ -122,7 +122,7 @@ public class DefenseGem : GemData
                 minAttackSpeedDecrease = lMinAttackSpeedDecrease;
                 maxAttackSpeedDecrease = lMaxAttackSpeedDecrease;
                 break;
-            case GemRarity.Mithic:
+            case GemRarity.Mythic:
                 minArmorIncrease = lMinArmorIncrease;
                 maxArmorIncrease = lMaxArmorIncrease;
                 minAttackSpeedDecrease = lMinAttackSpeedDecrease;

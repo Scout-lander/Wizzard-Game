@@ -11,7 +11,10 @@ public class GemMergeUI : MonoBehaviour
     public Button removeButton;
     public Button mergeButton;
     public GemBagUI gemBagUI; // Reference to the GemBagUI script
-    public TextMeshProUGUI probabilitiesText; // Text to show rarity probabilities
+    public TextMeshProUGUI probabilitiesNameText; // Text to show rarity probabilities
+    public TextMeshProUGUI probabilitiesProbText; // Text to show rarity probabilities
+    public TextMeshProUGUI probabilitiesErrorText; // Text to show rarity probabilities
+
 
     private List<GameObject> mergeSlots = new List<GameObject>();
     private GemData[] gemsInMergeSlots = new GemData[3];
@@ -20,7 +23,7 @@ public class GemMergeUI : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Start method called");
+        Debug.Log("Merger Opened");
         addButton.onClick.AddListener(AddGemToMergeSlot);
         removeButton.onClick.AddListener(OnRemoveButtonClicked);
         mergeButton.onClick.AddListener(MergeGems);
@@ -32,7 +35,6 @@ public class GemMergeUI : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.Log("OnEnable method called");
         ClearMergeSlots();
         CreateMergeSlots();
         UpdateProbabilitiesText();
@@ -40,7 +42,7 @@ public class GemMergeUI : MonoBehaviour
 
     private void CreateMergeSlots()
     {
-        Debug.Log("CreateMergeSlots method called");
+        //Debug.Log("CreateMergeSlots method called");
         for (int i = 0; i < 3; i++)
         {
             GameObject slot = Instantiate(slotPrefab, mergeSlotsParent);
@@ -59,19 +61,16 @@ public class GemMergeUI : MonoBehaviour
     public void OnGemClicked(GemData gem, int index)
     {
         selectedGemIndex = index;
-        Debug.Log($"Gem clicked: {gem.gemName}, Index: {index}");
+        //Debug.Log($"Gem clicked: {gem.gemName}, Index: {index}");
         addButton.gameObject.SetActive(true);
         removeButton.gameObject.SetActive(false);
     }
 
     public void AddGemToMergeSlot()
     {
-        Debug.Log($"AddGemToMergeSlot called. Selected Gem Index: {selectedGemIndex}");
-
         if (selectedGemIndex >= 0 && selectedGemIndex < GemInventoryManager.Instance.GetGemBag().gems.Count)
         {
             GemData gem = GemInventoryManager.Instance.GetGemBag().gems[selectedGemIndex];
-            Debug.Log($"Adding Gem: {gem.gemName} to merge slot.");
             for (int i = 0; i < mergeSlots.Count; i++)
             {
                 if (gemsInMergeSlots[i] == null)
@@ -84,7 +83,6 @@ public class GemMergeUI : MonoBehaviour
                     ClearSelectedGem();
                     UpdateProbabilitiesText();
                     UpdateMergeButtonState();
-                    Debug.Log($"Gem added to merge slot {i}");
                     break;
                 }
             }
@@ -117,7 +115,6 @@ public class GemMergeUI : MonoBehaviour
 
     public void RemoveGemFromMergeSlot(int index)
     {
-        Debug.Log($"RemoveGemFromMergeSlot called for index {index}");
         if (gemsInMergeSlots[index] != null)
         {
             int gemIndex = GemInventoryManager.Instance.GetGemBag().gems.IndexOf(gemsInMergeSlots[index]);
@@ -135,14 +132,12 @@ public class GemMergeUI : MonoBehaviour
 
     private void HighlightGemInInventory(int index, bool highlight)
     {
-        Debug.Log($"HighlightGemInInventory called for index {index} with highlight {highlight}");
         Color color = highlight ? Color.grey : Color.white;
         gemBagUI.gemImages[index].color = color;
     }
 
     private void ClearSelectedGem()
     {
-        Debug.Log("ClearSelectedGem method called");
         selectedGemIndex = -1;
         addButton.gameObject.SetActive(false);
         removeButton.gameObject.SetActive(false);
@@ -174,16 +169,16 @@ public class GemMergeUI : MonoBehaviour
 
     private bool CanMergeGems()
     {
-        Debug.Log("CanMergeGems method called");
+        
         if (gemsInMergeSlots[0] == null || gemsInMergeSlots[1] == null || gemsInMergeSlots[2] == null)
-            return false;
+            return false; 
 
         return gemsInMergeSlots[0].gemName == gemsInMergeSlots[1].gemName && gemsInMergeSlots[1].gemName == gemsInMergeSlots[2].gemName;
     }
 
     private GemData CreateNewGem(GemData baseGem)
     {
-        Debug.Log("CreateNewGem method called");
+        //Debug.Log("CreateNewGem method called");
         GemData newGem = baseGem.Clone();
         newGem.InitializeRandomValues();
         return newGem;
@@ -191,7 +186,7 @@ public class GemMergeUI : MonoBehaviour
 
     private void ClearMergeSlots()
     {
-        Debug.Log("ClearMergeSlots method called");
+        //Debug.Log("ClearMergeSlots method called");
         foreach (var slot in mergeSlots)
         {
             Destroy(slot);
@@ -209,28 +204,41 @@ public class GemMergeUI : MonoBehaviour
 
     private void UpdateProbabilitiesText()
     {
-        Debug.Log("UpdateProbabilitiesText method called");
 
         if (gemsInMergeSlots[0] == null || gemsInMergeSlots[1] == null || gemsInMergeSlots[2] == null)
         {
-            probabilitiesText.text = "Waiting for gems";
+            probabilitiesErrorText.text = "<align=center>Waiting for gems</align>";
+            probabilitiesNameText.text = "";
+            probabilitiesProbText.text = "";
             return;
         }
 
         if (!CanMergeGems())
         {
-            probabilitiesText.text = "Needs to be 3 of the same kind of gem";
+            probabilitiesErrorText.text = "<align=center>Needs to be 3 of the same kind of gem</align>";
+            probabilitiesNameText.text = "";
+            probabilitiesProbText.text = "";
             return;
         }
 
         float[] probabilities = GemMergeRarityCalculator.CalculateRarityProbabilities(gemsInMergeSlots);
-        
-        probabilitiesText.text = $"Probabilities:\n" +
-            $"<color=grey>Common</color>: {probabilities[0]:F2}%\n" +
-            $"<color=green>Uncommon</color>: {probabilities[1]:F2}%\n" +
-            $"<color=blue>Rare</color>: {probabilities[2]:F2}%\n" +
-            $"<color=purple>Epic</color>: {probabilities[3]:F2}%\n" +
-            $"<color=yellow>Legendary</color>: {probabilities[4]:F2}%\n" + 
-            $"<color=red>Mithic</color>: {probabilities[5]:F2}%";
+        Debug.Log("CanMergeGems method called");
+        probabilitiesErrorText.text = "";
+
+        probabilitiesNameText.text = $"Probabilities:\n\n" +
+            "<color=grey>Common</color>:\n" +
+            "<color=green>Uncommon</color>:\n" +
+            "<color=blue>Rare</color>:\n" +
+            "<color=purple>Epic</color>:\n" +
+            "<color=yellow>Legendary</color>:\n" + 
+            "<color=red>mythic </color>:\n";
+
+        probabilitiesProbText.text = $"\n\n" +
+            $"{probabilities[0]:F2}%\n" +
+            $"{probabilities[1]:F2}%\n" +
+            $"{probabilities[2]:F2}%\n" +
+            $"{probabilities[3]:F2}%\n" +
+            $"{probabilities[4]:F2}%\n" +
+            $"{probabilities[5]:F2}%\n";
     }
 }

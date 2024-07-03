@@ -124,7 +124,7 @@ public class RecoveryGem : GemData
                 minMaxHealthDecrease = lMinMaxHealthDecrease;
                 maxMaxHealthDecrease = lMaxMaxHealthDecrease;
                 break;
-            case GemRarity.Mithic:
+            case GemRarity.Mythic:
                 minRecoveryIncrease = mMinRecoveryIncrease;
                 maxRecoveryIncrease = mMaxRecoveryIncrease;
                 minMaxHealthDecrease = mMinMaxHealthDecrease;

@@ -124,7 +124,7 @@ public class LifeGem : GemData
                 minMaxHpIncrease = lMinMaxHpIncrease;
                 maxMaxHpIncrease = lMaxMaxHpIncrease;
                 break;
-                case GemRarity.Mithic:
+                case GemRarity.Mythic:
                 minLifeRegenPerSecond = mMinLifeRegenPerSecond;
                 maxLifeRegenPerSecond = mMaxLifeRegenPerSecond;
                 minMaxHpIncrease = mMinMaxHpIncrease;

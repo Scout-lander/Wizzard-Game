@@ -124,7 +124,7 @@ public class PowerGem : GemData
                 minMoveSpeedDecrease = lMinMoveSpeedDecrease;
                 maxMoveSpeedDecrease = lMaxMoveSpeedDecrease;
                 break;
-            case GemRarity.Mithic:
+            case GemRarity.Mythic:
                 minAttackPowerIncrease = mMinAttackPowerIncrease;
                 maxAttackPowerIncrease = mMaxAttackPowerIncrease;
                 minMoveSpeedDecrease = mMinMoveSpeedDecrease;

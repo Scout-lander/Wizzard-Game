@@ -347,6 +347,8 @@ public class GemBagUI : MonoBehaviour
                 return Color.magenta;
             case GemRarity.Legendary:
                 return Color.yellow;
+            case GemRarity.Mythic:
+                return Color.red;
             default:
                 return Color.white;
         }

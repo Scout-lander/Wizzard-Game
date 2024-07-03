@@ -4,7 +4,7 @@ using System;
 using UnityEditor;
 #endif
 
-public enum GemRarity { Common, Uncommon, Rare, Epic, Legendary, Mithic }
+public enum GemRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic }
 
 public class GemData : ScriptableObject
 {

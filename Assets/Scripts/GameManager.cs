@@ -254,17 +254,6 @@ public class GameManager : MonoBehaviour
                 MapScreenPauce();
             }
         }
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (currentState == GameState.Paused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                InvintoryScreenPauce();
-            }
-        }
     }
 
     void DisableScreens()

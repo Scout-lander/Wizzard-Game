@@ -7,14 +7,14 @@ public class EnemyStats : MonoBehaviour
     [System.Serializable]
     public class Stats
     {
-        public float maxHealth = 10, moveSpeed = 1.5f, damage = 3, knockbackMultipler = 1f;
+        public float maxHealth = 10, moveSpeed = 1.5f, damage = 3, knockbackMultiplier = 1f;
 
         public static Stats operator +(Stats s1, Stats s2)
         {
             s1.maxHealth += s2.maxHealth;
             s1.moveSpeed += s2.moveSpeed;
             s1.damage += s2.damage;
-            s1.knockbackMultipler += s2.knockbackMultipler;
+            s1.knockbackMultiplier += s2.knockbackMultiplier;
             return s1;
         }
     }
@@ -24,14 +24,9 @@ public class EnemyStats : MonoBehaviour
     [SerializeField] private Stats actualStats;
     private float health;
     private float damageBlockPercentage;
-    public bool hasShield;
+    private bool hasShield;
 
-    public Stats ActualStats
-    {
-        get { return actualStats; }
-    }
-    private EnemyGold enemyGold;
-    private PlayerGold playerGold;
+    public Stats ActualStats => actualStats;
 
     [Header("Damage Feedback")]
     public Color damageColor = new Color(1, 0, 0, 1);
@@ -47,22 +42,16 @@ public class EnemyStats : MonoBehaviour
     void Awake()
     {
         count++;
-        health = baseStats.maxHealth;
-    }
-
-    void Start()
-    {
         sr = GetComponent<SpriteRenderer>();
-        originalColor = sr.color;
-        actualStats = baseStats;
         movement = GetComponent<EnemyMovement>();
         enemyAbility = GetComponent<EnemyAbility>();
         gameManager = FindObjectOfType<GameManager>();
 
-        AdjustStatsBasedOnDifficulty(DifficultyManager.Instance.CurrentDifficultyLevel);
+        originalColor = sr.color;
+        actualStats = baseStats;
 
-        playerGold = FindObjectOfType<PlayerGold>();
-        enemyGold = GetComponent<EnemyGold>();
+        AdjustStatsBasedOnDifficulty(DifficultyManager.Instance.CurrentDifficultyLevel);
+        health = actualStats.maxHealth;
     }
 
     public void ModifyActualStats(Stats modification)
@@ -78,19 +67,21 @@ public class EnemyStats : MonoBehaviour
 
     public void RemoveShieldEffect()
     {
-        damageBlockPercentage = 0;
         hasShield = false;
+        damageBlockPercentage = 0;
     }
 
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f)
     {
         float damage = dmg * (1f - damageBlockPercentage);
         health -= damage;
-        if (damage > 0)
-            StartCoroutine(DamageFlash());
 
         if (damage > 0)
+        {
+            StartCoroutine(FlashDamage());
             GameManager.GenerateFloatingText(Mathf.FloorToInt(dmg).ToString(), transform);
+            gameManager.IncrementTotalDamageDone(damage);
+        }
 
         if (knockbackForce > 0 && damage > 0)
         {
@@ -98,13 +89,7 @@ public class EnemyStats : MonoBehaviour
             movement.Knockback(dir.normalized * knockbackForce, knockbackDuration);
         }
 
-        if (enemyAbility != null && enemyAbility.hasLightningAbility && enemyAbility.lightningProjectilePrefab != null)
-        {
-            Vector2 direction = ((Vector2)transform.position - sourcePosition).normalized;
-            enemyAbility.InstantiateLightningProjectile(transform.position, direction);
-        }
-
-        gameManager.IncrementTotalDamageDone(damage);
+        enemyAbility?.InstantiateLightningProjectile(transform.position, ((Vector2)transform.position - sourcePosition).normalized);
 
         if (health <= 0)
         {
@@ -112,7 +97,7 @@ public class EnemyStats : MonoBehaviour
         }
     }
 
-    private IEnumerator DamageFlash()
+    private IEnumerator FlashDamage()
     {
         sr.color = damageColor;
         yield return new WaitForSeconds(damageFlashDuration);
@@ -121,25 +106,12 @@ public class EnemyStats : MonoBehaviour
 
     public void Kill()
     {
-        if (GetComponent<SplittingEnemy>() != null)
-        {
-            SplittingEnemy splittingEnemy = GetComponent<SplittingEnemy>();
-            splittingEnemy.OnKill();
-        }
-
-        if (enemyAbility != null && enemyAbility.hasIceAbility)
-        {
-            enemyAbility.SpawnIceSpike();
-        }
-
-        if (enemyAbility != null && enemyAbility.leavesPoisonCloud)
-        {
-            enemyAbility.CreatePoisonCloud();
-        }
+        GetComponent<SplittingEnemy>()?.OnKill();
+        enemyAbility?.SpawnIceSpike();
+        enemyAbility?.CreatePoisonCloud();
 
         StartCoroutine(KillFade());
         gameManager.IncrementKillCount();
-        enemyGold.DropGold();
     }
 
     private IEnumerator KillFade()
@@ -161,8 +133,7 @@ public class EnemyStats : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Player"))
         {
-            PlayerStats player = col.gameObject.GetComponent<PlayerStats>();
-            player.TakeDamage(actualStats.damage);
+            col.gameObject.GetComponent<PlayerStats>()?.TakeDamage(actualStats.damage);
         }
     }
 
@@ -176,11 +147,6 @@ public class EnemyStats : MonoBehaviour
         actualStats.maxHealth += 2 * difficultyLevel;
         actualStats.moveSpeed += 0.1f * difficultyLevel;
         actualStats.damage += 1 * difficultyLevel;
-        actualStats.knockbackMultipler += 0.1f * difficultyLevel;
-    }
-
-    private void OnCollisionEnter2D(Collision2D col)
-    {
-        //Debug.Log($"{gameObject.name} collided with {col.gameObject.name} on Enter.");
+        actualStats.knockbackMultiplier += 0.1f * difficultyLevel;
     }
 }

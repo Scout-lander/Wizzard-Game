@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class PlayerStats : MonoBehaviour
 {
@@ -157,13 +158,21 @@ public class PlayerStats : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
 
         actualStats = baseStats;
-        //baseStats = actualStats;
         collector.SetRadius(actualStats.magnet);
         health = actualStats.maxHealth;
     }
 
     void Start()
     {
+
+        if (SceneManager.GetActiveScene().name == "Base") // Replace "BaseSceneName" with the actual name of your base scene
+        {
+            UpdateHealthBar();
+            UpdateExpBar();
+            UpdateLevelText();
+            return; // Exit the method if we are in the base scene
+        }
+       
         // Retrieve the selected weapon from CharacterSelector
         WeaponData selectedWeapon = CharacterSelector.GetData();
         if (selectedWeapon != null)
@@ -181,6 +190,7 @@ public class PlayerStats : MonoBehaviour
         experienceCap = levelRanges[0].experienceCapIncrease;
 
         GameManager.instance.AssignChosenCharacterUI(this);
+        RecalculateStats();
 
         UpdateHealthBar();
         UpdateExpBar();

@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 3724973131063725163}
   - component: {fileID: 7688089960162844403}
   - component: {fileID: -6906235757365881728}
+  - component: {fileID: -1691514717085349646}
   m_Layer: 0
   m_Name: Bear (MOD)
   m_TagString: Untagged
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAbility: {fileID: 0}
   baseStats:
     maxHealth: 45
     moveSpeed: 3
@@ -203,6 +205,7 @@ MonoBehaviour:
     moveSpeed: 1.5
     damage: 3
     knockbackMultipler: 1
+  hasShield: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
@@ -223,3 +226,16 @@ MonoBehaviour:
   - name: 
     itemPrefab: {fileID: 3322201518369577180, guid: b4b6f1c086abc4e4fa68fe184495f0cc, type: 3}
     dropRate: 20
+--- !u!114 &-1691514717085349646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3585417497295723144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 1

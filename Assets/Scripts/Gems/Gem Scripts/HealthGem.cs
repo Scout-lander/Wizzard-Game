@@ -98,7 +98,7 @@ public class HealthGem : GemData
                 minGemHealth = lMinGemHealth;
                 maxGemHealth = lMaxGemHealth;
                 break;
-            case GemRarity.Mithic:
+            case GemRarity.Mythic:
                 minGemHealth = mMinGemHealth;
                 maxGemHealth = mMaxGemHealth;
                 break;
