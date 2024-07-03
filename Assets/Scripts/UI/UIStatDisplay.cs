@@ -5,7 +5,6 @@ using TMPro;
 
 public class UIStatDisplay : MonoBehaviour
 {
-
     public PlayerStats player; // The player that this stat display is rendering stats for.
     public bool displayCurrentHealth = false;
     public bool updateInEditor = false;
@@ -19,7 +18,7 @@ public class UIStatDisplay : MonoBehaviour
 
     void OnDrawGizmosSelected()
     {
-        if(updateInEditor) UpdateStatFields();
+        if (updateInEditor) UpdateStatFields();
     }
 
     public void UpdateStatFields()
@@ -36,20 +35,20 @@ public class UIStatDisplay : MonoBehaviour
         StringBuilder values = new StringBuilder();
 
         // Add the current health to the stat box.
-        if(displayCurrentHealth)
+        if (displayCurrentHealth)
         {
             names.AppendLine("Health");
-            values.AppendLine(player.CurrentHealth.ToString());
+            values.AppendLine(player.CurrentHealth.ToString("F0"));
         }
 
-        FieldInfo[] fields = typeof(CharacterData.Stats).GetFields(BindingFlags.Public | BindingFlags.Instance);
+        FieldInfo[] fields = typeof(PlayerStats.Stats).GetFields(BindingFlags.Public | BindingFlags.Instance);
         foreach (FieldInfo field in fields)
         {
             // Render stat names.
             names.AppendLine(field.Name);
 
             // Get the stat value.
-            object val = field.GetValue(player.Stats);
+            object val = field.GetValue(player.ActualStats);
             float fval = val is int ? (int)val : (float)val;
 
             // Print it as a percentage if it has an attribute assigned and is a float.
@@ -67,19 +66,19 @@ public class UIStatDisplay : MonoBehaviour
                 {
                     if (percentage > 0)
                         values.Append('+');
-                    values.Append(percentage).Append('%').Append('\n');
+                    values.Append(percentage.ToString()).Append('%').Append('\n');
                 }
             }
             else
             {
-                if(Mathf.Approximately(fval, 1)) values.Append('-').Append('\n');
-                else values.Append(fval).Append('\n');
+                if (Mathf.Approximately(fval, 1)) values.Append('-').Append('\n');
+                else values.Append(fval.ToString("F1")).Append('\n');
             }
-
-            // Updates the fields with the strings we built.
-            statNames.text = PrettifyNames(names);
-            statValues.text = values.ToString();
         }
+
+        // Updates the fields with the strings we built.
+        statNames.text = PrettifyNames(names);
+        statValues.text = values.ToString();
     }
 
     public static string PrettifyNames(StringBuilder input)
@@ -89,15 +88,16 @@ public class UIStatDisplay : MonoBehaviour
 
         StringBuilder result = new StringBuilder();
         char last = '\0';
-        for(int i = 0; i < input.Length; i++)
+        for (int i = 0; i < input.Length; i++)
         {
             char c = input[i];
 
             // Check when to uppercase or add spaces to a character.
-            if(last == '\0' || char.IsWhiteSpace(last))
+            if (last == '\0' || char.IsWhiteSpace(last))
             {
                 c = char.ToUpper(c);
-            } else if (char.IsUpper(c))
+            }
+            else if (char.IsUpper(c))
             {
                 result.Append(' '); // Insert space before capital letter
             }
@@ -105,7 +105,7 @@ public class UIStatDisplay : MonoBehaviour
 
             last = c;
         }
-        
+
         return result.ToString();
     }
 

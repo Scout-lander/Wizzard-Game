@@ -18,30 +18,38 @@ MonoBehaviour:
     Unfortunately, it also hinders the wielder's attack speed.
   rarity: 0
   isInitialized: 0
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mithicMaterial: {fileID: 2100000, guid: 270432679fc181543836e7d7c1b54ea0, type: 2}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
   cMaxArmorIncrease: 0.3
   cMinArmorIncrease: 0.1
-  cMaxAttackSpeedDecrease: 1
-  cMinAttackSpeedDecrease: 0.1
-  commonProbabilities: 0.5
+  cMaxAttackSpeedDecrease: 0.6
+  cMinAttackSpeedDecrease: 0.4
   uMaxArmorIncrease: 0.5
   uMinArmorIncrease: 0.3
-  uMaxAttackSpeedDecrease: 0.15
-  uMinAttackSpeedDecrease: 0.1
-  uncommonProbabilities: 0.3
+  uMaxAttackSpeedDecrease: 0.55
+  uMinAttackSpeedDecrease: 0.4
   rMaxArmorIncrease: 1
   rMinArmorIncrease: 0.5
-  rMaxAttackSpeedDecrease: 0.2
-  rMinAttackSpeedDecrease: 0.15
-  rareProbabilities: 0.1
+  rMaxAttackSpeedDecrease: 0.4
+  rMinAttackSpeedDecrease: 0.3
   eMaxArmorIncrease: 1.5
   eMinArmorIncrease: 1
-  eMaxAttackSpeedDecrease: 0.25
-  eMinAttackSpeedDecrease: 0.2
-  epicProbabilities: 0.07
+  eMaxAttackSpeedDecrease: 0.3
+  eMinAttackSpeedDecrease: 0.25
   lMaxArmorIncrease: 2
   lMinArmorIncrease: 1.5
-  lMaxAttackSpeedDecrease: 0.3
-  lMinAttackSpeedDecrease: 0.25
-  legendaryProbabilities: 0.03
-  armorIncrease: 1.2082722
-  attackSpeedDecrease: 2.7906876
+  lMaxAttackSpeedDecrease: 0.2
+  lMinAttackSpeedDecrease: 0.1
+  mMaxArmorIncrease: 2.5
+  mMinArmorIncrease: 2
+  mMaxAttackSpeedDecrease: 0
+  mMinAttackSpeedDecrease: 0
+  armorIncrease: 0
+  attackSpeedDecrease: 0

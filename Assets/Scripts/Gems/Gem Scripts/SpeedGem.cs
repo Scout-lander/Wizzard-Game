@@ -11,44 +11,44 @@ public class SpeedGem : GemData
     public float cMaxMoveSpeedIncrease = 0.05f;
     public float cMinHealthDecrease = 1.0f;
     public float cMaxHealthDecrease = 5.0f;
-    public float commonProbabilities = 0.5f;
 
     [Header("UnCommon")]
     public float uMinMoveSpeedIncrease = 0.05f;
     public float uMaxMoveSpeedIncrease = 0.1f;
     public float uMinHealthDecrease = 5.0f;
     public float uMaxHealthDecrease = 10.0f;
-    public float uncommonProbabilities = 0.3f;
 
     [Header("Rare")]
     public float rMinMoveSpeedIncrease = 0.1f;
     public float rMaxMoveSpeedIncrease = 0.2f;
     public float rMinHealthDecrease = 10.0f;
     public float rMaxHealthDecrease = 15.0f;
-    public float rareProbabilities = 0.1f;
 
     [Header("Epic")]
     public float eMinMoveSpeedIncrease = 0.2f;
     public float eMaxMoveSpeedIncrease = 0.3f;
     public float eMinHealthDecrease = 15.0f;
     public float eMaxHealthDecrease = 20.0f;
-    public float epicProbabilities = 0.07f;
 
     [Header("Legendary")]
     public float lMinMoveSpeedIncrease = 0.3f;
     public float lMaxMoveSpeedIncrease = 0.4f;
     public float lMinHealthDecrease = 20.0f;
     public float lMaxHealthDecrease = 25.0f;
-    public float legendaryProbabilities = 0.03f;
 
-    [Header("OutCome")]
+    [Header("Mithic")]
+    public float mMinMoveSpeedIncrease = 0.4f;
+    public float mMaxMoveSpeedIncrease = 0.5f;
+    public float mMinHealthDecrease = 0.0f;
+    public float mMaxHealthDecrease = 0.0f;
+
     private float minMoveSpeedIncrease;
     private float maxMoveSpeedIncrease;
     private float minHealthDecrease;
     private float maxHealthDecrease;
-    [HideInInspector]
+
+    [Header("OutCome")]
     public float moveSpeedIncrease;
-    [HideInInspector]
     public float healthDecrease;
 
     public override void InitializeRandomValues()
@@ -73,7 +73,8 @@ public class SpeedGem : GemData
             uncommonProbabilities,
             rareProbabilities,
             epicProbabilities,
-            legendaryProbabilities
+            legendaryProbabilities,
+            mithicProbabilities
         };
 
         for (int i = 0; i < rarityProbabilities.Length; i++)
@@ -122,6 +123,12 @@ public class SpeedGem : GemData
                 maxMoveSpeedIncrease = lMaxMoveSpeedIncrease;
                 minHealthDecrease = lMinHealthDecrease;
                 maxHealthDecrease = lMaxHealthDecrease;
+                break;
+            case GemRarity.Mithic:
+                minMoveSpeedIncrease = mMinMoveSpeedIncrease;
+                maxMoveSpeedIncrease = mMaxMoveSpeedIncrease;
+                minHealthDecrease = mMinHealthDecrease;
+                maxHealthDecrease = mMaxHealthDecrease;
                 break;
             default:
                 minMoveSpeedIncrease = cMinMoveSpeedIncrease;

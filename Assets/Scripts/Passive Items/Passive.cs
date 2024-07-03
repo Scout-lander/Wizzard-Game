@@ -1,18 +1,17 @@
 using UnityEngine;
 
 /// <summary>
-/// A class that takes an PassiveData and is used to increment a player's
+/// A class that takes a PassiveData and is used to increment a player's
 /// stats when received.
 /// </summary>
 public class Passive : Item
 {
-
-    [SerializeField] CharacterData.Stats currentBoosts;
+    [SerializeField] private PlayerStats.Stats currentBoosts;
 
     [System.Serializable]
     public class Modifier : LevelData
     {
-        public CharacterData.Stats boosts;
+        public PlayerStats.Stats boosts;
     }
 
     // For dynamically created passives, call initialise to set everything up.
@@ -23,7 +22,7 @@ public class Passive : Item
         currentBoosts = data.baseStats.boosts;
     }
 
-    public virtual CharacterData.Stats GetBoosts()
+    public virtual PlayerStats.Stats GetBoosts()
     {
         return currentBoosts;
     }

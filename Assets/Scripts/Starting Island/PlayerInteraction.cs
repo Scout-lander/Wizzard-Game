@@ -6,26 +6,26 @@ public class PlayerInteraction : MonoBehaviour
     public Chest chest; // Reference to the chest script
     public WeaponInventory weaponInventory; // Reference to the weapon inventory
     public Portal portal; // Reference to the portal script
-    public TMP_Text weaponNameText; // Reference to the TMP text for displaying character name
-    public TMP_Text weaponDescriptionText;
+    public TMP_Text weaponNameText; // Reference to the TMP text for displaying weapon name
+    public TMP_Text weaponDescriptionText; // Reference to the TMP text for displaying weapon description
 
-    private int currentCharacterIndex = 0;
+    private int currentWeaponIndex = 0;
 
     private void Start()
     {
-        UpdateCharacterNameText();
+        UpdateWeaponNameText();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // Cycle to the next character
+        if (Input.GetKeyDown(KeyCode.E)) // Cycle to the next weapon
         {
-            CycleNextCharacter();
+            CycleNextWeapon();
         }
 
-        if (Input.GetKeyDown(KeyCode.Q)) // Cycle to the previous character
+        if (Input.GetKeyDown(KeyCode.Q)) // Cycle to the previous weapon
         {
-            CyclePreviousCharacter();
+            CyclePreviousWeapon();
         }
 
         if (Input.GetKeyDown(KeyCode.F)) // Assuming 'F' is the key to interact with the portal
@@ -35,56 +35,65 @@ public class PlayerInteraction : MonoBehaviour
         }
     }
 
-    private void CycleNextCharacter()
+    private void CycleNextWeapon()
     {
-        currentCharacterIndex++;
-        if (currentCharacterIndex >= weaponInventory.characterSlots.Length)
+        currentWeaponIndex++;
+        if (currentWeaponIndex >= weaponInventory.weaponSlots.Length)
         {
-            currentCharacterIndex = 0;
+            currentWeaponIndex = 0;
         }
-        EquipCurrentCharacter();
+        EquipCurrentWeapon();
     }
 
-    private void CyclePreviousCharacter()
+    private void CyclePreviousWeapon()
     {
-        currentCharacterIndex--;
-        if (currentCharacterIndex < 0)
+        currentWeaponIndex--;
+        if (currentWeaponIndex < 0)
         {
-            currentCharacterIndex = weaponInventory.characterSlots.Length - 1;
+            currentWeaponIndex = weaponInventory.weaponSlots.Length - 1;
         }
-        EquipCurrentCharacter();
+        EquipCurrentWeapon();
     }
 
-    private void EquipCurrentCharacter()
+    private void EquipCurrentWeapon()
     {
-        if (weaponInventory.characterSlots[currentCharacterIndex] != null)
+        if (weaponInventory.weaponSlots[currentWeaponIndex] != null)
         {
-            weaponInventory.EquipCharacter(currentCharacterIndex);
-            UpdateCharacterNameText();
-            //Debug.Log($"Character {currentCharacterIndex} equipped");
+            weaponInventory.EquipWeapon(currentWeaponIndex);
+            UpdateWeaponNameText();
+
+            // Change the starting weapon in PlayerStats
+            PlayerStats playerStats = GetComponent<PlayerStats>();
+            if (playerStats != null)
+            {
+                playerStats.ChangeStartingWeapon(weaponInventory.weaponSlots[currentWeaponIndex]);
+            }
+
+            // Set the equipped weapon in CharacterSelector to persist across scenes
+            CharacterSelector.instance.SetEquippedWeapon(weaponInventory.weaponSlots[currentWeaponIndex]);
         }
     }
 
-    private void UpdateCharacterNameText()
+    private void UpdateWeaponNameText()
     {
-        if (weaponInventory.equippedCharacter != null)
+        if (weaponInventory.equippedWeapon != null)
         {
-            weaponNameText.text = "Equipped: " + weaponInventory.equippedCharacter.StartingWeapon.weaponName;
-            weaponDescriptionText.text = "Description: " + weaponInventory.equippedCharacter.StartingWeapon.weaponDescription;
+            weaponNameText.text = "Equipped: " + weaponInventory.equippedWeapon.weaponName;
+            weaponDescriptionText.text = "Description: " + weaponInventory.equippedWeapon.weaponDescription;
         }
         else
         {
             weaponNameText.text = "Equipped: None";
+            weaponDescriptionText.text = "Description: None";
         }
     }
 
-    public void SelectCharacterFromSlot(int slotIndex)
+    public void SelectWeaponFromSlot(int slotIndex)
     {
-        //Debug.Log($"SelectCharacterFromSlot called with index {slotIndex}");
-        if (slotIndex >= 0 && slotIndex < weaponInventory.characterSlots.Length)
+        if (slotIndex >= 0 && slotIndex < weaponInventory.weaponSlots.Length)
         {
-            currentCharacterIndex = slotIndex;
-            EquipCurrentCharacter();
+            currentWeaponIndex = slotIndex;
+            EquipCurrentWeapon();
         }
     }
 }

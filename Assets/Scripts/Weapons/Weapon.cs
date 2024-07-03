@@ -87,7 +87,7 @@ public abstract class Weapon : Item
         currentCooldown -= Time.deltaTime;
         if (currentCooldown <= 0f) //Once the cooldown becomes 0, attack
         {
-            Attack(currentStats.number + owner.Stats.amount);
+            Attack(currentStats.number + owner.ActualStats.amount);
         }
     }
 
@@ -142,7 +142,7 @@ public abstract class Weapon : Item
     // as well as the character's Might stat.
     public virtual float GetDamage()
     {
-        float damage = currentStats.GetDamage() * owner.Stats.might;
+        float damage = currentStats.GetDamage() * owner.ActualStats.might;
         damageTotal += damage;
         //Debug.Log("Weapon Name: " + data.weaponName + ", Total Damage: " + data.damageTotal);
         return damage;
@@ -151,7 +151,7 @@ public abstract class Weapon : Item
     // Get the area, including modifications from the player's stats.
     public virtual float GetArea()
     {
-        return currentStats.area * owner.Stats.area;
+        return currentStats.area * owner.ActualStats.area;
     }
 
     // For retrieving the weapon's stats.
@@ -167,7 +167,7 @@ public abstract class Weapon : Item
 
         // Calculate what the cooldown is going to be, factoring in the cooldown
         // reduction stat in the player character.
-        float actualCooldown = currentStats.cooldown * Owner.Stats.cooldown;
+        float actualCooldown = currentStats.cooldown * Owner.ActualStats.cooldown;
 
         // Limit the maximum cooldown to the actual cooldown, so we cannot increase
         // the cooldown above the cooldown stat if we accidentally call this function

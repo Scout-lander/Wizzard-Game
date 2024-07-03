@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class Aura : WeaponEffect
 {
-
     Dictionary<EnemyStats, float> affectedTargets = new Dictionary<EnemyStats, float>();
     List<EnemyStats> targetsToUnaffect = new List<EnemyStats>();
 
@@ -34,7 +33,7 @@ public class Aura : WeaponEffect
                 {
                     // Reset the cooldown and deal damage.
                     Weapon.Stats stats = weapon.GetStats();
-                    affectedTargets[pair.Key] = stats.cooldown * Owner.Stats.cooldown;
+                    affectedTargets[pair.Key] = stats.cooldown * Owner.ActualStats.cooldown;
                     pair.Key.TakeDamage(GetDamage(), transform.position, stats.knockback);
                 }
             }

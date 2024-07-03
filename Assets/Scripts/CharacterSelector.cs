@@ -7,7 +7,7 @@ public class CharacterSelector : MonoBehaviour
 {
     public static CharacterSelector instance;
 
-    public CharacterData characterData;
+    public WeaponData weaponData;
 
     private void Awake()
     {
@@ -23,45 +23,45 @@ public class CharacterSelector : MonoBehaviour
         }
     }
 
-    public static CharacterData GetData()
+    public static WeaponData GetData()
     {
-        if (instance && instance.characterData)
-            return instance.characterData;
+        if (instance && instance.weaponData)
+            return instance.weaponData;
         else
         {
-            // Randomly pick a character if we are playing from the Editor.
+            // Randomly pick a weapon if we are playing from the Editor.
 #if UNITY_EDITOR
             string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
-            List<CharacterData> characters = new List<CharacterData>();
+            List<WeaponData> weapons = new List<WeaponData>();
             foreach (string assetPath in allAssetPaths)
             {
                 if (assetPath.EndsWith(".asset"))
                 {
-                    CharacterData characterData = AssetDatabase.LoadAssetAtPath<CharacterData>(assetPath);
-                    if (characterData != null)
+                    WeaponData weaponData = AssetDatabase.LoadAssetAtPath<WeaponData>(assetPath);
+                    if (weaponData != null)
                     {
-                        characters.Add(characterData);
+                        weapons.Add(weaponData);
                     }
                 }
             }
 
-            // Pick a random character if we have found any characters.
-            if (characters.Count > 0) return characters[Random.Range(0, characters.Count)];
+            // Pick a random weapon if we have found any weapons.
+            if (weapons.Count > 0) return weapons[Random.Range(0, weapons.Count)];
 #endif
         }
         return null;
     }
 
-    public void SelectCharacter(CharacterData character)
+    public void SelectWeapon(WeaponData weapon)
     {
-        characterData = character;
+        weaponData = weapon;
     }
 
-    // Method to set the equipped character
-    public void SetEquippedCharacter(CharacterData character)
+    // Method to set the equipped weapon
+    public void SetEquippedWeapon(WeaponData weapon)
     {
-        characterData = character;
-        Debug.Log($"Equipped character set to {character.Name}."); // Ensure 'Name' exists in CharacterData
+        weaponData = weapon;
+        Debug.Log($"Equipped weapon set to {weapon.weaponName}."); // Ensure 'weaponName' exists in WeaponData
     }
 
     // Destroys the character selector.

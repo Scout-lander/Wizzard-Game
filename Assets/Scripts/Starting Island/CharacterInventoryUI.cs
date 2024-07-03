@@ -5,7 +5,7 @@ using TMPro;
 public class CharacterInventoryUI : MonoBehaviour
 {
     public WeaponInventory weaponInventory; // Reference to the player's weapon inventory
-    public GameObject slotPrefab; // Prefab for the character slots
+    public GameObject slotPrefab; // Prefab for the weapon slots
     public Transform inventoryPanel; // Parent transform for the slots
     public PlayerInteraction playerInteraction; // Reference to the PlayerInteraction script
 
@@ -31,18 +31,18 @@ public class CharacterInventoryUI : MonoBehaviour
         }
 
         // Create new slots
-        for (int i = 0; i < weaponInventory.characterSlots.Length; i++)
+        for (int i = 0; i < weaponInventory.weaponSlots.Length; i++)
         {
             GameObject slot = Instantiate(slotPrefab, inventoryPanel);
 
-            CharacterData character = weaponInventory.characterSlots[i];
-            if (character != null)
+            WeaponData weapon = weaponInventory.weaponSlots[i];
+            if (weapon != null)
             {
                 // Set the weapon icon
                 Image weaponIconImage = slot.transform.Find("WeaponIcon").GetComponent<Image>();
-                if (character.StartingWeapon != null)
+                if (weapon.icon != null)
                 {
-                    weaponIconImage.sprite = character.StartingWeapon.icon;
+                    weaponIconImage.sprite = weapon.icon;
                     weaponIconImage.color = Color.white; // Make sure the icon is visible
 
                     // Add a button listener to update the weapon details panel
@@ -61,14 +61,14 @@ public class CharacterInventoryUI : MonoBehaviour
             }
             else
             {
-                // Set the weapon icon to be transparent if there is no character
+                // Set the weapon icon to be transparent if there is no weapon
                 Image weaponIconImage = slot.transform.Find("WeaponIcon").GetComponent<Image>();
                 weaponIconImage.color = Color.clear;
             }
 
-            // Highlight the equipped character slot
+            // Highlight the equipped weapon slot
             GameObject highlight = slot.transform.Find("Highlight").gameObject;
-            if (weaponInventory.equippedCharacter == character)
+            if (weaponInventory.equippedWeapon == weapon)
             {
                 highlight.SetActive(true);
             }
@@ -81,8 +81,7 @@ public class CharacterInventoryUI : MonoBehaviour
 
     private void OnSlotClicked(int slotIndex)
     {
-        //Debug.Log($"Slot {slotIndex} clicked");
-        // Call the method in PlayerInteraction to select the character from the slot
-        playerInteraction.SelectCharacterFromSlot(slotIndex);
+        // Call the method in PlayerInteraction to select the weapon from the slot
+        playerInteraction.SelectWeaponFromSlot(slotIndex);
     }
 }

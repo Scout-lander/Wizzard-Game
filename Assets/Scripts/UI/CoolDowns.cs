@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-
 public class CoolDowns : MonoBehaviour
 {
     // CoolDown Images
@@ -14,7 +13,6 @@ public class CoolDowns : MonoBehaviour
     // Bools
     bool isDash = false;
 
-    //
     PlayerMovement playerMovement;
     PlayerStats playerStats;
 
@@ -22,7 +20,7 @@ public class CoolDowns : MonoBehaviour
     void Start()
     {
         DashImage.fillAmount = 0;
-        
+
         playerMovement = FindObjectOfType<PlayerMovement>();
         playerStats = FindObjectOfType<PlayerStats>();
     }
@@ -33,18 +31,18 @@ public class CoolDowns : MonoBehaviour
         dashCount.text = playerMovement.currentDashes.ToString();
     }
 
-     public void DashUI()
+    public void DashUI()
     {
-        if (!isDash && playerMovement.currentDashes < playerStats.Stats.maxDashes)
+        if (!isDash && playerMovement.currentDashes < playerStats.ActualStats.maxDashes)
         {
             isDash = true;
             DashImage.fillAmount = 1;
-            playerMovement.ReplenishDash();
+            StartCoroutine(playerMovement.ReplenishDash());
         }
 
         if (isDash)
         {
-            DashImage.fillAmount -= 1 / playerMovement.player.Stats.dashCooldown * Time.deltaTime;
+            DashImage.fillAmount -= 1 / playerStats.ActualStats.dashCooldown * Time.deltaTime;
 
             if (DashImage.fillAmount <= 0)
             {

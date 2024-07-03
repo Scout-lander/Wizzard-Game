@@ -11,44 +11,44 @@ public class LifeGem : GemData
     public float cMaxLifeRegenPerSecond = 0.1f;
     public float cMinMaxHpIncrease = 1;
     public float cMaxMaxHpIncrease = 5;
-    public float commonProbabilities = 0.5f;
 
     [Header("UnCommon")]
     public float uMinLifeRegenPerSecond = 0.1f;
     public float uMaxLifeRegenPerSecond = 0.2f;
     public float uMinMaxHpIncrease = 5;
     public float uMaxMaxHpIncrease = 10;
-    public float uncommonProbabilities = 0.3f;
 
     [Header("Rare")]
     public float rMinLifeRegenPerSecond = 0.2f;
     public float rMaxLifeRegenPerSecond = 0.4f;
     public float rMinMaxHpIncrease = 10;
     public float rMaxMaxHpIncrease = 20;
-    public float rareProbabilities = 0.1f;
 
     [Header("Epic")]
     public float eMinLifeRegenPerSecond = 0.4f;
     public float eMaxLifeRegenPerSecond = 0.6f;
     public float eMinMaxHpIncrease = 20;
     public float eMaxMaxHpIncrease = 30;
-    public float epicProbabilities = 0.07f;
 
     [Header("Legendary")]
     public float lMinLifeRegenPerSecond = 0.6f;
     public float lMaxLifeRegenPerSecond = 1f;
     public float lMinMaxHpIncrease = 30;
     public float lMaxMaxHpIncrease = 40;
-    public float legendaryProbabilities = 0.03f;
 
-    [Header("OutCome")]
+    [Header("Mithic")]
+    public float mMinLifeRegenPerSecond = 1f;
+    public float mMaxLifeRegenPerSecond = 2f;
+    public float mMinMaxHpIncrease = 50;
+    public float mMaxMaxHpIncrease = 60;
+
     private float minLifeRegenPerSecond;
     private float maxLifeRegenPerSecond;
     private float minMaxHpIncrease;
     private float maxMaxHpIncrease;
-    [HideInInspector]
+    
+    [Header("OutCome")]
     public float lifeRegenPerSecond;
-    [HideInInspector]
     public float maxHpIncrease;
 
     public override void InitializeRandomValues()
@@ -73,7 +73,8 @@ public class LifeGem : GemData
             uncommonProbabilities,
             rareProbabilities,
             epicProbabilities,
-            legendaryProbabilities
+            legendaryProbabilities,
+            mithicProbabilities
         };
 
         for (int i = 0; i < rarityProbabilities.Length; i++)
@@ -122,6 +123,12 @@ public class LifeGem : GemData
                 maxLifeRegenPerSecond = lMaxLifeRegenPerSecond;
                 minMaxHpIncrease = lMinMaxHpIncrease;
                 maxMaxHpIncrease = lMaxMaxHpIncrease;
+                break;
+                case GemRarity.Mithic:
+                minLifeRegenPerSecond = mMinLifeRegenPerSecond;
+                maxLifeRegenPerSecond = mMaxLifeRegenPerSecond;
+                minMaxHpIncrease = mMinMaxHpIncrease;
+                maxMaxHpIncrease = mMaxMaxHpIncrease;
                 break;
             default:
                 minLifeRegenPerSecond = cMinLifeRegenPerSecond;

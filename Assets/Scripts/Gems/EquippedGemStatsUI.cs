@@ -1,45 +1,42 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
-using System.Collections.Generic;
 
 public class EquippedGemStatsUI : MonoBehaviour
 {
-    public TMP_Text gemTotalsText; // Reference to the new Text component for displaying the total stats
+    public TMP_Text gemTotalsText;
+    public ScrollRect scrollRect;
 
     private void OnEnable()
     {
-        UpdateEquippedGemStats(); // Update the equipped gem stats whenever the UI is enabled
+        UpdateEquippedGemStats();
     }
 
     public void UpdateEquippedGemStats()
     {
         GemBag equippedBag = GemInventoryManager.Instance.GetEquippedBag();
-        Dictionary<System.Type, GemStats> gemStatsDictionary = new Dictionary<System.Type, GemStats>();
+        GemStats combinedStats = new GemStats();
 
         foreach (GemData gem in equippedBag.gems)
         {
             if (gem != null)
             {
-                System.Type gemType = gem.GetType();
-                if (!gemStatsDictionary.ContainsKey(gemType))
-                {
-                    gemStatsDictionary[gemType] = new GemStats();
-                }
-                gemStatsDictionary[gemType].AddStats(gem);
+                combinedStats.AddStats(gem);
             }
         }
 
-        string stats = "Equipped Gem Stats:\n";
-        foreach (var entry in gemStatsDictionary)
-        {
-            stats += entry.Value.GetStatsSummary(entry.Key);
-        }
+        string statsSummary = combinedStats.GetCombinedStatsSummary();
+        gemTotalsText.text = statsSummary;
 
-        gemTotalsText.text = stats; // Update the new UI text component with the stats summary
+        // Force update the scroll rect to adjust its size
+        Canvas.ForceUpdateCanvases();
+        scrollRect.verticalNormalizedPosition = 1; // Scroll to top
     }
 
     private class GemStats
     {
+        public float MaxHealth { get; private set; }
+        public float MoveSpeed { get; private set; }
         public float LifeRegen { get; private set; }
         public int MaxHpIncrease { get; private set; }
         public float AttackPowerIncrease { get; private set; }
@@ -60,12 +57,12 @@ public class EquippedGemStatsUI : MonoBehaviour
             if (gem is LifeGem lifeGem)
             {
                 LifeRegen += lifeGem.lifeRegenPerSecond;
-                MaxHpIncrease += (int)lifeGem.maxHpIncrease; // Cast to int
+                MaxHealth += (int)lifeGem.maxHpIncrease;
             }
             else if (gem is PowerGem powerGem)
             {
                 AttackPowerIncrease += powerGem.attackPowerIncrease;
-                MoveSpeedDecrease += powerGem.moveSpeedDecrease;
+                MoveSpeed -= powerGem.moveSpeedDecrease;
             }
             else if (gem is DefenseGem defenseGem)
             {
@@ -74,8 +71,8 @@ public class EquippedGemStatsUI : MonoBehaviour
             }
             else if (gem is SpeedGem speedGem)
             {
-                MoveSpeedIncrease += speedGem.moveSpeedIncrease;
-                HealthDecrease += speedGem.healthDecrease;
+                MoveSpeed += speedGem.moveSpeedIncrease;
+                MaxHealth -= speedGem.healthDecrease;
             }
             else if (gem is LuckGem luckGem)
             {
@@ -84,8 +81,8 @@ public class EquippedGemStatsUI : MonoBehaviour
             }
             else if (gem is RecoveryGem recoveryGem)
             {
-                RecoveryIncrease += recoveryGem.recoveryIncrease;
-                MaxHpIncrease += (int)recoveryGem.maxHealthDecrease; // Cast to int
+                LifeRegen += recoveryGem.recoveryIncrease;
+                MaxHealth -= (int)recoveryGem.maxHealthDecrease;
             }
             else if (gem is DashGem dashGem)
             {
@@ -98,41 +95,47 @@ public class EquippedGemStatsUI : MonoBehaviour
             }
         }
 
-        public string GetStatsSummary(System.Type gemType)
+        public string GetCombinedStatsSummary()
         {
-            string summary = "";
-            if (gemType == typeof(LifeGem))
-            {
-                summary += $"<color=yellow>Life Regen</color>: {LifeRegen:F2}\n<color=yellow>Max HP Increase</color>: {MaxHpIncrease}\n";
-            }
-            else if (gemType == typeof(PowerGem))
-            {
-                summary += $"<color=yellow>Might Increase</color>: {AttackPowerIncrease * 100:F2}%\n<color=red>Move Speed Decrease</color>: -{MoveSpeedDecrease * 100:F2}%\n";
-            }
-            else if (gemType == typeof(DefenseGem))
-            {
-                summary += $"<color=yellow>Armor Increase</color>: {ArmorIncrease:F2}\n<color=red>Attack Speed Decrease</color>: -{AttackSpeedDecrease * 100:F2}%\n";
-            }
-            else if (gemType == typeof(SpeedGem))
-            {
-                summary += $"<color=yellow>Move Speed Increase</color>: {MoveSpeedIncrease * 100:F2}%\n<color=red>Max Health Decrease</color>: {HealthDecrease:F2}\n";
-            }
-            else if (gemType == typeof(LuckGem))
-            {
-                summary += $"<color=yellow>Luck Increase</color>: {LuckIncrease * 100:F2}%\n<color=red>Curse Increase</color>: {CurseIncrease * 100:F2}%\n";
-            }
-            else if (gemType == typeof(RecoveryGem))
-            {
-                summary += $"<color=yellow>Recovery Increase</color>: {RecoveryIncrease:F2}\n<color=red>Max Health Decrease</color>: {MaxHpIncrease}\n";
-            }
-            else if (gemType == typeof(DashGem))
-            {
-                summary += $"<color=yellow>Dash Count Increase</color>: {DashCountIncrease:F2}\n<color=red>Dash Cooldown Increase</color>: {DashCooldownIncrease:F2}\n";
-            }
-            else if (gemType == typeof(HealthGem))
-            {
+            string summary = "Equipped Gem Stats:\n";
+
+            if (MaxHealth > 0)
+                summary += $"<color=yellow>Max Health</color>: {MaxHealth:F2}\n";
+            if (MaxHealth < 0)
+                summary += $"<color=red>Max Health</color>: {MaxHealth:F2}\n";
+            if (MoveSpeed > 0)
+                summary += $"<color=yellow>Move Speed</color>: {MoveSpeed * 100:F2}%\n";
+            if (MoveSpeed < 0)
+                summary += $"<color=red>Move Speed</color>: {MoveSpeed * 100:F2}%\n";
+            if (LifeRegen > 0)
+                summary += $"<color=yellow>Life Regen</color>: {LifeRegen:F2}\n";
+            if (MaxHpIncrease != 0)
+                summary += $"<color=yellow>Max HP Increase</color>: {MaxHpIncrease}\n";
+            if (AttackPowerIncrease > 0)
+                summary += $"<color=yellow>Might Increase</color>: {AttackPowerIncrease * 100:F2}%\n";
+            if (MoveSpeedDecrease < 0)
+                summary += $"<color=red>Move Speed Decrease</color>: -{MoveSpeedDecrease * 100:F2}%\n";
+            if (ArmorIncrease > 0)
+                summary += $"<color=yellow>Armor Increase</color>: {ArmorIncrease:F2}\n";
+            if (AttackSpeedDecrease > 0)
+                summary += $"<color=red>Attack Speed Decrease</color>: -{AttackSpeedDecrease * 100:F2}%\n";
+            if (MoveSpeedIncrease > 0)
+                summary += $"<color=yellow>Move Speed Increase</color>: {MoveSpeedIncrease * 100:F2}%\n";
+            if (HealthDecrease > 0)
+                summary += $"<color=red>Max Health Decrease</color>: {HealthDecrease:F2}\n";
+            if (LuckIncrease > 0)
+                summary += $"<color=yellow>Luck Increase</color>: {LuckIncrease * 100:F2}%\n";
+            if (CurseIncrease > 0)
+                summary += $"<color=red>Curse Increase</color>: {CurseIncrease * 100:F2}%\n";
+            if (RecoveryIncrease > 0)
+                summary += $"<color=yellow>Recovery Increase</color>: {RecoveryIncrease:F2}\n";
+            if (DashCountIncrease > 0)
+                summary += $"<color=yellow>Dash Count Increase</color>: {DashCountIncrease:F2}\n";
+            if (DashCooldownIncrease > 0)
+                summary += $"<color=red>Dash Cooldown Increase</color>: {DashCooldownIncrease:F2}\n";
+            if (GemsHp > 0)
                 summary += $"<color=yellow>Gems HP</color>: {GemsHp:F2}\n";
-            }
+
             return summary;
         }
     }

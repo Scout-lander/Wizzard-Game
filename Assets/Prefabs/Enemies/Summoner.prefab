@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 2799724857867647035}
   - component: {fileID: 1717255249464545241}
   - component: {fileID: 3435257868763181474}
+  - component: {fileID: -109017940818378767}
   m_Layer: 7
   m_Name: Summoner
   m_TagString: Untagged
@@ -256,9 +257,23 @@ MonoBehaviour:
     moveSpeed: 1.5
     damage: 3
     knockbackMultipler: 1
+  hasShield: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
+--- !u!114 &-109017940818378767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1567190153320119419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 1
 --- !u!1 &3553241470260793684
 GameObject:
   m_ObjectHideFlags: 0

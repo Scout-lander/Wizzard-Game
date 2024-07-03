@@ -11,44 +11,44 @@ public class RecoveryGem : GemData
     public float cMaxRecoveryIncrease = 0.05f;
     public float cMinMaxHealthDecrease = 1.0f;
     public float cMaxMaxHealthDecrease = 5.0f;
-    public float commonProbabilities = 0.5f;
 
     [Header("UnCommon")]
     public float uMinRecoveryIncrease = 0.05f;
     public float uMaxRecoveryIncrease = 0.1f;
     public float uMinMaxHealthDecrease = 5.0f;
     public float uMaxMaxHealthDecrease = 10.0f;
-    public float uncommonProbabilities = 0.3f;
 
     [Header("Rare")]
     public float rMinRecoveryIncrease = 0.1f;
     public float rMaxRecoveryIncrease = 0.2f;
     public float rMinMaxHealthDecrease = 10.0f;
     public float rMaxMaxHealthDecrease = 15.0f;
-    public float rareProbabilities = 0.1f;
 
     [Header("Epic")]
     public float eMinRecoveryIncrease = 0.2f;
     public float eMaxRecoveryIncrease = 0.3f;
     public float eMinMaxHealthDecrease = 15.0f;
     public float eMaxMaxHealthDecrease = 20.0f;
-    public float epicProbabilities = 0.07f;
 
     [Header("Legendary")]
     public float lMinRecoveryIncrease = 0.3f;
     public float lMaxRecoveryIncrease = 0.4f;
     public float lMinMaxHealthDecrease = 20.0f;
     public float lMaxMaxHealthDecrease = 25.0f;
-    public float legendaryProbabilities = 0.03f;
 
-    [Header("OutCome")]
+    [Header("Mithic")]
+    public float mMinRecoveryIncrease = 0.7f;
+    public float mMaxRecoveryIncrease = 1.5f;
+    public float mMinMaxHealthDecrease = 0f;
+    public float mMaxMaxHealthDecrease = 0f;
+
     private float minRecoveryIncrease;
     private float maxRecoveryIncrease;
     private float minMaxHealthDecrease;
     private float maxMaxHealthDecrease;
-    [HideInInspector]
+
+    [Header("OutCome")]
     public float recoveryIncrease;
-    [HideInInspector]
     public float maxHealthDecrease;
 
     public override void InitializeRandomValues()
@@ -73,7 +73,8 @@ public class RecoveryGem : GemData
             uncommonProbabilities,
             rareProbabilities,
             epicProbabilities,
-            legendaryProbabilities
+            legendaryProbabilities,
+            mithicProbabilities
         };
 
         for (int i = 0; i < rarityProbabilities.Length; i++)
@@ -122,6 +123,12 @@ public class RecoveryGem : GemData
                 maxRecoveryIncrease = lMaxRecoveryIncrease;
                 minMaxHealthDecrease = lMinMaxHealthDecrease;
                 maxMaxHealthDecrease = lMaxMaxHealthDecrease;
+                break;
+            case GemRarity.Mithic:
+                minRecoveryIncrease = mMinRecoveryIncrease;
+                maxRecoveryIncrease = mMaxRecoveryIncrease;
+                minMaxHealthDecrease = mMinMaxHealthDecrease;
+                maxMaxHealthDecrease = mMaxMaxHealthDecrease;
                 break;
             default:
                 minRecoveryIncrease = cMinRecoveryIncrease;

@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 3856120824452904417}
   - component: {fileID: 8353536363636811456}
   - component: {fileID: 5856602643643754474}
+  - component: {fileID: -4521712722397934497}
   m_Layer: 7
   m_Name: Hood_Shooter
   m_TagString: Enemy
@@ -307,6 +308,7 @@ MonoBehaviour:
     moveSpeed: 1.5
     damage: 3
     knockbackMultipler: 1
+  hasShield: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
@@ -333,3 +335,16 @@ MonoBehaviour:
     shootingDistance: 6
     projectileSpeed: 7
     shootingCooldown: 1
+--- !u!114 &-4521712722397934497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6293119181960270039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 2

@@ -1,46 +1,50 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class DashCoolDownUI : MonoBehaviour
 {
-    public Image Image;
-    bool isDash = false;
-    PlayerStats player;
-    PlayerMovement playerMovement; // Reference to PlayerMovement script
-    
+    public Image cooldownImage;
+    private bool isDashActive = false;
+    private PlayerMovement playerMovement;
 
-    // Start is called before the first frame update
     void Start()
     {
-        Image.fillAmount = 0;
-        //player = GetComponent<PlayerStats>();
+        cooldownImage.fillAmount = 0;
         playerMovement = FindObjectOfType<PlayerMovement>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Dash();
+        UpdateDashCooldown();
     }
 
-    void Dash()
+    void UpdateDashCooldown()
     {
-        if (!isDash && playerMovement.isDashing)
+        if (playerMovement == null)
         {
-            isDash = true;
-            Image.fillAmount = 1;
+            Debug.LogWarning("PlayerMovement script not found!");
+            return;
         }
 
-        if (isDash)
+        if (!isDashActive && playerMovement.isDashing)
         {
-            Image.fillAmount -= 1 / playerMovement.player.Stats.dashCooldown * Time.deltaTime;
+            isDashActive = true;
+            cooldownImage.fillAmount = 1;
+        }
 
-            if (Image.fillAmount <= 0)
+        if (isDashActive)
+        {
+            PlayerStats playerStats = playerMovement.GetPlayerStats();
+            if (playerStats != null)
             {
-                Image.fillAmount = 0;
-                isDash = false;
+                cooldownImage.fillAmount -= 1 / playerStats.ActualStats.dashCooldown * Time.deltaTime;
+            }
+
+            if (cooldownImage.fillAmount <= 0)
+            {
+                cooldownImage.fillAmount = 0;
+                isDashActive = false;
             }
         }
     }

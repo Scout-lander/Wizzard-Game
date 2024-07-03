@@ -22,19 +22,25 @@ MonoBehaviour:
     take damage at the same time)
   rarity: 3
   isInitialized: 0
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mithicMaterial: {fileID: 2100000, guid: 270432679fc181543836e7d7c1b54ea0, type: 2}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
   cMaxGemHealth: 10
   cMinGemHealth: 20
-  commonProbabilities: 0.5
   uMaxGemHealth: 20
   uMinGemHealth: 30
-  uncommonProbabilities: 0.3
   rMaxGemHealth: 30
   rMinGemHealth: 40
-  rareProbabilities: 0.1
   eMaxGemHealth: 40
   eMinGemHealth: 50
-  epicProbabilities: 0.07
   lMaxGemHealth: 50
   lMinGemHealth: 60
-  legendaryProbabilities: 0.03
+  mMaxGemHealth: 100
+  mMinGemHealth: 80
   currentGemHealth: 0

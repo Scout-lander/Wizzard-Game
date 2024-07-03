@@ -2,30 +2,30 @@ using UnityEngine;
 
 public class Chest : MonoBehaviour
 {
-    public CharacterData[] characterDataArray; // Array to hold character data
+    public WeaponData[] weaponDataArray; // Array to hold weapon data
     public WeaponInventory weaponInventory; // Reference to the player's weapon inventory
 
-    // Method to take a character from the chest
-    public void TakeCharacter(int index)
+    // Method to take a weapon from the chest
+    public void TakeWeapon(int index)
     {
-        if (index < 0 || index >= characterDataArray.Length)
+        if (index < 0 || index >= weaponDataArray.Length)
         {
-            Debug.LogError("Invalid character index.");
+            Debug.LogError("Invalid weapon index.");
             return;
         }
 
-        CharacterData selectedCharacter = characterDataArray[index];
-        if (selectedCharacter == null)
+        WeaponData selectedWeapon = weaponDataArray[index];
+        if (selectedWeapon == null)
         {
-            Debug.LogError("Character data is null.");
+            Debug.LogError("Weapon data is null.");
             return;
         }
 
-        // Add the character to the player's inventory
-        bool added = weaponInventory.AddCharacter(selectedCharacter);
+        // Add the weapon to the player's inventory
+        bool added = weaponInventory.AddWeapon(selectedWeapon);
         if (added)
         {
-            Debug.Log($"Character {selectedCharacter.Name} taken from chest.");
+            Debug.Log($"Weapon {selectedWeapon.weaponName} taken from chest.");
         }
     }
 }

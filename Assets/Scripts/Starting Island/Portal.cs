@@ -10,10 +10,10 @@ public class Portal : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Pass the equipped character to the CharacterSelector
-            if (weaponInventory.equippedCharacter != null)
+            // Pass the equipped weapon to the CharacterSelector
+            if (weaponInventory.equippedWeapon != null)
             {
-                CharacterSelector.instance.SetEquippedCharacter(weaponInventory.equippedCharacter);
+                CharacterSelector.instance.SetEquippedWeapon(weaponInventory.equippedWeapon);
             }
 
             // Load the target scene

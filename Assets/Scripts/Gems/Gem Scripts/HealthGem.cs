@@ -9,31 +9,31 @@ public class HealthGem : GemData
     [Header("Common")]
     public float cMaxGemHealth = 20;
     public float cMinGemHealth = 10;
-    public float commonProbabilities = 0.5f;
 
     [Header("UnCommon")]
     public float uMaxGemHealth = 30;
     public float uMinGemHealth = 20;
-    public float uncommonProbabilities = 0.3f;
 
     [Header("Rare")]
     public float rMaxGemHealth = 40;
     public float rMinGemHealth = 30;
-    public float rareProbabilities = 0.1f;
 
     [Header("Epic")]
     public float eMaxGemHealth = 50;
     public float eMinGemHealth = 40;
-    public float epicProbabilities = 0.07f;
 
     [Header("Legendary")]
     public float lMaxGemHealth = 60;
     public float lMinGemHealth = 50;
-    public float legendaryProbabilities = 0.03f;
 
-    [Header("OutCome")]
+    [Header("Mithic")]
+    public float mMaxGemHealth = 80;
+    public float mMinGemHealth = 100;
+
     private float minGemHealth;
     private float maxGemHealth;
+    
+    [Header("OutCome")]
     public float currentGemHealth;
 
     public override void InitializeRandomValues()
@@ -57,7 +57,8 @@ public class HealthGem : GemData
             uncommonProbabilities,
             rareProbabilities,
             epicProbabilities,
-            legendaryProbabilities
+            legendaryProbabilities,
+            mithicProbabilities
         };
 
         for (int i = 0; i < rarityProbabilities.Length; i++)
@@ -96,6 +97,10 @@ public class HealthGem : GemData
             case GemRarity.Legendary:
                 minGemHealth = lMinGemHealth;
                 maxGemHealth = lMaxGemHealth;
+                break;
+            case GemRarity.Mithic:
+                minGemHealth = mMinGemHealth;
+                maxGemHealth = mMaxGemHealth;
                 break;
             default:
                 minGemHealth = cMinGemHealth;

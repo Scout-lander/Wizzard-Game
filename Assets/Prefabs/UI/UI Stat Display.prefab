@@ -28,14 +28,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8553175432823531955}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: -10, y: -20}
+  m_AnchoredPosition: {x: 10.98877, y: 0.09188843}
+  m_SizeDelta: {x: -22.8036, y: -46.2493}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8553175432720744992
 CanvasRenderer:
@@ -65,7 +65,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Max Health
+  m_text: 'Health
+
+    Max Health
 
     Recovery
 
@@ -91,7 +93,23 @@ MonoBehaviour:
 
     Greed
 
+    Curse
+
     Magnet
+
+    Revival
+
+    Dash
+    Duration
+
+    Dash Cooldown
+
+    Stun Reduction
+
+    Burn Reduction
+
+    Slow
+    Reduction
 
 '
   m_isRightToLeft: 0
@@ -120,7 +138,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.4
+  m_fontSize: 25.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -191,11 +209,11 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8553175432720744994}
   - {fileID: 8553175433350518205}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -230,8 +248,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -1967786007548249030, guid: 30e2d2821cb9eed40910908476fc267f, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 2989a4dc4115a014490b11afadbdb163, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 0
   m_FillMethod: 4
@@ -253,6 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  displayCurrentHealth: 1
+  updateInEditor: 1
 --- !u!1 &8553175433350518206
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,14 +301,14 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8553175432823531955}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -10, y: -20}
+  m_AnchoredPosition: {x: -11.81488, y: 0.09188843}
+  m_SizeDelta: {x: -22.8036, y: -46.2493}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8553175433350518203
 CanvasRenderer:
@@ -318,33 +338,49 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '100
+  m_text: '0
+
+    200
 
     0
 
-    1
+    0
 
-    1
+    -
 
-    1
+    -100%
 
-    1
+    -100%
 
-    1
+    -100%
+
+    -
 
     0
 
-    1
+    -100%
+
+    -100%
+
+    -100%
+
+    -100%
+
+    -100%
 
     0
 
-    1
+    0
+
+    -
 
     0
 
-    10
+    -100%
 
-    10
+    -100%
+
+    -100%
 
 '
   m_isRightToLeft: 0
@@ -373,7 +409,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.4
+  m_fontSize: 25.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

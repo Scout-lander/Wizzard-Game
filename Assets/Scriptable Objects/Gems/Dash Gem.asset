@@ -18,6 +18,15 @@ MonoBehaviour:
     cooldown, allowing you to outmaneuver your enemies and strike with precision.
   rarity: 3
   isInitialized: 0
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mithicMaterial: {fileID: 2100000, guid: 270432679fc181543836e7d7c1b54ea0, type: 2}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
   minDashCountIncrease: 1
   maxDashCountIncrease: 1
   dashCountIncrease: 0

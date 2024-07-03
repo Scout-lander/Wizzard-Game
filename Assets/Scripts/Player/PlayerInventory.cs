@@ -313,7 +313,7 @@ public class PlayerInventory : MonoBehaviour
         }
 
         // Pass the possible upgrades.
-        bool getExtraItem = 1f - 1f / player.Stats.luck > UnityEngine.Random.value;
+        bool getExtraItem = 1f - 1f / player.ActualStats.luck > UnityEngine.Random.value;
         if(getExtraItem) upgradeWindow.SetUpgrades(this, allPossibleUpgrades, 4);
         else upgradeWindow.SetUpgrades(this, availableUpgrades, 3, "Increase your Luck stat for a chance to get 4 items!");
 

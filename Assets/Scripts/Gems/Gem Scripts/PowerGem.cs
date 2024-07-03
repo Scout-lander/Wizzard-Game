@@ -11,44 +11,44 @@ public class PowerGem : GemData
     public float cMaxAttackPowerIncrease = 0.05f;
     public float cMinMoveSpeedDecrease = 0.1f;
     public float cMaxMoveSpeedDecrease = 0.5f;
-    public float commonProbabilities = 0.5f;
 
     [Header("UnCommon")]
     public float uMinAttackPowerIncrease = 0.02f;
     public float uMaxAttackPowerIncrease = 0.1f;
     public float uMinMoveSpeedDecrease = 0.2f;
     public float uMaxMoveSpeedDecrease = 0.5f;
-    public float uncommonProbabilities = 0.3f;
 
     [Header("Rare")]
     public float rMinAttackPowerIncrease = 0.03f;
     public float rMaxAttackPowerIncrease = 0.2f;
     public float rMinMoveSpeedDecrease = 0.3f;
     public float rMaxMoveSpeedDecrease = 0.5f;
-    public float rareProbabilities = 0.1f;
 
     [Header("Epic")]
     public float eMinAttackPowerIncrease = 0.04f;
     public float eMaxAttackPowerIncrease = 0.3f;
     public float eMinMoveSpeedDecrease = 0.4f;
     public float eMaxMoveSpeedDecrease = 0.5f;
-    public float epicProbabilities = 0.07f;
 
     [Header("Legendary")]
     public float lMinAttackPowerIncrease = 0.05f;
     public float lMaxAttackPowerIncrease = 1.0f;
     public float lMinMoveSpeedDecrease = 0.01f;
     public float lMaxMoveSpeedDecrease = 0.4f;
-    public float legendaryProbabilities = 0.03f;
 
-    [Header("OutCome")]
+    [Header("Mithic")]
+    public float mMinAttackPowerIncrease = 1.0f;
+    public float mMaxAttackPowerIncrease = 2.0f;
+    public float mMinMoveSpeedDecrease = 0.0f;
+    public float mMaxMoveSpeedDecrease = 0.0f;
+
     private float minAttackPowerIncrease;
     private float maxAttackPowerIncrease;
     private float minMoveSpeedDecrease;
     private float maxMoveSpeedDecrease;
-    [HideInInspector]
+
+    [Header("OutCome")]
     public float attackPowerIncrease;
-    [HideInInspector]
     public float moveSpeedDecrease;
 
     public override void InitializeRandomValues()
@@ -73,7 +73,8 @@ public class PowerGem : GemData
             uncommonProbabilities,
             rareProbabilities,
             epicProbabilities,
-            legendaryProbabilities
+            legendaryProbabilities,
+            mithicProbabilities
         };
 
         for (int i = 0; i < rarityProbabilities.Length; i++)
@@ -122,6 +123,12 @@ public class PowerGem : GemData
                 maxAttackPowerIncrease = lMaxAttackPowerIncrease;
                 minMoveSpeedDecrease = lMinMoveSpeedDecrease;
                 maxMoveSpeedDecrease = lMaxMoveSpeedDecrease;
+                break;
+            case GemRarity.Mithic:
+                minAttackPowerIncrease = mMinAttackPowerIncrease;
+                maxAttackPowerIncrease = mMaxAttackPowerIncrease;
+                minMoveSpeedDecrease = mMinMoveSpeedDecrease;
+                maxMoveSpeedDecrease = mMaxMoveSpeedDecrease;
                 break;
             default:
                 minAttackPowerIncrease = cMinAttackPowerIncrease;

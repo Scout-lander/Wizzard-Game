@@ -18,30 +18,38 @@ MonoBehaviour:
     maximum health. Essential for survival.
   rarity: 1
   isInitialized: 0
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mithicMaterial: {fileID: 2100000, guid: 270432679fc181543836e7d7c1b54ea0, type: 2}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
   cMinLifeRegenPerSecond: 0.05
   cMaxLifeRegenPerSecond: 0.1
   cMinMaxHpIncrease: 1
   cMaxMaxHpIncrease: 5
-  commonProbabilities: 0.5
   uMinLifeRegenPerSecond: 0.1
   uMaxLifeRegenPerSecond: 0.2
   uMinMaxHpIncrease: 5
   uMaxMaxHpIncrease: 10
-  uncommonProbabilities: 0.3
   rMinLifeRegenPerSecond: 0.2
   rMaxLifeRegenPerSecond: 0.4
   rMinMaxHpIncrease: 10
   rMaxMaxHpIncrease: 20
-  rareProbabilities: 0.1
   eMinLifeRegenPerSecond: 0.4
   eMaxLifeRegenPerSecond: 0.6
   eMinMaxHpIncrease: 20
   eMaxMaxHpIncrease: 30
-  epicProbabilities: 0.07
   lMinLifeRegenPerSecond: 0.6
   lMaxLifeRegenPerSecond: 1
   lMinMaxHpIncrease: 30
   lMaxMaxHpIncrease: 40
-  legendaryProbabilities: 0.03
+  mMinLifeRegenPerSecond: 1
+  mMaxLifeRegenPerSecond: 2
+  mMinMaxHpIncrease: 50
+  mMaxMaxHpIncrease: 60
   lifeRegenPerSecond: 0
   maxHpIncrease: 0

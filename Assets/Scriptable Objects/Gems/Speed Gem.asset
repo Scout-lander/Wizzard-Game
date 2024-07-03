@@ -18,30 +18,38 @@ MonoBehaviour:
     trade-off is a reduction in maximum health.
   rarity: 0
   isInitialized: 0
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mithicMaterial: {fileID: 2100000, guid: 270432679fc181543836e7d7c1b54ea0, type: 2}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
   cMinMoveSpeedIncrease: 0.01
   cMaxMoveSpeedIncrease: 0.05
   cMinHealthDecrease: 1
   cMaxHealthDecrease: 5
-  commonProbabilities: 0.5
   uMinMoveSpeedIncrease: 0.05
   uMaxMoveSpeedIncrease: 0.1
   uMinHealthDecrease: 5
   uMaxHealthDecrease: 10
-  uncommonProbabilities: 0.3
   rMinMoveSpeedIncrease: 0.1
   rMaxMoveSpeedIncrease: 0.2
   rMinHealthDecrease: 10
   rMaxHealthDecrease: 15
-  rareProbabilities: 0.1
   eMinMoveSpeedIncrease: 0.2
   eMaxMoveSpeedIncrease: 0.3
   eMinHealthDecrease: 15
   eMaxHealthDecrease: 20
-  epicProbabilities: 0.07
   lMinMoveSpeedIncrease: 0.3
   lMaxMoveSpeedIncrease: 0.4
   lMinHealthDecrease: 20
   lMaxHealthDecrease: 25
-  legendaryProbabilities: 0.03
-  moveSpeedIncrease: 1.7398582
-  healthDecrease: 10.602589
+  mMinMoveSpeedIncrease: 0.4
+  mMaxMoveSpeedIncrease: 0.5
+  mMinHealthDecrease: 0
+  mMaxHealthDecrease: 0
+  moveSpeedIncrease: 0
+  healthDecrease: 0

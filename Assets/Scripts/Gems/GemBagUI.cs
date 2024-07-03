@@ -1,56 +1,62 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 using TMPro;
 
 public class GemBagUI : MonoBehaviour
 {
-    public GameObject gemSlotPrefab; // The prefab for the gem slots
-    public TMP_Text gemNameText; // Reference to the Text component for displaying the gem name with rarity
-    public TMP_Text gemDescriptionText; // Reference to the Text component for displaying the gem description
-    public Button equipButton; // Reference to the equip button
-    public Button unequipButton; // Reference to the unequip button
-    public Button destroyButton; // Reference to the destroy button
-    public Button sortButton; // Reference to the sort button
-    public EquippedGemStatsUI equippedGemStatsUI; // Reference to the EquippedGemStatsUI script
+    public GameObject gemSlotPrefab;
+    public TMP_Text gemNameText;
+    public TMP_Text gemDescriptionText;
+    public Button equipButton;
+    public Button unequipButton;
+    public Button destroyButton;
+    public Button sortButton;
+    public Button openMergeUIButton;
+    public Button closeMergeUIButton;
+    public EquippedGemStatsUI equippedGemStatsUI;
+    public GameObject mergeUI; // The merge UI panel
+    public TMP_Text notificationText;  // Reference to the TMP text component
 
-    private Transform equippedGemTransform; // Parent transform for equipped gem slots
-    private Transform inventoryGemTransform; // Parent transform for equipped gem slots
-    private List<Image> gemImages = new List<Image>(); // Stores references to the gem Image components
-    private List<Image> frameImages = new List<Image>(); // Stores references to the frame Image components
-    private List<Image> equippedGemImages = new List<Image>(); // Stores references to the equipped gem Image components
-    private int selectedGemIndex = -1; // Keeps track of the currently selected gem index
-    private int selectedEquippedGemIndex = -1; // Keeps track of the currently selected equipped gem index
+    private Transform equippedGemTransform;
+    private Transform inventoryGemTransform;
+    public List<Image> gemImages = new List<Image>(); // Changed to public
+    private List<Image> frameImages = new List<Image>();
+    private List<Image> equippedGemImages = new List<Image>();
+    private int selectedGemIndex = -1;
+    private int selectedEquippedGemIndex = -1;
 
     void Start()
     {
         equippedGemTransform = transform.Find("Gem Equipped");
         inventoryGemTransform = transform.Find("Gem Inventory");
 
+        mergeUI.SetActive(false);
+
         CreateSlots();
         CreateEquippedSlots();
-        UpdateSlots();  // Ensure the slots are updated right after creation
-        UpdateEquippedSlots(); // Ensure equipped slots are updated right after creation
+        UpdateSlots();
+        UpdateEquippedSlots();
 
-        // Add listeners to the buttons
         equipButton.onClick.AddListener(EquipSelectedGem);
         unequipButton.onClick.AddListener(UnequipSelectedGem);
         destroyButton.onClick.AddListener(DestroySelectedGem);
-        sortButton.onClick.AddListener(SortGemsByName); // Add listener for the sort button
+        sortButton.onClick.AddListener(SortGemsByName);
+        openMergeUIButton.onClick.AddListener(OpenMergeUI);
+        closeMergeUIButton.onClick.AddListener(CloseMergeUI);
 
-        // Hide the buttons and gem details initially
         ClearSelectedGem();
     }
 
     void OnEnable()
     {
-        UpdateSlots();  // Update slots whenever the UI is enabled
-        UpdateEquippedSlots(); // Update equipped slots whenever the UI is enabled
+        UpdateSlots();
+        UpdateEquippedSlots();
     }
 
     private void CreateSlots()
     {
-        // Clear previous slots if necessary
         foreach (Transform child in inventoryGemTransform)
         {
             Destroy(child.gameObject);
@@ -58,7 +64,6 @@ public class GemBagUI : MonoBehaviour
         gemImages.Clear();
         frameImages.Clear();
 
-        // Instantiate slots based on the max capacity of the gem bag
         for (int i = 0; i < GemInventoryManager.Instance.GetGemBag().maxCapacity; i++)
         {
             GameObject slotObj = Instantiate(gemSlotPrefab, inventoryGemTransform);
@@ -69,31 +74,26 @@ public class GemBagUI : MonoBehaviour
             gemImages.Add(gemImage);
             frameImages.Add(frameImage);
 
-            int index = i; // Capture the current index for use in the lambda expressions
+            int index = i;
             gemImage.gameObject.AddComponent<Button>().onClick.AddListener(() => OnGemClicked(index));
         }
     }
 
     private void CreateEquippedSlots()
     {
-        // Clear previous equipped slots if necessary
         foreach (Transform child in equippedGemTransform)
         {
             Destroy(child.gameObject);
         }
         equippedGemImages.Clear();
 
-        // Instantiate slots based on the max capacity of the equipped gem bag
         for (int i = 0; i < GemInventoryManager.Instance.GetEquippedBag().maxCapacity; i++)
         {
             GameObject slotObj = Instantiate(gemSlotPrefab, equippedGemTransform);
             Image gemImage = slotObj.GetComponent<Image>();
-            Transform frameTransform = slotObj.transform.Find("Frame");
-            Image frameImage = frameTransform.GetComponent<Image>();
-
             equippedGemImages.Add(gemImage);
 
-            int index = i; // Capture the current index for use in the lambda expressions
+            int index = i;
             gemImage.gameObject.AddComponent<Button>().onClick.AddListener(() => OnEquippedGemClicked(index));
         }
     }
@@ -104,17 +104,23 @@ public class GemBagUI : MonoBehaviour
         if (index < gemBag.gems.Count && gemBag.gems[index] != null)
         {
             selectedGemIndex = index;
-            selectedEquippedGemIndex = -1; // Deselect any equipped gem
+            selectedEquippedGemIndex = -1;
             GemData gem = gemBag.gems[index];
-            gemDescriptionText.text = GetGemDescription(gem); // Display the gem description
+            gemDescriptionText.text = GetGemDescription(gem);
             gemNameText.text = $"<color=#{ColorUtility.ToHtmlStringRGBA(GetRarityColor(gem.rarity))}>({gem.rarity})</color> {gem.gemName}";
-            
-            // Show the buttons and gem details
+
             gemNameText.gameObject.SetActive(true);
             gemDescriptionText.gameObject.SetActive(true);
             equipButton.gameObject.SetActive(true);
             unequipButton.gameObject.SetActive(false);
             destroyButton.gameObject.SetActive(true);
+
+            // Notify GemMergeUI about the gem click
+            if (mergeUI.activeSelf)
+            {
+                GemMergeUI mergeScript = mergeUI.GetComponent<GemMergeUI>();
+                mergeScript.OnGemClicked(gem, index);
+            }
         }
     }
 
@@ -124,12 +130,11 @@ public class GemBagUI : MonoBehaviour
         if (index < equippedBag.gems.Count && equippedBag.gems[index] != null)
         {
             selectedEquippedGemIndex = index;
-            selectedGemIndex = -1; // Deselect any gem from the inventory
+            selectedGemIndex = -1;
             GemData gem = equippedBag.gems[index];
-            gemDescriptionText.text = GetGemDescription(gem); // Display the gem description
+            gemDescriptionText.text = GetGemDescription(gem);
             gemNameText.text = $"<color=#{ColorUtility.ToHtmlStringRGBA(GetRarityColor(gem.rarity))}>({gem.rarity})</color> {gem.gemName}";
-            
-            // Show the buttons and gem details
+
             gemNameText.gameObject.SetActive(true);
             gemDescriptionText.gameObject.SetActive(true);
             equipButton.gameObject.SetActive(false);
@@ -156,7 +161,7 @@ public class GemBagUI : MonoBehaviour
         }
         else if (gem is SpeedGem speedGem)
         {
-            description += $"\n\n<color=yellow>Move Speed Increase</color>: {speedGem.moveSpeedIncrease:F2}\n<color=red>Max Health Decrease</color>: {speedGem.healthDecrease:F2}";
+            description += $"\n\n<color=yellow>Move Speed Increase</color>: {speedGem.moveSpeedIncrease * 100:F2}%\n<color=red>Max Health Decrease</color>: {speedGem.healthDecrease:F2}";
         }
         else if (gem is LuckGem luckGem)
         {
@@ -187,12 +192,20 @@ public class GemBagUI : MonoBehaviour
             GemData gem = gemBag.gems[selectedGemIndex];
             if (equippedBag.AddGem(gem))
             {
-                gemBag.RemoveGem(gem); // Remove the gem from the inventory
-                UpdateSlots(); // Refresh the UI to reflect the change
-                UpdateEquippedSlots(); // Refresh the equipped gems UI
-                ClearSelectedGem(); // Clear the selected gem UI
-                equippedGemStatsUI.UpdateEquippedGemStats(); // Update equipped gem stats
+                gemBag.RemoveGem(gem);
+                UpdateSlots();
+                UpdateEquippedSlots();
+                ClearSelectedGem();
+                equippedGemStatsUI.UpdateEquippedGemStats();
             }
+            else
+            {
+                ShowNotification("Can't move gem. Bag is full.");
+            }
+        }
+        else
+        {
+            Debug.Log("Invalid gem index selected for equipping.");
         }
     }
 
@@ -205,12 +218,20 @@ public class GemBagUI : MonoBehaviour
             GemData gem = equippedBag.gems[selectedEquippedGemIndex];
             if (gemBag.AddGem(gem))
             {
-                equippedBag.RemoveGem(gem); // Remove the gem from the equipped bag
-                UpdateSlots(); // Refresh the UI to reflect the change
-                UpdateEquippedSlots(); // Refresh the equipped gems UI
-                ClearSelectedGem(); // Clear the selected gem UI
-                equippedGemStatsUI.UpdateEquippedGemStats(); // Update equipped gem stats
+                equippedBag.RemoveGem(gem);
+                UpdateSlots();
+                UpdateEquippedSlots();
+                ClearSelectedGem();
+                equippedGemStatsUI.UpdateEquippedGemStats();
             }
+            else
+            {
+                ShowNotification("Can't move gem. Bag is full.");
+            }
+        }
+        else
+        {
+            Debug.Log("Invalid gem index selected for unequipping.");
         }
     }
 
@@ -221,56 +242,80 @@ public class GemBagUI : MonoBehaviour
         if (selectedGemIndex >= 0 && selectedGemIndex < gemBag.gems.Count)
         {
             GemData gem = gemBag.gems[selectedGemIndex];
-            gemBag.RemoveGem(gem); // Remove the gem from the inventory
-            UpdateSlots(); // Refresh the UI to reflect the change
-            ClearSelectedGem(); // Clear the selected gem UI
-            equippedGemStatsUI.UpdateEquippedGemStats(); // Update equipped gem stats
+            gemBag.RemoveGem(gem);
+            UpdateSlots();
+            ClearSelectedGem();
+            equippedGemStatsUI.UpdateEquippedGemStats();
         }
         else if (selectedEquippedGemIndex >= 0 && selectedEquippedGemIndex < equippedBag.gems.Count)
         {
             GemData gem = equippedBag.gems[selectedEquippedGemIndex];
-            equippedBag.RemoveGem(gem); // Remove the gem from the equipped bag
-            UpdateEquippedSlots(); // Refresh the UI to reflect the change
-            ClearSelectedGem(); // Clear the selected gem UI
-            equippedGemStatsUI.UpdateEquippedGemStats(); // Update equipped gem stats
+            equippedBag.RemoveGem(gem);
+            UpdateEquippedSlots();
+            ClearSelectedGem();
+            equippedGemStatsUI.UpdateEquippedGemStats();
         }
     }
 
     public void UpdateSlots()
     {
         GemBag gemBag = GemInventoryManager.Instance.GetGemBag();
-        // Make sure each slot represents the state of the gem bag
         for (int i = 0; i < gemImages.Count; i++)
         {
             if (i < gemBag.gems.Count && gemBag.gems[i] != null)
             {
-                gemImages[i].sprite = gemBag.gems[i].icon; // Set the gem icon if available
-                gemImages[i].color = Color.white; // Ensure full color when a gem is present
+                gemImages[i].sprite = gemBag.gems[i].icon;
+                gemImages[i].color = Color.white;
+                if (gemBag.gems[i].rarity == GemRarity.Epic)
+                {
+                    gemImages[i].material = gemBag.gems[i].epicMaterial;
+                }
+                else if (gemBag.gems[i].rarity == GemRarity.Legendary)
+                {
+                    gemImages[i].material = gemBag.gems[i].legendaryMaterial;
+                }
+                else
+                {
+                    gemImages[i].material = null;
+                }
             }
             else
             {
-                gemImages[i].sprite = null; // Reset the sprite to null for empty slots
-                gemImages[i].color = new Color(0, 0, 0, 0.5f); // Semi-transparent for empty slots
+                gemImages[i].sprite = null;
+                gemImages[i].color = new Color(0, 0, 0, 0.5f);
+                gemImages[i].material = null;
             }
-            frameImages[i].enabled = true; // Ensure the frame image is always enabled
+            frameImages[i].enabled = true;
         }
     }
 
     public void UpdateEquippedSlots()
     {
         GemBag equippedBag = GemInventoryManager.Instance.GetEquippedBag();
-        // Make sure each slot represents the state of the equipped gem bag
         for (int i = 0; i < equippedGemImages.Count; i++)
         {
             if (i < equippedBag.gems.Count && equippedBag.gems[i] != null)
             {
-                equippedGemImages[i].sprite = equippedBag.gems[i].icon; // Set the gem icon if available
-                equippedGemImages[i].color = Color.white; // Ensure full color when a gem is present
+                equippedGemImages[i].sprite = equippedBag.gems[i].icon;
+                equippedGemImages[i].color = Color.white;
+                if (equippedBag.gems[i].rarity == GemRarity.Epic)
+                {
+                    equippedGemImages[i].material = equippedBag.gems[i].epicMaterial;
+                }
+                else if (equippedBag.gems[i].rarity == GemRarity.Legendary)
+                {
+                    equippedGemImages[i].material = equippedBag.gems[i].legendaryMaterial;
+                }
+                else
+                {
+                    equippedGemImages[i].material = null;
+                }
             }
             else
             {
-                equippedGemImages[i].sprite = null; // Reset the sprite to null for empty slots
-                equippedGemImages[i].color = new Color(0, 0, 0, 0.5f); // Semi-transparent for empty slots
+                equippedGemImages[i].sprite = null;
+                equippedGemImages[i].color = new Color(0, 0, 0, 0.5f);
+                equippedGemImages[i].material = null;
             }
         }
     }
@@ -311,6 +356,45 @@ public class GemBagUI : MonoBehaviour
     {
         GemBag gemBag = GemInventoryManager.Instance.GetGemBag();
         gemBag.gems.Sort((gem1, gem2) => string.Compare(gem1.gemName, gem2.gemName));
-        UpdateSlots(); // Refresh the UI to reflect the sorted gems
+        UpdateSlots();
+    }
+
+    private void OpenMergeUI()
+    {
+        mergeUI.SetActive(true);
+        equipButton.gameObject.SetActive(false);
+        unequipButton.gameObject.SetActive(false);
+        destroyButton.gameObject.SetActive(false);
+        openMergeUIButton.gameObject.SetActive(false);
+    }
+
+    private void CloseMergeUI()
+    {
+        mergeUI.SetActive(false);
+        openMergeUIButton.gameObject.SetActive(true);
+        // Re-enable equip and destroy buttons only if a gem is selected
+        if (selectedGemIndex >= 0)
+        {
+            equipButton.gameObject.SetActive(true);
+            destroyButton.gameObject.SetActive(true);
+        }
+        else if (selectedEquippedGemIndex >= 0)
+        {
+            unequipButton.gameObject.SetActive(true);
+            destroyButton.gameObject.SetActive(true);
+        }
+    }
+
+    private void ShowNotification(string message)
+    {
+        notificationText.text = message;
+        notificationText.gameObject.SetActive(true);
+        StartCoroutine(HideNotification());
+    }
+
+    private IEnumerator HideNotification()
+    {
+        yield return new WaitForSeconds(2f);  // Show the message for 2 seconds
+        notificationText.gameObject.SetActive(false);
     }
 }

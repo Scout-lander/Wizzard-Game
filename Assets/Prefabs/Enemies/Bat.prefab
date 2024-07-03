@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 4193112312619027109}
   - component: {fileID: 5223095555527725130}
   - component: {fileID: 6605086367421788633}
+  - component: {fileID: -4008963803231840987}
   m_Layer: 7
   m_Name: Bat
   m_TagString: Enemy
@@ -274,10 +275,23 @@ MonoBehaviour:
     moveSpeed: 1.5
     damage: 3
     knockbackMultipler: 1
-  hasSheild: 0
+  hasShield: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
+--- !u!114 &-4008963803231840987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461759420925149495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 1
 --- !u!1 &599722430768068397
 GameObject:
   m_ObjectHideFlags: 0

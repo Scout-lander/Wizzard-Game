@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 3890984557730325945}
   - component: {fileID: 5967942575839228184}
   - component: {fileID: 321585451469778304}
+  - component: {fileID: -4207646166005457368}
   m_Layer: 7
   m_Name: EyeBall
   m_TagString: Enemy
@@ -273,9 +274,15 @@ MonoBehaviour:
   lightningAbilityChance: 50
   burningAbilityChance: 30
   iceAbilityChance: 20
+  poisonAbilityChance: 1
+  poisonCloudChance: 50
+  voxAbilityChance: 10
+  shieldAbilityChance: 25
   lightningMaterial: {fileID: 2100000, guid: ac4b8e6fe50927d4d8d70eeaa923df6e, type: 2}
   burningMaterial: {fileID: 2100000, guid: 553ebce113c398941a96ca06138e2bf9, type: 2}
   iceMaterial: {fileID: 2100000, guid: d5b15fd85e7e3864b892aeff2120e285, type: 2}
+  poisonMaterial: {fileID: 0}
+  shieldMaterial: {fileID: 0}
   hasLightningAbility: 0
   lightningEffectPrefab: {fileID: 338926138968033325, guid: 7b7c568fd23d9ac4790db6f0e3b2cfca, type: 3}
   lightningProjectilePrefab: {fileID: 7655578187253603844, guid: 57be437be4a94d6419896ad97c971d8f, type: 3}
@@ -295,6 +302,26 @@ MonoBehaviour:
   iceSlowPercentage: 0.25
   iceSpikeDuration: 2
   iceSpikeDamage: 10
+  hasPoisonAbility: 0
+  poisonEffectPrefab: {fileID: 0}
+  poisonDuration: 3
+  poisonDamagePerTick: 2
+  leavesPoisonCloud: 0
+  poisonCloudPrefab: {fileID: 0}
+  poisonCloudDuration: 5
+  poisonCloudDamagePerTick: 1.5
+  hasVoxAbility: 0
+  voxPrefab: {fileID: 0}
+  voxEffectRadius: 3
+  pullForce: 5
+  slowFactor: 0.5
+  effectDuration: 5
+  voxCooldown: 10
+  hasShieldAbility: 0
+  shieldPrefab: {fileID: 0}
+  shieldDuration: 5
+  shieldCooldown: 10
+  damageBlockPercentage: 50
 --- !u!114 &5967942575839228184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -335,6 +362,20 @@ MonoBehaviour:
     moveSpeed: 3
     damage: 8
     knockbackMultipler: 1
+  hasShield: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
+--- !u!114 &-4207646166005457368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6534988251064336318}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 2

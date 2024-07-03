@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-
     // Define the different states of the game
     public enum GameState
     {
@@ -291,10 +290,10 @@ public class GameManager : MonoBehaviour
         resultsScreen.SetActive(true);
     }
 
-    public void AssignChosenCharacterUI(CharacterData chosenCharacterData)
+    public void AssignChosenCharacterUI(PlayerStats chosenCharacter)
     {
-        chosenCharacterImage.sprite = chosenCharacterData.Icon;
-        chosenCharacterName.text = (" Starting Weapon:" + chosenCharacterData.Name);
+        chosenCharacterImage.sprite = chosenCharacter.Icon;
+        chosenCharacterName.text = (" Starting Weapon:" + chosenCharacter.Name);
     }
 
     public void AssignLevelReachedUI(int levelReachedData)

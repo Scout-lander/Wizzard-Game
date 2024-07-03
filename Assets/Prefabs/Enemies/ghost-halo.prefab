@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 3883942519006103977}
   - component: {fileID: 8386210931276891066}
   - component: {fileID: 8145425371679346964}
+  - component: {fileID: -1026522227240505213}
   m_Layer: 7
   m_Name: ghost-halo
   m_TagString: Untagged
@@ -245,9 +246,23 @@ MonoBehaviour:
     moveSpeed: 1.5
     damage: 3
     knockbackMultipler: 1
+  hasShield: 0
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
+--- !u!114 &-1026522227240505213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414927480024772560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldAmount: 2
 --- !u!1 &8828489082108597042
 GameObject:
   m_ObjectHideFlags: 0
