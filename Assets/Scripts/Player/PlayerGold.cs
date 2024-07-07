@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class PlayerGold : MonoBehaviour
 {
-    public static PlayerGold Instance { get; private set; }
-    public int gold;
+    public static PlayerGold instance;
+
+    public int totalGold;
+
+    public delegate void OnGoldChanged(int newGoldAmount);
+    public event OnGoldChanged onGoldChanged;
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -18,14 +22,11 @@ public class PlayerGold : MonoBehaviour
         }
     }
 
+    // Method to add gold to the player's total
     public void AddGold(int amount)
     {
-        gold += amount;
-        // Update UI or other systems as needed
-    }
-
-    public int GetGold()
-    {
-        return gold;
+        totalGold += amount;
+        onGoldChanged?.Invoke(totalGold);
+        Debug.Log("Gold added: " + amount + ". Total gold: " + totalGold);
     }
 }

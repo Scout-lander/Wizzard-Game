@@ -79,7 +79,7 @@ public class PlayerStats : MonoBehaviour
         StunReduction = 1, SlowReduction = 1, BurnReduction = 1
     };
 
-    [SerializeField] private Stats actualStats;
+    [SerializeField] public Stats actualStats;
     public Stats ActualStats
     {
         get { return actualStats; }

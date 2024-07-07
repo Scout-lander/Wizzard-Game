@@ -25,6 +25,7 @@ public class EnemyStats : MonoBehaviour
     private float health;
     private float damageBlockPercentage;
     private bool hasShield;
+    public int goldAmount = 10;
 
     public Stats ActualStats => actualStats;
 
@@ -50,7 +51,7 @@ public class EnemyStats : MonoBehaviour
         originalColor = sr.color;
         actualStats = baseStats;
 
-        AdjustStatsBasedOnDifficulty(DifficultyManager.Instance.CurrentDifficultyLevel);
+        AdjustStatsBasedOnDifficulty(DifficultyManager.Instance?.CurrentDifficultyLevel ?? 0);
         health = actualStats.maxHealth;
     }
 
@@ -80,7 +81,7 @@ public class EnemyStats : MonoBehaviour
         {
             StartCoroutine(FlashDamage());
             GameManager.GenerateFloatingText(Mathf.FloorToInt(dmg).ToString(), transform);
-            gameManager.IncrementTotalDamageDone(damage);
+            gameManager?.IncrementTotalDamageDone(damage);
         }
 
         if (knockbackForce > 0 && damage > 0)
@@ -111,7 +112,8 @@ public class EnemyStats : MonoBehaviour
         enemyAbility?.CreatePoisonCloud();
 
         StartCoroutine(KillFade());
-        gameManager.IncrementKillCount();
+        GameManager.instance.IncrementGold(goldAmount);
+        gameManager?.IncrementKillCount();
     }
 
     private IEnumerator KillFade()

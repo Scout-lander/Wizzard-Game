@@ -264,19 +264,33 @@ public class GemBagUI : MonoBehaviour
         {
             if (i < gemBag.gems.Count && gemBag.gems[i] != null)
             {
-                gemImages[i].sprite = gemBag.gems[i].icon;
+                GemData gem = gemBag.gems[i];
+                gemImages[i].sprite = gem.icon;
                 gemImages[i].color = Color.white;
-                if (gemBag.gems[i].rarity == GemRarity.Epic)
+
+                switch (gem.rarity)
                 {
-                    gemImages[i].material = gemBag.gems[i].epicMaterial;
-                }
-                else if (gemBag.gems[i].rarity == GemRarity.Legendary)
-                {
-                    gemImages[i].material = gemBag.gems[i].legendaryMaterial;
-                }
-                else
-                {
-                    gemImages[i].material = null;
+                    case GemRarity.Common:
+                        gemImages[i].material = gem.commonMaterial;
+                        break;
+                    case GemRarity.Uncommon:
+                        gemImages[i].material = gem.uncommonMaterial;
+                        break;
+                    case GemRarity.Rare:
+                        gemImages[i].material = gem.rareMaterial;
+                        break;
+                    case GemRarity.Epic:
+                        gemImages[i].material = gem.epicMaterial;
+                        break;
+                    case GemRarity.Legendary:
+                        gemImages[i].material = gem.legendaryMaterial;
+                        break;
+                    case GemRarity.Mythic:
+                        gemImages[i].material = gem.mythicMaterial;
+                        break;
+                    default:
+                        gemImages[i].material = null;
+                        break;
                 }
             }
             else
@@ -296,19 +310,33 @@ public class GemBagUI : MonoBehaviour
         {
             if (i < equippedBag.gems.Count && equippedBag.gems[i] != null)
             {
-                equippedGemImages[i].sprite = equippedBag.gems[i].icon;
+                GemData gem = equippedBag.gems[i];
+                equippedGemImages[i].sprite = gem.icon;
                 equippedGemImages[i].color = Color.white;
-                if (equippedBag.gems[i].rarity == GemRarity.Epic)
+
+                switch (gem.rarity)
                 {
-                    equippedGemImages[i].material = equippedBag.gems[i].epicMaterial;
-                }
-                else if (equippedBag.gems[i].rarity == GemRarity.Legendary)
-                {
-                    equippedGemImages[i].material = equippedBag.gems[i].legendaryMaterial;
-                }
-                else
-                {
-                    equippedGemImages[i].material = null;
+                    case GemRarity.Common:
+                        equippedGemImages[i].material = gem.commonMaterial;
+                        break;
+                    case GemRarity.Uncommon:
+                        equippedGemImages[i].material = gem.uncommonMaterial;
+                        break;
+                    case GemRarity.Rare:
+                        equippedGemImages[i].material = gem.rareMaterial;
+                        break;
+                    case GemRarity.Epic:
+                        equippedGemImages[i].material = gem.epicMaterial;
+                        break;
+                    case GemRarity.Legendary:
+                        equippedGemImages[i].material = gem.legendaryMaterial;
+                        break;
+                    case GemRarity.Mythic:
+                        equippedGemImages[i].material = gem.mythicMaterial;
+                        break;
+                    default:
+                        equippedGemImages[i].material = null;
+                        break;
                 }
             }
             else

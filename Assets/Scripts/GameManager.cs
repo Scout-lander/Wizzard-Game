@@ -1,8 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement; // Add this line to use SceneManager
 
 public class GameManager : MonoBehaviour
 {
@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
         Gameplay,
         Paused,
         InMap,
-        Inventory,
         GameOver,
         LevelUp
     }
@@ -36,7 +35,6 @@ public class GameManager : MonoBehaviour
     public GameObject resultsScreen;
     public GameObject levelUpScreen;
     public GameObject MapScreen;
-    public GameObject InvintoryScreen;
     int stackedLevelUps = 0; // If we try to StartLevelUp() multiple times.
 
     [Header("Results Screen Displays")]
@@ -47,8 +45,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text enemiesKilledDisplay;
     public TMP_Text totalDamageDisplay;
     public TMP_Text totalDPSDisplay;
-    //public List<Image> chosenWeaponsUI = new List<Image>(6);
-    //public List<Image> chosenPassiveItemsUI = new List<Image>(6);
+    public TMP_Text totalGoldDisplay;
+    public TMP_Text goldMultiplierDisplay;
 
     [Header("Stopwatch")]
     public float timeLimit; // The time limit in seconds
@@ -63,14 +61,21 @@ public class GameManager : MonoBehaviour
     // Reference to the player's game object
     public GameObject playerObject;
 
+    // Reference to the player's PlayerStats script
+    private PlayerStats playerStats;
+
     // Getters for parity with older scripts.
-    public bool isGameOver { get { return currentState == GameState.Paused; } }
+    public bool isGameOver { get { return currentState == GameState.GameOver; } } // Update this line
     public bool choosingUpgrade { get { return currentState == GameState.LevelUp; } }
 
     [Header("KillsUI")]
     public int killCount = 0;
     public float totalDamageDone = 0;
     public float dps;
+
+    [Header("Gold")]
+    public int totalGoldCollected = 0;
+    public float goldMultiplier = 1.0f;
 
     public float GetElapsedTime() { return stopwatchTime; }
 
@@ -92,6 +97,9 @@ public class GameManager : MonoBehaviour
         StartCoroutine(UpdateKillCountTextCoroutine()); // Start the coroutine to update kill count text
         StartCoroutine(UpdateDamageTextCoroutine()); // Start the coroutine to update kill count text
         StartCoroutine(UpdateDPSTextCoroutine()); // Start coroutine to update DPS text
+
+        // Find the player's PlayerStats script
+        playerStats = playerObject.GetComponent<PlayerStats>();
     }
 
     void Update()
@@ -104,13 +112,24 @@ public class GameManager : MonoBehaviour
                 // Code for the gameplay state
                 CheckForPauseAndResume();
                 UpdateStopwatch();
+                UpdateGoldMultiplier(); // Update gold multiplier based on player's luck
                 break;
             case GameState.GameOver:
+                CheckForGameOverInput(); // Add this line
+                break;
             case GameState.LevelUp:
                 break;
             default:
                 Debug.LogWarning("STATE DOES NOT EXIST");
                 break;
+        }
+    }
+
+    private void UpdateGoldMultiplier()
+    {
+        if (playerStats != null)
+        {
+            goldMultiplier = playerStats.ActualStats.luck;
         }
     }
 
@@ -190,7 +209,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f; // Stop the game
             pauseScreen.SetActive(true); // Enable the pause screen
             MapScreen.SetActive(false); // Sets Map to not be open when first opening the pause screen
-            InvintoryScreen.SetActive(false);
         }
     }
     public void MapScreenPauce()
@@ -201,7 +219,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f; // Stop the game
             pauseScreen.SetActive(true); // Enable the pause screen
             MapScreen.SetActive(true); // Sets Map to not be open when first opening the pause screen
-            InvintoryScreen.SetActive(false);
         }
     }
 
@@ -213,7 +230,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 0f; // Stop the game
             pauseScreen.SetActive(true); // Enable the pause screen
             MapScreen.SetActive(false); // Sets Map to not be open when first opening the pause screen
-            InvintoryScreen.SetActive(true);
         }
     }
 
@@ -225,7 +241,6 @@ public class GameManager : MonoBehaviour
             Time.timeScale = 1f; // Resume the game
             pauseScreen.SetActive(false); //Disable the pause screen
             MapScreen.SetActive(false);
-            InvintoryScreen.SetActive(false);
         }
     }
 
@@ -256,6 +271,15 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    void CheckForGameOverInput() // Add this method
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && currentState == GameState.GameOver)
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("Base"); // Change this to your base scene name
+        }
+    }
+
     void DisableScreens()
     {
         pauseScreen.SetActive(false);
@@ -267,7 +291,8 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         timeSurvivedDisplay.text = stopwatchDisplay.text;
-
+        totalGoldDisplay.text = $"{(totalGoldCollected):F0}";
+        goldMultiplierDisplay.text =  $"{goldMultiplier}x";
         // Set the Game Over variables here.
         ChangeState(GameState.GameOver);
         Time.timeScale = 0f; //Stop the game entirely
@@ -282,7 +307,7 @@ public class GameManager : MonoBehaviour
     public void AssignChosenCharacterUI(PlayerStats chosenCharacter)
     {
         chosenCharacterImage.sprite = chosenCharacter.Icon;
-        chosenCharacterName.text = (" Starting Weapon:" + chosenCharacter.Name);
+        chosenCharacterName.text = (" Starting Weapon:" + chosenCharacter.StartingWeapon.name);
     }
 
     public void AssignLevelReachedUI(int levelReachedData)
@@ -430,5 +455,19 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(difficultyIncrementTime);
             difficultyManager.IncreaseDifficulty(difficultyIncrement);
         }
+    }
+
+    public void IncrementGold(int amount)
+    {
+        int adjustedAmount = Mathf.RoundToInt(amount * goldMultiplier);
+        totalGoldCollected += adjustedAmount;
+
+        // Pass the adjusted gold to the player's total gold
+        if (PlayerGold.instance != null)
+        {
+            PlayerGold.instance.AddGold(adjustedAmount);
+        }
+
+        // Optionally update the UI if necessary
     }
 }

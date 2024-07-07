@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 823eb48e23345544e9bc612f0a6fe6b1, type: 3}
+  m_Name: Recovery Rune_513b07d6-6803-404d-86b4-90cc422baeb2
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: becae91d22164124d83d58882c03faff, type: 3}
+  gemName: Recovery Rune
+  description: A Rune that accelerates health recovery rates. Be cautious, as it
+    comes at the cost of reducing your maximum health
+  rarity: 0
+  isInitialized: 1
+  commonMaterial: {fileID: 0}
+  uncommonMaterial: {fileID: 2100000, guid: c53fe931908e6024bac6edd01ddb75f3, type: 2}
+  rareMaterial: {fileID: 2100000, guid: 85a83daa26a16cf4ea993f26342116f0, type: 2}
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mythicMaterial: {fileID: 0}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
+  cMinRecoveryIncrease: 0.01
+  cMaxRecoveryIncrease: 0.05
+  cMinMaxHealthDecrease: 1
+  cMaxMaxHealthDecrease: 5
+  uMinRecoveryIncrease: 0.05
+  uMaxRecoveryIncrease: 0.1
+  uMinMaxHealthDecrease: 5
+  uMaxMaxHealthDecrease: 10
+  rMinRecoveryIncrease: 0.1
+  rMaxRecoveryIncrease: 0.2
+  rMinMaxHealthDecrease: 10
+  rMaxMaxHealthDecrease: 15
+  eMinRecoveryIncrease: 0.2
+  eMaxRecoveryIncrease: 0.3
+  eMinMaxHealthDecrease: 15
+  eMaxMaxHealthDecrease: 20
+  lMinRecoveryIncrease: 0.3
+  lMaxRecoveryIncrease: 0.4
+  lMinMaxHealthDecrease: 20
+  lMaxMaxHealthDecrease: 25
+  mMinRecoveryIncrease: 0.7
+  mMaxRecoveryIncrease: 1.5
+  mMinMaxHealthDecrease: 0
+  mMaxMaxHealthDecrease: 0
+  recoveryIncrease: 0.041946203
+  maxHealthDecrease: 4.8072367

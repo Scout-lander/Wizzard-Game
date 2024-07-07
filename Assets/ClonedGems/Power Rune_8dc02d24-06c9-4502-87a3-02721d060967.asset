@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1da749482a29d834985ad03545fb882f, type: 3}
+  m_Name: Power Rune_8dc02d24-06c9-4502-87a3-02721d060967
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 37196ccd494b9414fb5d595b34b8a08c, type: 3}
+  gemName: Power Rune
+  description: Rune that grants immense power, increasing attack might significantly.
+    However, its weight reduces the wielder's speed
+  rarity: 0
+  isInitialized: 1
+  commonMaterial: {fileID: 0}
+  uncommonMaterial: {fileID: 2100000, guid: c53fe931908e6024bac6edd01ddb75f3, type: 2}
+  rareMaterial: {fileID: 2100000, guid: 85a83daa26a16cf4ea993f26342116f0, type: 2}
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mythicMaterial: {fileID: 0}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
+  cMinAttackPowerIncrease: 0.01
+  cMaxAttackPowerIncrease: 0.05
+  cMinMoveSpeedDecrease: 0.1
+  cMaxMoveSpeedDecrease: 0.5
+  uMinAttackPowerIncrease: 0.02
+  uMaxAttackPowerIncrease: 0.1
+  uMinMoveSpeedDecrease: 0.2
+  uMaxMoveSpeedDecrease: 0.5
+  rMinAttackPowerIncrease: 0.03
+  rMaxAttackPowerIncrease: 0.2
+  rMinMoveSpeedDecrease: 0.3
+  rMaxMoveSpeedDecrease: 0.5
+  eMinAttackPowerIncrease: 0.04
+  eMaxAttackPowerIncrease: 0.3
+  eMinMoveSpeedDecrease: 0.4
+  eMaxMoveSpeedDecrease: 0.5
+  lMinAttackPowerIncrease: 0.05
+  lMaxAttackPowerIncrease: 1
+  lMinMoveSpeedDecrease: 0.01
+  lMaxMoveSpeedDecrease: 0.4
+  mMinAttackPowerIncrease: 1
+  mMaxAttackPowerIncrease: 2
+  mMinMoveSpeedDecrease: 0
+  mMaxMoveSpeedDecrease: 0
+  attackPowerIncrease: 0.049032878
+  moveSpeedDecrease: 0.3258123

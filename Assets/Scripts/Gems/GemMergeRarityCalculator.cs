@@ -19,44 +19,44 @@ public static class GemMergeRarityCalculator
                 switch (gem.rarity)
                 {
                     case GemRarity.Common:
-                        commonProb += 0.5f;
+                        commonProb += 0.4f;
                         uncommonProb += 0.3f;
-                        rareProb += 0.1f;
+                        rareProb += 0.2f;
                         epicProb += 0.07f;
                         legendaryProb += 0.03f;
                         mithicProb += 0.0f;
                         break;
                     case GemRarity.Uncommon:
-                        commonProb += 0.4f;
+                        commonProb += 0.20f;
                         uncommonProb += 0.4f;
-                        rareProb += 0.15f;
-                        epicProb += 0.05f;
-                        legendaryProb += 0.01f;
+                        rareProb += 0.25f;
+                        epicProb += 0.1f;
+                        legendaryProb += 0.05f;
                         mithicProb += 0.0f;
                         break;
                     case GemRarity.Rare:
-                        commonProb += 0.3f;
-                        uncommonProb += 0.3f;
-                        rareProb += 0.3f;
-                        epicProb += 0.08f;
-                        legendaryProb += 0.02f;
-                        mithicProb += 0.0f;
-                        break;
-                    case GemRarity.Epic:
-                        commonProb += 0.2f;
-                        uncommonProb += 0.2f;
-                        rareProb += 0.25f;
-                        epicProb += 0.25f;
+                        commonProb += 0.5f;
+                        uncommonProb += 0.15f;
+                        rareProb += 0.5f;
+                        epicProb += 0.2f;
                         legendaryProb += 0.1f;
                         mithicProb += 0.0f;
                         break;
-                    case GemRarity.Legendary:
-                        commonProb += 0.1f;
-                        uncommonProb += 0.1f;
+                    case GemRarity.Epic:
+                        commonProb += 0.3f;
+                        uncommonProb += 0.07f;
                         rareProb += 0.2f;
-                        epicProb += 0.3f;
-                        legendaryProb += 0.3f;
-                        mithicProb += 0.01f;
+                        epicProb += 0.5f;
+                        legendaryProb += 0.2f;
+                        mithicProb += 0.0f;
+                        break;
+                    case GemRarity.Legendary:
+                        commonProb += 0.0f;
+                        uncommonProb += 0.05f;
+                        rareProb += 0.15f;
+                        epicProb += 0.25f;
+                        legendaryProb += 0.47f;
+                        mithicProb += 0.03f;
                         break;
                 }
                 filledSlots++;

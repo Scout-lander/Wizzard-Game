@@ -1134,9 +1134,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3d2d1858d01a8e4682707375a9ec90a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingScreen: {fileID: 1036859617}
-  loadingBar: {fileID: 650467368}
-  fakeLoadTime: 1
 --- !u!4 &519777467
 Transform:
   m_ObjectHideFlags: 0
@@ -2346,6 +2343,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1328801166}
   - component: {fileID: 1328801167}
+  - component: {fileID: 1328801168}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -2382,6 +2380,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gemBag: {fileID: 11400000, guid: ba7ea85f45cc1454586603543439e908, type: 2}
   equippedBag: {fileID: 11400000, guid: a93db4a07a98d480686b87ca4d65653c, type: 2}
+--- !u!114 &1328801168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1328801165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20a61f8d9840a2242aac9ef5a19e0dbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  url: https://chonkyvibes.com/hash.txt
+  textMeshProUGUI: {fileID: 2114195126}
 --- !u!1 &1343955502
 GameObject:
   m_ObjectHideFlags: 0
@@ -3505,7 +3517,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Ver. 0.12.0-21723
+  m_text: 0.0.0.0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

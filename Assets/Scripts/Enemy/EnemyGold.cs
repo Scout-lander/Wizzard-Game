@@ -7,7 +7,13 @@ public class EnemyGold : MonoBehaviour
     // Call this method when the enemy dies
     public void DropGold()
     {
-        PlayerGold.Instance.AddGold(goldAmount);
+        // Add the gold amount to the GameManager's total gold collected
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.IncrementGold(goldAmount);
+        }
+        
+        // Destroy the enemy game object
         Destroy(gameObject);
     }
 }

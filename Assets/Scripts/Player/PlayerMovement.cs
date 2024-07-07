@@ -130,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = moveDir * currentSpeed;
     }
-
+    
     public void DoDash()
     {
         StartCoroutine(Dash());
