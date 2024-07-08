@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9ea9c8c2212c946b3c8dbd86b0ccb3, type: 3}
+  m_Name: Gem Data New
+  m_EditorClassIdentifier: 
+  icon: {fileID: 0}
+  gemName: 
+  description: 
+  rarity: 0
+  commonMaterial: {fileID: 0}
+  uncommonMaterial: {fileID: 2100000, guid: c53fe931908e6024bac6edd01ddb75f3, type: 2}
+  rareMaterial: {fileID: 0}
+  epicMaterial: {fileID: 0}
+  legendaryMaterial: {fileID: 0}
+  mythicMaterial: {fileID: 0}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
+  minimumPossible:
+    luck: 0
+    health: 0
+    mana: 0
+    attackSpeed: 0
+  maximumPossible:
+    luck: 0
+    health: 0
+    mana: 0
+    attackSpeed: 0

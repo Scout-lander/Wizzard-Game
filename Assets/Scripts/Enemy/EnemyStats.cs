@@ -23,8 +23,8 @@ public class EnemyStats : MonoBehaviour
     public Stats baseStats;
     [SerializeField] private Stats actualStats;
     private float health;
-    private float damageBlockPercentage;
-    private bool hasShield;
+    public float damageBlockPercentage;
+    public bool hasShield;
     public int goldAmount = 10;
 
     public Stats ActualStats => actualStats;
@@ -63,7 +63,7 @@ public class EnemyStats : MonoBehaviour
     public void ApplyShieldEffect(float blockPercentage)
     {
         hasShield = true;
-        damageBlockPercentage = blockPercentage;
+        damageBlockPercentage = 10;
     }
 
     public void RemoveShieldEffect()

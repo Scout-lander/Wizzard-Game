@@ -16,7 +16,7 @@ public class Pickup : MonoBehaviour
         public Vector2 direction;
     }
     public BobbingAnimation bobbingAnimation = new BobbingAnimation {
-        frequency = 2f, direction = new Vector2(0,0.3f)
+        frequency = 2f, direction = new Vector2(0, 0.3f)
     };
 
     [Header("Bonuses")]
@@ -25,7 +25,7 @@ public class Pickup : MonoBehaviour
 
     public PickupType pickupType;  // Added pickup type
     public GemData gemData;  // Reference to the GemData scriptable object
-
+    public RuneDataNew runeDataNew; // Reference to the RuneDataNew scriptable object
 
     protected virtual void Start()
     {
@@ -36,7 +36,7 @@ public class Pickup : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(target)
+        if (target)
         {
             Vector2 distance = target.transform.position - transform.position;
             if (distance.sqrMagnitude > speed * speed * Time.deltaTime)
@@ -51,35 +51,34 @@ public class Pickup : MonoBehaviour
     }
 
     public virtual bool Collect(PlayerStats target, float speed, float lifespan = 0f)
-{
-    // Ensure that the target is only set if it hasn't already been set.
-    if (!this.target)
     {
-        this.target = target;
-        this.speed = speed;
-        if (lifespan > 0) this.lifespan = lifespan;
-
-        if (pickupType == PickupType.Gem)  // Handling gem pickup
+        // Ensure that the target is only set if it hasn't already been set.
+        if (!this.target)
         {
-            GemInventory gemInventory = target.GetComponent<GemInventory>();
-            if (gemInventory)
+            this.target = target;
+            this.speed = speed;
+            if (lifespan > 0) this.lifespan = lifespan;
+
+            if (pickupType == PickupType.Gem)  // Handling gem pickup
             {
-                gemInventory.AddGem(gemData);
-                Debug.Log("Gem collected");
+                GemInventory gemInventory = target.GetComponent<GemInventory>();
+                if (gemInventory)
+                {
+                    gemInventory.AddGem(gemData);
+                    Debug.Log("Gem collected");
+                }
             }
-        }
-        else  // Handling other types of pickups
-        {
-            // Additional logic for other pickup types (e.g., Experience, Health)
-            //Debug.Log("Collected non-gem pickup");
+            else if (pickupType == PickupType.Rune)  // Handling rune pickup
+            {
+                Debug.LogWarning("RunePickup script should handle this case.");
+            }
+
+            Destroy(gameObject, Mathf.Max(0.01f, this.lifespan));  // Destroy the pickup object
+            return true;
         }
 
-        Destroy(gameObject, Mathf.Max(0.01f, this.lifespan));  // Destroy the pickup object
-        return true;
+        return false;
     }
-
-    return false;
-}
 
     protected virtual void OnDestroy()
     {

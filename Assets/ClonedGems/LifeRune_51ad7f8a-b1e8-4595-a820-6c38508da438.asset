@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4350799f8e351954cb3e50b3ae0c7625, type: 3}
+  m_Name: LifeRune_51ad7f8a-b1e8-4595-a820-6c38508da438
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: a94e543bf582f484ba14dcd7c4186779, type: 3}
+  gemName: LifeRune
+  description: A life-giving rune that regenerates health over time and increases
+    maximum health. Essential for survival.
+  rarity: 0
+  isInitialized: 1
+  commonMaterial: {fileID: 0}
+  uncommonMaterial: {fileID: 2100000, guid: c53fe931908e6024bac6edd01ddb75f3, type: 2}
+  rareMaterial: {fileID: 2100000, guid: 85a83daa26a16cf4ea993f26342116f0, type: 2}
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mythicMaterial: {fileID: 0}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
+  cMinLifeRegenPerSecond: 0.05
+  cMaxLifeRegenPerSecond: 0.1
+  cMinMaxHpIncrease: 1
+  cMaxMaxHpIncrease: 5
+  uMinLifeRegenPerSecond: 0.1
+  uMaxLifeRegenPerSecond: 0.2
+  uMinMaxHpIncrease: 5
+  uMaxMaxHpIncrease: 10
+  rMinLifeRegenPerSecond: 0.2
+  rMaxLifeRegenPerSecond: 0.4
+  rMinMaxHpIncrease: 10
+  rMaxMaxHpIncrease: 20
+  eMinLifeRegenPerSecond: 0.4
+  eMaxLifeRegenPerSecond: 0.6
+  eMinMaxHpIncrease: 20
+  eMaxMaxHpIncrease: 30
+  lMinLifeRegenPerSecond: 0.6
+  lMaxLifeRegenPerSecond: 1
+  lMinMaxHpIncrease: 30
+  lMaxMaxHpIncrease: 40
+  mMinLifeRegenPerSecond: 1
+  mMaxLifeRegenPerSecond: 2
+  mMinMaxHpIncrease: 50
+  mMaxMaxHpIncrease: 60
+  lifeRegenPerSecond: 0.064428166
+  maxHpIncrease: 4.839346

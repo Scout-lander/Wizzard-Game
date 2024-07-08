@@ -5,5 +5,6 @@ public enum PickupType
     Magnet,
     SuperGem,
     TreasureChest,
-    Gem
+    Gem, 
+    Rune
 }

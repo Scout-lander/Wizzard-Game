@@ -26,13 +26,14 @@ public class ShieldEffect : MonoBehaviour
         foreach (var hit in hits)
         {
             if (hit.gameObject.CompareTag("Enemy"))
-            //Debug.Log("Shield is touching an enemy.");
             {
+                Debug.Log("Shield is touching an enemy.");
                 currentEnemies.Add(hit.gameObject);
                 if (!affectedEnemies.Contains(hit.gameObject))
                 {
                     EnemyStats enemyStats = hit.gameObject.GetComponent<EnemyStats>();
                     if (enemyStats != null) {
+                        Debug.Log("Shield enemy.");
                         enemyStats.ApplyShieldEffect(BlockPercentage);
                         affectedEnemies.Add(hit.gameObject);
                     } else {
