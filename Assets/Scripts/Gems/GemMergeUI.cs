@@ -15,7 +15,6 @@ public class GemMergeUI : MonoBehaviour
     public TextMeshProUGUI probabilitiesProbText; // Text to show rarity probabilities
     public TextMeshProUGUI probabilitiesErrorText; // Text to show rarity probabilities
 
-
     private List<GameObject> mergeSlots = new List<GameObject>();
     private GemData[] gemsInMergeSlots = new GemData[3];
     private int selectedGemIndex = -1;
@@ -42,7 +41,6 @@ public class GemMergeUI : MonoBehaviour
 
     private void CreateMergeSlots()
     {
-        //Debug.Log("CreateMergeSlots method called");
         for (int i = 0; i < 3; i++)
         {
             GameObject slot = Instantiate(slotPrefab, mergeSlotsParent);
@@ -61,7 +59,6 @@ public class GemMergeUI : MonoBehaviour
     public void OnGemClicked(GemData gem, int index)
     {
         selectedGemIndex = index;
-        //Debug.Log($"Gem clicked: {gem.gemName}, Index: {index}");
         addButton.gameObject.SetActive(true);
         removeButton.gameObject.SetActive(false);
     }
@@ -79,6 +76,32 @@ public class GemMergeUI : MonoBehaviour
                     Image slotImage = mergeSlots[i].GetComponent<Image>();
                     slotImage.sprite = gem.icon;
                     slotImage.color = Color.white; // Set color to white
+
+                    switch (gem.rarity)
+                    {
+                        case GemRarity.Common:
+                            slotImage.material = gem.commonMaterial;
+                            break;
+                        case GemRarity.Uncommon:
+                            slotImage.material = gem.uncommonMaterial;
+                            break;
+                        case GemRarity.Rare:
+                            slotImage.material = gem.rareMaterial;
+                            break;
+                        case GemRarity.Epic:
+                            slotImage.material = gem.epicMaterial;
+                            break;
+                        case GemRarity.Legendary:
+                            slotImage.material = gem.legendaryMaterial;
+                            break;
+                        case GemRarity.Mythic:
+                            slotImage.material = gem.mythicMaterial;
+                            break;
+                        default:
+                            slotImage.material = null;
+                            break;
+                    }
+
                     HighlightGemInInventory(selectedGemIndex, true);
                     ClearSelectedGem();
                     UpdateProbabilitiesText();
@@ -122,6 +145,7 @@ public class GemMergeUI : MonoBehaviour
             Image slotImage = mergeSlots[index].GetComponent<Image>();
             slotImage.sprite = null;
             slotImage.color = new Color(0, 0, 0, 0.5f); // Set color to semi-transparent
+            slotImage.material = null; // Clear the material
             gemsInMergeSlots[index] = null;
             Debug.Log($"Gem removed from merge slot {index}");
             removeButton.gameObject.SetActive(false); // Hide remove button after removal
@@ -169,16 +193,14 @@ public class GemMergeUI : MonoBehaviour
 
     private bool CanMergeGems()
     {
-        
         if (gemsInMergeSlots[0] == null || gemsInMergeSlots[1] == null || gemsInMergeSlots[2] == null)
-            return false; 
+            return false;
 
         return gemsInMergeSlots[0].gemName == gemsInMergeSlots[1].gemName && gemsInMergeSlots[1].gemName == gemsInMergeSlots[2].gemName;
     }
 
     private GemData CreateNewGem(GemData baseGem)
     {
-        //Debug.Log("CreateNewGem method called");
         GemData newGem = baseGem.Clone();
         newGem.InitializeRandomValues();
         return newGem;
@@ -186,7 +208,6 @@ public class GemMergeUI : MonoBehaviour
 
     private void ClearMergeSlots()
     {
-        //Debug.Log("ClearMergeSlots method called");
         foreach (var slot in mergeSlots)
         {
             Destroy(slot);
@@ -204,7 +225,6 @@ public class GemMergeUI : MonoBehaviour
 
     private void UpdateProbabilitiesText()
     {
-
         if (gemsInMergeSlots[0] == null || gemsInMergeSlots[1] == null || gemsInMergeSlots[2] == null)
         {
             probabilitiesErrorText.text = "<align=center>Waiting for gems</align>";
@@ -222,7 +242,6 @@ public class GemMergeUI : MonoBehaviour
         }
 
         float[] probabilities = GemMergeRarityCalculator.CalculateRarityProbabilities(gemsInMergeSlots);
-        Debug.Log("CanMergeGems method called");
         probabilitiesErrorText.text = "";
 
         probabilitiesNameText.text = $"Probabilities:\n\n" +
@@ -231,7 +250,7 @@ public class GemMergeUI : MonoBehaviour
             "<color=blue>Rare</color>:\n" +
             "<color=purple>Epic</color>:\n" +
             "<color=yellow>Legendary</color>:\n" + 
-            "<color=red>mythic </color>:\n";
+            "<color=red>Mythic</color>:\n";
 
         probabilitiesProbText.text = $"\n\n" +
             $"{probabilities[0]:F2}%\n" +

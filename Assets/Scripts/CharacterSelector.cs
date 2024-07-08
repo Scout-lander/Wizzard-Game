@@ -15,11 +15,34 @@ public class CharacterSelector : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(gameObject);
+            LoadWeaponData();
         }
         else
         {
             Debug.LogWarning("EXTRA " + this + " DELETED");
             Destroy(gameObject);
+        }
+    }
+
+    private void LoadWeaponData()
+    {
+        string weaponName = PlayerPrefs.GetString("EquippedWeapon", "");
+        if (!string.IsNullOrEmpty(weaponName))
+        {
+            string[] allAssetPaths = AssetDatabase.GetAllAssetPaths();
+            foreach (string assetPath in allAssetPaths)
+            {
+                if (assetPath.EndsWith(".asset"))
+                {
+                    WeaponData weapon = AssetDatabase.LoadAssetAtPath<WeaponData>(assetPath);
+                    if (weapon != null && weapon.weaponName == weaponName)
+                    {
+                        weaponData = weapon;
+                        Debug.Log($"Loaded weapon: {weapon.weaponName}");
+                        return;
+                    }
+                }
+            }
         }
     }
 
@@ -55,13 +78,23 @@ public class CharacterSelector : MonoBehaviour
     public void SelectWeapon(WeaponData weapon)
     {
         weaponData = weapon;
+        SaveWeaponData();
     }
 
-    // Method to set the equipped weapon
     public void SetEquippedWeapon(WeaponData weapon)
     {
         weaponData = weapon;
+        SaveWeaponData();
         Debug.Log($"Equipped weapon set to {weapon.weaponName}."); // Ensure 'weaponName' exists in WeaponData
+    }
+
+    private void SaveWeaponData()
+    {
+        if (weaponData != null)
+        {
+            PlayerPrefs.SetString("EquippedWeapon", weaponData.weaponName);
+            PlayerPrefs.Save();
+        }
     }
 
     // Destroys the character selector.

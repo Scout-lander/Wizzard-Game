@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq; // Add this line for LINQ
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -42,7 +43,7 @@ public class GemBagUI : MonoBehaviour
         equipButton.onClick.AddListener(EquipSelectedGem);
         unequipButton.onClick.AddListener(UnequipSelectedGem);
         destroyButton.onClick.AddListener(DestroySelectedGem);
-        sortButton.onClick.AddListener(SortGemsByName);
+        sortButton.onClick.AddListener(SortGemsByTypeAndRarity);
         openMergeUIButton.onClick.AddListener(OpenMergeUI);
         closeMergeUIButton.onClick.AddListener(CloseMergeUI);
 
@@ -53,6 +54,14 @@ public class GemBagUI : MonoBehaviour
     {
         UpdateSlots();
         UpdateEquippedSlots();
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            CloseGemBagUI();
+        }
     }
 
     private void CreateSlots()
@@ -382,10 +391,13 @@ public class GemBagUI : MonoBehaviour
         }
     }
 
-    private void SortGemsByName()
+    private void SortGemsByTypeAndRarity()
     {
         GemBag gemBag = GemInventoryManager.Instance.GetGemBag();
-        gemBag.gems.Sort((gem1, gem2) => string.Compare(gem1.gemName, gem2.gemName));
+        gemBag.gems = gemBag.gems
+            .OrderBy(gem => gem.gemName)
+            .ThenBy(gem => gem.rarity)
+            .ToList();
         UpdateSlots();
     }
 
@@ -413,6 +425,11 @@ public class GemBagUI : MonoBehaviour
             unequipButton.gameObject.SetActive(true);
             destroyButton.gameObject.SetActive(true);
         }
+    }
+
+    private void CloseGemBagUI()
+    {
+        gameObject.SetActive(false);
     }
 
     private void ShowNotification(string message)

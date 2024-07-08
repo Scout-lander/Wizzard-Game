@@ -8,6 +8,37 @@ public class WeaponInventory : MonoBehaviour
 
     public event Action OnInventoryChanged; // Event to notify UI when inventory changes
 
+    private void Start()
+    {
+        LoadEquippedWeapon();
+    }
+
+    private void LoadEquippedWeapon()
+    {
+        string equippedWeaponName = PlayerPrefs.GetString("EquippedWeapon", "");
+        if (!string.IsNullOrEmpty(equippedWeaponName))
+        {
+            for (int i = 0; i < weaponSlots.Length; i++)
+            {
+                if (weaponSlots[i] != null && weaponSlots[i].weaponName == equippedWeaponName)
+                {
+                    equippedWeapon = weaponSlots[i];
+                    Debug.Log($"Loaded equipped weapon: {equippedWeapon.weaponName}");
+                    return;
+                }
+            }
+        }
+    }
+
+    private void SaveEquippedWeapon()
+    {
+        if (equippedWeapon != null)
+        {
+            PlayerPrefs.SetString("EquippedWeapon", equippedWeapon.weaponName);
+            PlayerPrefs.Save();
+        }
+    }
+
     // Method to add a weapon to the inventory
     public bool AddWeapon(WeaponData weapon)
     {
@@ -35,7 +66,8 @@ public class WeaponInventory : MonoBehaviour
         }
 
         equippedWeapon = weaponSlots[slotIndex];
-        //Debug.Log($"Weapon {equippedWeapon.weaponName} equipped from slot {slotIndex}.");
+        SaveEquippedWeapon();
+        Debug.Log($"Weapon {equippedWeapon.weaponName} equipped from slot {slotIndex}.");
         OnInventoryChanged?.Invoke(); // Notify UI about the change
     }
 

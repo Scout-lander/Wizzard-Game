@@ -41,6 +41,7 @@ public class ScreenManager : MonoBehaviour
         {
             currentScreen.SetActive(false);
             currentScreen = null;
+            Time.timeScale = 1;
         }
     }
 
@@ -53,21 +54,25 @@ public class ScreenManager : MonoBehaviour
         else
         {
             OpenScreen(settingsScreen);
+            Time.timeScale = 0;
         }
     }
 
     public void OpenWeaponsScreen()
     {
         OpenScreen(weaponsScreen);
+        Time.timeScale = 0;
     }
 
     public void OpenRunesScreen()
     {
         OpenScreen(runesScreen);
+        Time.timeScale = 0;
     }
 
     public void OpenSettingsScreen()
     {
         OpenScreen(settingsScreen);
+        Time.timeScale = 0;
     }
 }

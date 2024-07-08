@@ -8,6 +8,7 @@ public class PlayerInteraction : MonoBehaviour
     public Portal portal; // Reference to the portal script
     public TMP_Text weaponNameText; // Reference to the TMP text for displaying weapon name
     public TMP_Text weaponDescriptionText; // Reference to the TMP text for displaying weapon description
+    public GameObject weaponSelectorUI; // Reference to the weapon selector UI
 
     private int currentWeaponIndex = 0;
 
@@ -18,20 +19,30 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) // Cycle to the next weapon
+        if (weaponSelectorUI.activeSelf)
         {
-            CycleNextWeapon();
-        }
+            //Time.timeScale = 0;
 
-        if (Input.GetKeyDown(KeyCode.Q)) // Cycle to the previous weapon
-        {
-            CyclePreviousWeapon();
-        }
+           if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) // Cycle to the next weapon
+            {
+                CycleNextWeapon();
+            }
 
-        if (Input.GetKeyDown(KeyCode.F)) // Assuming 'F' is the key to interact with the portal
+            if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) // Cycle to the previous weapon
+            {
+                CyclePreviousWeapon();
+            }
+        }
+        else
         {
-            // Assuming the player interacts with the portal to transition to the game scene
-            portal.OnTriggerEnter2D(GetComponent<Collider2D>());
+            Time.timeScale = 1;
+
+
+            if (Input.GetKeyDown(KeyCode.F)) // Assuming 'F' is the key to interact with the portal
+            {
+                // Assuming the player interacts with the portal to transition to the game scene
+                portal.OnTriggerEnter2D(GetComponent<Collider2D>());
+            }
         }
     }
 
