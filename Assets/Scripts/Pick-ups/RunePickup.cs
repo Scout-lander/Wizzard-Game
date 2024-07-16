@@ -13,29 +13,30 @@ public class RunePickup : Pickup
 
     public override bool Collect(PlayerStats target, float speed, float lifespan = 0f)
     {
-        Debug.Log("Attempting to collect rune...");
         if (pickupType == PickupType.Rune)
         {
             // Ensure that the target is only set if it hasn't already been set.
             if (!this.target)
             {
-                Debug.Log("Setting target and speed for rune collection.");
                 this.target = target;
                 this.speed = speed;
                 if (lifespan > 0) this.lifespan = lifespan;
 
-                RuneInventoryNew runeInventory = target.GetComponent<RuneInventoryNew>();
+                if (target == null)
+                {
+                    Debug.LogWarning("Target is null. Aborting rune collection.");
+                    return false;
+                }
+
+                RuneInventory runeInventory = target.GetComponent<RuneInventory>();
                 if (runeInventory != null)
                 {
-                    Debug.Log("RuneInventoryNew component found on target.");
                     Debug.Log("Rune bag current capacity: " + runeInventory.runeBag.rune.Count + "/" + runeInventory.runeBag.maxCapacity);
 
                     if (runeInventory.runeBag.rune.Count < runeInventory.runeBag.maxCapacity)
                     {
-                        Debug.Log("Rune bag has space. Proceeding to add rune.");
-                        RuneNew newRune = ConvertToRuneNew(runeDataNew);
-                        runeInventory.runeBag.rune.Add(newRune);
-                        Debug.Log("Rune collected: " + newRune.name);
+                        Rune rune = ConvertToRuneNew(runeDataNew);
+                        runeInventory.runeBag.rune.Add(rune);
                     }
                     else
                     {
@@ -47,7 +48,6 @@ public class RunePickup : Pickup
                     Debug.LogWarning("Target does not have a RuneInventoryNew component.");
                 }
 
-                Debug.Log("Destroying pickup object.");
                 Destroy(gameObject, Mathf.Max(0.01f, this.lifespan));  // Destroy the pickup object
                 return true;
             }
@@ -64,14 +64,13 @@ public class RunePickup : Pickup
         return false;
     }
 
-    private RuneNew ConvertToRuneNew(RuneDataNew runeDataNew)
+    private Rune ConvertToRuneNew(RuneDataNew runeDataNew)
     {
         // Roll for the rarity based on probabilities
         RuneRarity rolledRarity = RollForRarity(runeDataNew);
-        Debug.Log("Rolled rarity: " + rolledRarity);
 
         // Create and initialize the new rune with the stats from the rolled rarity
-        RuneNew newRune = new RuneNew();
+        Rune newRune = new Rune();
         newRune.icon = runeDataNew.icon;
         newRune.name = runeDataNew.gemName;
         newRune.description = runeDataNew.description;
@@ -159,13 +158,12 @@ public class RunePickup : Pickup
             dashCount = Random.Range(minStats.dashCount, maxStats.dashCount),
             dashCooldown = Random.Range(minStats.dashCooldown, maxStats.dashCooldown),
             armor = Random.Range(minStats.armor, maxStats.armor),
-            gemHealth = Random.Range(minStats.gemHealth, maxStats.gemHealth),
+            heartRune = Random.Range(minStats.heartRune, maxStats.heartRune),
             lifeRegen = Random.Range(minStats.lifeRegen, maxStats.lifeRegen),
             might = Random.Range(minStats.might, maxStats.might),
             moveSpeed = Random.Range(minStats.moveSpeed, maxStats.moveSpeed)
         };
 
-        Debug.Log("Initialized rune stats: " + rolledStats);
         return rolledStats;
     }
 }

@@ -2,13 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.SceneManagement; // Add this line to use SceneManager
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    // Define the different states of the game
     public enum GameState
     {
         Gameplay,
@@ -18,10 +17,7 @@ public class GameManager : MonoBehaviour
         LevelUp
     }
 
-    // Store the current state of the game
     public GameState currentState;
-
-    // Store the previous state of the game before it was paused
     public GameState previousState;
 
     [Header("Damage Text Settings")]
@@ -35,7 +31,7 @@ public class GameManager : MonoBehaviour
     public GameObject resultsScreen;
     public GameObject levelUpScreen;
     public GameObject MapScreen;
-    int stackedLevelUps = 0; // If we try to StartLevelUp() multiple times.
+    int stackedLevelUps = 0;
 
     [Header("Results Screen Displays")]
     public Image chosenCharacterImage;
@@ -49,23 +45,19 @@ public class GameManager : MonoBehaviour
     public TMP_Text goldMultiplierDisplay;
 
     [Header("Stopwatch")]
-    public float timeLimit; // The time limit in seconds
-    public float stopwatchTime; // The current time elapsed since the stopwatch started
+    public float timeLimit;
+    public float stopwatchTime;
     public TMP_Text stopwatchDisplay;
-    
+
     [Header("DifficultyManager")]
     public DifficultyManager difficultyManager;
     public DifficultyManager.DifficultyStats difficultyIncrement;
     public float difficultyIncrementTime = 600f;
 
-    // Reference to the player's game object
     public GameObject playerObject;
-
-    // Reference to the player's PlayerStats script
     private PlayerStats playerStats;
 
-    // Getters for parity with older scripts.
-    public bool isGameOver { get { return currentState == GameState.GameOver; } } // Update this line
+    public bool isGameOver { get { return currentState == GameState.GameOver; } }
     public bool choosingUpgrade { get { return currentState == GameState.LevelUp; } }
 
     [Header("KillsUI")]
@@ -77,11 +69,22 @@ public class GameManager : MonoBehaviour
     public int totalGoldCollected = 0;
     public float goldMultiplier = 1.0f;
 
+    [Header("Score")]
+    public TMP_Text scoreText;
+    private float score;
+
+    [SerializeField] private float killWeight = 1.0f;
+    [SerializeField] private float damageWeight = 0.1f;
+    [SerializeField] private float dpsWeight = 0.5f;
+    [SerializeField] private float goldWeight = 0.05f;
+
+    [Header("Leaderboard")]
+    public LeaderboardFinder leaderboardManager; // Add reference to LeaderboardManager
+
     public float GetElapsedTime() { return stopwatchTime; }
 
     void Awake()
     {
-        //Warning check to see if there is another singleton of this kind already in the game
         if (instance == null)
         {
             instance = this;
@@ -94,28 +97,25 @@ public class GameManager : MonoBehaviour
 
         DisableScreens();
         StartCoroutine(IncreaseDifficultyOverTime());
-        StartCoroutine(UpdateKillCountTextCoroutine()); // Start the coroutine to update kill count text
-        StartCoroutine(UpdateDamageTextCoroutine()); // Start the coroutine to update kill count text
-        StartCoroutine(UpdateDPSTextCoroutine()); // Start coroutine to update DPS text
+        StartCoroutine(UpdateKillCountTextCoroutine());
+        StartCoroutine(UpdateDamageTextCoroutine());
+        StartCoroutine(UpdateDPSTextCoroutine());
 
-        // Find the player's PlayerStats script
         playerStats = playerObject.GetComponent<PlayerStats>();
     }
 
     void Update()
     {
-        // Define the behavior for each state
         switch (currentState)
         {
             case GameState.Gameplay:
             case GameState.Paused:
-                // Code for the gameplay state
                 CheckForPauseAndResume();
                 UpdateStopwatch();
-                UpdateGoldMultiplier(); // Update gold multiplier based on player's luck
+                UpdateGoldMultiplier();
                 break;
             case GameState.GameOver:
-                CheckForGameOverInput(); // Add this line
+                CheckForGameOverInput();
                 break;
             case GameState.LevelUp:
                 break;
@@ -123,6 +123,9 @@ public class GameManager : MonoBehaviour
                 Debug.LogWarning("STATE DOES NOT EXIST");
                 break;
         }
+
+        CalculateScore();
+        UpdateScoreUI();
     }
 
     private void UpdateGoldMultiplier()
@@ -133,9 +136,24 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void CalculateScore()
+    {
+        score = (killCount * killWeight) +
+                (totalDamageDone * damageWeight) +
+                (dps * dpsWeight) +
+                (totalGoldCollected * goldWeight);
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = "Score: " + score.ToString("F2");
+        }
+    }
+
     IEnumerator GenerateFloatingTextCoroutine(string text, Transform target, float duration = 1f, float speed = 50f)
     {
-        // Start generating the floating text.
         GameObject textObj = new GameObject("Damage Floating Text");
         RectTransform rect = textObj.AddComponent<RectTransform>();
         TextMeshProUGUI tmPro = textObj.AddComponent<TextMeshProUGUI>();
@@ -146,34 +164,26 @@ public class GameManager : MonoBehaviour
         if (textFont) tmPro.font = textFont;
         rect.position = referenceCamera.WorldToScreenPoint(target.position);
 
-        // Makes sure this is destroyed after the duration finishes.
         Destroy(textObj, duration);
 
-        // Parent the generated text object to the canvas.
         textObj.transform.SetParent(instance.damageTextCanvas.transform);
         textObj.transform.SetSiblingIndex(0);
 
-        // Pan the text upwards and fade it away over time.
         WaitForEndOfFrame w = new WaitForEndOfFrame();
         float t = 0;
         float yOffset = 0;
         Vector3 lastKnownPosition = target.position;
         while (t < duration)
         {
-            // If the RectTransform is missing for whatever reason, end this loop.
             if (!rect) break;
 
-            // Fade the text to the right alpha value.
             tmPro.color = new Color(tmPro.color.r, tmPro.color.g, tmPro.color.b, 1 - t / duration);
 
-            // Update the enemy's position if it is still around.
             if (target) lastKnownPosition = target.position;
 
-            // Pan the text upwards.
             yOffset += speed * Time.deltaTime;
             rect.position = referenceCamera.WorldToScreenPoint(lastKnownPosition + new Vector3(0, yOffset));
 
-            // Wait for a frame and update the time.
             yield return w;
             t += Time.deltaTime;
         }
@@ -181,12 +191,8 @@ public class GameManager : MonoBehaviour
 
     public static void GenerateFloatingText(string text, Transform target, float duration = 1f, float speed = 1f)
     {
-        // If the canvas is not set, end the function so we don't
-        // generate any floating text.
         if (!instance.damageTextCanvas) return;
 
-        // Find a relevant camera that we can use to convert the world
-        // position to a screen position.
         if (!instance.referenceCamera) instance.referenceCamera = Camera.main;
 
         instance.StartCoroutine(instance.GenerateFloatingTextCoroutine(
@@ -194,7 +200,6 @@ public class GameManager : MonoBehaviour
         ));
     }
 
-    // Define the method to change the state of the game
     public void ChangeState(GameState newState)
     {
         previousState = currentState;
@@ -206,19 +211,20 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Paused)
         {
             ChangeState(GameState.Paused);
-            Time.timeScale = 0f; // Stop the game
-            pauseScreen.SetActive(true); // Enable the pause screen
-            MapScreen.SetActive(false); // Sets Map to not be open when first opening the pause screen
+            Time.timeScale = 0f;
+            pauseScreen.SetActive(true);
+            MapScreen.SetActive(false);
         }
     }
+
     public void MapScreenPauce()
     {
         if (currentState != GameState.Paused)
         {
             ChangeState(GameState.Paused);
-            Time.timeScale = 0f; // Stop the game
-            pauseScreen.SetActive(true); // Enable the pause screen
-            MapScreen.SetActive(true); // Sets Map to not be open when first opening the pause screen
+            Time.timeScale = 0f;
+            pauseScreen.SetActive(true);
+            MapScreen.SetActive(true);
         }
     }
 
@@ -227,9 +233,9 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.Paused)
         {
             ChangeState(GameState.Paused);
-            Time.timeScale = 0f; // Stop the game
-            pauseScreen.SetActive(true); // Enable the pause screen
-            MapScreen.SetActive(false); // Sets Map to not be open when first opening the pause screen
+            Time.timeScale = 0f;
+            pauseScreen.SetActive(true);
+            MapScreen.SetActive(false);
         }
     }
 
@@ -238,13 +244,12 @@ public class GameManager : MonoBehaviour
         if (currentState == GameState.Paused)
         {
             ChangeState(previousState);
-            Time.timeScale = 1f; // Resume the game
-            pauseScreen.SetActive(false); //Disable the pause screen
+            Time.timeScale = 1f;
+            pauseScreen.SetActive(false);
             MapScreen.SetActive(false);
         }
     }
 
-    // Define the method to check for pause and resume input
     void CheckForPauseAndResume()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -271,12 +276,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void CheckForGameOverInput() // Add this method
+    void CheckForGameOverInput()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && currentState == GameState.GameOver)
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("Base"); // Change this to your base scene name
+            SceneManager.LoadScene("Base");
         }
     }
 
@@ -292,11 +297,17 @@ public class GameManager : MonoBehaviour
     {
         timeSurvivedDisplay.text = stopwatchDisplay.text;
         totalGoldDisplay.text = $"{(totalGoldCollected):F0}";
-        goldMultiplierDisplay.text =  $"{goldMultiplier}x";
-        // Set the Game Over variables here.
+        goldMultiplierDisplay.text = $"{goldMultiplier}x";
+
         ChangeState(GameState.GameOver);
-        Time.timeScale = 0f; //Stop the game entirely
+        Time.timeScale = 0f;
         DisplayResults();
+
+        if (leaderboardManager != null)
+        {
+            leaderboardManager.UploadScore((int)score); // Upload the score when game is over
+        }
+        SteamLeaderboardManager.UpdateScore((int)score);
     }
 
     void DisplayResults()
@@ -329,11 +340,9 @@ public class GameManager : MonoBehaviour
 
     void UpdateStopwatchDisplay()
     {
-        // Calculate the number of minutes and seconds that have elapsed
         int minutes = Mathf.FloorToInt(stopwatchTime / 60);
         int seconds = Mathf.FloorToInt(stopwatchTime % 60);
 
-        // Update the stopwatch text to display the elapsed time
         stopwatchDisplay.text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
@@ -341,23 +350,22 @@ public class GameManager : MonoBehaviour
     {
         ChangeState(GameState.LevelUp);
 
-        // If the level up screen is already active, record it.
-        if(levelUpScreen.activeSelf) stackedLevelUps++;
+        if (levelUpScreen.activeSelf) stackedLevelUps++;
         else
         {
             levelUpScreen.SetActive(true);
-            Time.timeScale = 0f; //Pause the game for now
+            Time.timeScale = 0f;
             playerObject.SendMessage("RemoveAndApplyUpgrades");
         }
     }
 
     public void EndLevelUp()
     {
-        Time.timeScale = 1f;    //Resume the game
+        Time.timeScale = 1f;
         levelUpScreen.SetActive(false);
         ChangeState(GameState.Gameplay);
-        
-        if(stackedLevelUps > 0)
+
+        if (stackedLevelUps > 0)
         {
             stackedLevelUps--;
             StartLevelUp();
@@ -367,19 +375,16 @@ public class GameManager : MonoBehaviour
     public void IncrementKillCount()
     {
         killCount++;
-        //QuestManager.instance.UpdateQuests(QuestType.Kills, killCount);
     }
 
-    // Method to get the current kill count
     public int GetKillCount()
     {
         return killCount;
     }
-    
+
     public void IncrementTotalDamageDone(float dmg)
     {
         totalDamageDone += dmg;
-        //QuestManager.instance.UpdateQuests(QuestType.DamageDone, (int)totalDamageDone);
     }
 
     public string GetTotalDamageDoneFormatted()
@@ -400,8 +405,7 @@ public class GameManager : MonoBehaviour
         if (stopwatchTime > 0)
         {
             dps = totalDamageDone / stopwatchTime;
-            totalDPSDisplay.text = "" + dps.ToString("F2"); // Display DPS with 2 decimal places
-            //QuestManager.instance.UpdateQuests(QuestType.DPS, (int)dps);
+            totalDPSDisplay.text = "" + dps.ToString("F2");
         }
         else
         {
@@ -409,16 +413,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // Method to update the kill count text
     IEnumerator UpdateDamageTextCoroutine()
     {
-        while (true) // Infinite loop to update the text every second
+        while (true)
         {
-            yield return new WaitForSeconds(1f); // Wait for one second
+            yield return new WaitForSeconds(1f);
 
-            if (totalDamageDone > 0) // Check if Damage is greater then 0
+            if (totalDamageDone > 0)
             {
-                // Update the kill count text with the current kill count
                 totalDamageDisplay.text = "" + GetTotalDamageDoneFormatted().ToString();
             }
         }
@@ -428,21 +430,20 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f); // Wait for one second
+            yield return new WaitForSeconds(1f);
 
-            UpdateDPS(); // Update DPS text
+            UpdateDPS();
         }
     }
 
     IEnumerator UpdateKillCountTextCoroutine()
     {
-        while (true) // Infinite loop to update the text every second
+        while (true)
         {
-            yield return new WaitForSeconds(1f); // Wait for one second
+            yield return new WaitForSeconds(1f);
 
-            if (killCount > 0) // Check if Kill Count is Greater then 0
+            if (killCount > 0)
             {
-                // Update the kill count text with the current kill count
                 enemiesKilledDisplay.text = "" + GetKillCount().ToString();
             }
         }
@@ -462,12 +463,9 @@ public class GameManager : MonoBehaviour
         int adjustedAmount = Mathf.RoundToInt(amount * goldMultiplier);
         totalGoldCollected += adjustedAmount;
 
-        // Pass the adjusted gold to the player's total gold
         if (PlayerGold.instance != null)
         {
             PlayerGold.instance.AddGold(adjustedAmount);
         }
-
-        // Optionally update the UI if necessary
     }
 }

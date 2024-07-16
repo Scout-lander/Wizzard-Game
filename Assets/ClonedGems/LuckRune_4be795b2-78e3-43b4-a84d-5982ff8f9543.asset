@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e70fc4c82112efb4a9a254ec59c2c180, type: 3}
+  m_Name: LuckRune_4be795b2-78e3-43b4-a84d-5982ff8f9543
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 8570da0318aa49743a6dec3e42b6b45f, type: 3}
+  gemName: LuckRune
+  description: A mystical Rune that brings good fortune, enhancing luck. However,
+    it also attracts a dark curse.
+  rarity: 0
+  isInitialized: 1
+  commonMaterial: {fileID: 0}
+  uncommonMaterial: {fileID: 2100000, guid: c53fe931908e6024bac6edd01ddb75f3, type: 2}
+  rareMaterial: {fileID: 2100000, guid: 85a83daa26a16cf4ea993f26342116f0, type: 2}
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mythicMaterial: {fileID: 0}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
+  minLuckIncrease: 1
+  maxLuckIncrease: 2
+  luckIncrease: 1.0557497
+  minCurseIncrease: 1
+  maxCurseIncrease: 2
+  curseIncrease: 1.4665759

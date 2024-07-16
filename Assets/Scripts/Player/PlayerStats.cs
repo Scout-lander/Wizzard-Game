@@ -42,6 +42,7 @@ public class PlayerStats : MonoBehaviour
         [Range(0, 1.5f)] public float dashDuration;
         public float dashCooldown, maxDashes;
         [Range(0, 2)] public float StunReduction, BurnReduction, SlowReduction;
+        public float heartRune;
 
         public static Stats operator +(Stats s1, Stats s2)
         {
@@ -53,7 +54,7 @@ public class PlayerStats : MonoBehaviour
             s1.area += s2.area;
             s1.speed += s2.speed;
             s1.duration += s2.duration;
-            s1.amount += s2.amount;
+            s1.amount += (int)s2.amount; // Explicit cast to int
             s1.cooldown += s2.cooldown;
             s1.luck += s2.luck;
             s1.growth += s2.growth;
@@ -66,6 +67,7 @@ public class PlayerStats : MonoBehaviour
             s1.StunReduction += s2.StunReduction;
             s1.SlowReduction += s2.SlowReduction;
             s1.BurnReduction += s2.BurnReduction;
+            s1.heartRune += s2.heartRune;
             return s1;
         }
     }
@@ -76,7 +78,8 @@ public class PlayerStats : MonoBehaviour
         area = 1, speed = 1, duration = 1, cooldown = 1,
         luck = 1, greed = 1, growth = 1, curse = 1,
         dashDuration = 1.2f, dashCooldown = 5, maxDashes = 1,
-        StunReduction = 1, SlowReduction = 1, BurnReduction = 1
+        StunReduction = 1, SlowReduction = 1, BurnReduction = 1,
+        heartRune = 0
     };
 
     [SerializeField] public Stats actualStats;
@@ -149,6 +152,9 @@ public class PlayerStats : MonoBehaviour
     public TMP_Text levelText;
 
     public GemBag equippedBag;
+    public RuneInventory runeInventory; // Reference to the RuneInventory
+
+    private SaveLoadManager saveLoadManager;
 
     void Awake()
     {
@@ -156,15 +162,25 @@ public class PlayerStats : MonoBehaviour
         collector = GetComponentInChildren<PlayerCollector>();
         playerRenderer = GetComponent<Renderer>();
         playerMovement = GetComponent<PlayerMovement>();
+        saveLoadManager = FindObjectOfType<SaveLoadManager>();
 
+        // Initialize actualStats with baseStats
         actualStats = baseStats;
+        // Set the collector radius based on the actual stats
         collector.SetRadius(actualStats.magnet);
+
+        // Initialize health with the calculated max health including rune and gem effects
         health = actualStats.maxHealth;
+
+        // Initialize runeInventory if not assigned
+        if (runeInventory == null)
+        {
+            runeInventory = GetComponent<RuneInventory>();
+        }
     }
 
     void Start()
     {
-
         if (SceneManager.GetActiveScene().name == "Base") // Replace "BaseSceneName" with the actual name of your base scene
         {
             UpdateHealthBar();
@@ -172,26 +188,28 @@ public class PlayerStats : MonoBehaviour
             UpdateLevelText();
             return; // Exit the method if we are in the base scene
         }
-       
-        // Retrieve the selected weapon from CharacterSelector
-        WeaponData selectedWeapon = CharacterSelector.GetData();
-        if (selectedWeapon != null)
+
+        // Retrieve the equipped weapon from the save file
+        WeaponData equippedWeapon = saveLoadManager.LoadEquippedWeapon();
+        if (equippedWeapon != null)
         {
-            ChangeStartingWeapon(selectedWeapon);
+            ChangeStartingWeapon(equippedWeapon);
         }
         else
         {
-            // Use the default starting weapon if no weapon is selected
+            // Use the default starting weapon if no weapon is loaded
             EquipStartingWeapon();
         }
 
         ApplyEquippedGemEffects();
+        ApplyEquippedRuneEffects();
 
         experienceCap = levelRanges[0].experienceCapIncrease;
 
         GameManager.instance.AssignChosenCharacterUI(this);
         RecalculateStats();
 
+        health = actualStats.maxHealth;
         UpdateHealthBar();
         UpdateExpBar();
         UpdateLevelText();
@@ -232,6 +250,7 @@ public class PlayerStats : MonoBehaviour
 
         // Apply gem effects
         ApplyEquippedGemEffects();
+        ApplyEquippedRuneEffects();
 
         // Update collector radius
         collector.SetRadius(actualStats.magnet);
@@ -291,43 +310,66 @@ public class PlayerStats : MonoBehaviour
     {
         if (!isInvincible)
         {
-            // Check if there's a HealthGem equipped
-            HealthGem healthGem = GetEquippedHealthGem();
-            if (healthGem != null)
+            bool damageAbsorbed = false;
+
+            // Check if there's any equipped rune with takesDamage enabled
+            foreach (Rune rune in runeInventory.equippedRuneBag.rune)
             {
-                healthGem.TakeDamage(dmg);
-                if (healthGem.currentGemHealth <= 0)
+                if (rune.takesDamage && rune.actualStats.heartRune > 0)
                 {
-                    equippedBag.RemoveGem(healthGem); // Remove the gem if it's destroyed
+                    // Absorb damage with heartRune
+                    rune.actualStats.heartRune -= dmg;
+                    if (rune.actualStats.heartRune <= 0)
+                    {
+                        // Remove the rune if heartRune is depleted
+                        rune.actualStats.heartRune = 0;
+                        RemoveDamageAbsorbingRune(rune);
+                    }
+                    damageAbsorbed = true;
+                    break; // Exit the loop after absorbing damage
                 }
             }
-            else
+
+            if (!damageAbsorbed)
             {
-                dmg -= actualStats.armor;
-
-                if (dmg > 0)
+                // Check if there's a HealthGem equipped
+                HealthGem healthGem = GetEquippedHealthGem();
+                if (healthGem != null)
                 {
-                    CurrentHealth -= dmg;
-
-                    if (damageEffect) Destroy(Instantiate(damageEffect, transform.position, Quaternion.identity), 5f);
-
-                    if (CurrentHealth <= 0)
+                    healthGem.TakeDamage(dmg);
+                    if (healthGem.currentGemHealth <= 0)
                     {
-                        Kill();
+                        equippedBag.RemoveGem(healthGem); // Remove the gem if it's destroyed
                     }
                 }
                 else
                 {
-                    if (blockedEffect) Destroy(Instantiate(blockedEffect, transform.position, Quaternion.identity), 5f);
-                }
+                    dmg -= actualStats.armor;
 
-                invincibilityTimer = invincibilityDuration;
-                isInvincible = true;
+                    if (dmg > 0)
+                    {
+                        CurrentHealth -= dmg;
+
+                        if (damageEffect) Destroy(Instantiate(damageEffect, transform.position, Quaternion.identity), 5f);
+
+                        if (CurrentHealth <= 0)
+                        {
+                            Kill();
+                        }
+                    }
+                    else
+                    {
+                        if (blockedEffect) Destroy(Instantiate(blockedEffect, transform.position, Quaternion.identity), 5f);
+                    }
+
+                    invincibilityTimer = invincibilityDuration;
+                    isInvincible = true;
+                }
             }
         }
     }
 
-    private void UpdateHealthBar()
+    public void UpdateHealthBar()
     {
         healthBar.fillAmount = CurrentHealth / actualStats.maxHealth;
     }
@@ -500,5 +542,70 @@ public class PlayerStats : MonoBehaviour
     public void ChangeStartingWeapon(WeaponData newWeapon)
     {
         StartingWeapon = newWeapon;
+    }
+
+    public void ApplyEquippedRuneEffects()
+    {
+        // Ensure runeInventory and equippedRuneBag are not null
+        if (runeInventory == null || runeInventory.equippedRuneBag == null)
+        {
+            Debug.LogWarning("RuneInventory or equippedRuneBag is not initialized.");
+            return;
+        }
+
+        foreach (Rune rune in runeInventory.equippedRuneBag.rune)
+        {
+            ApplyRuneEffect(rune);
+        }
+    }
+
+    public void ApplyRuneEffect(Rune rune)
+    {
+        if (rune != null && rune.actualStats != null)
+        {
+            actualStats.maxHealth += rune.actualStats.health;
+            actualStats.recovery += rune.actualStats.lifeRegen;
+            actualStats.armor += rune.actualStats.armor;
+            actualStats.moveSpeed += rune.actualStats.moveSpeed;
+            actualStats.speed += rune.actualStats.attackSpeed;
+            //actualStats.area += rune.actualStats.area;
+            //actualStats.duration += rune.actualStats.duration;
+            //actualStats.amount += rune.actualStats.amount;
+            //actualStats.cooldown += rune.actualStats.cooldown;
+            actualStats.luck += rune.actualStats.luck;
+            //actualStats.growth += rune.actualStats.growth;
+            //actualStats.greed += rune.actualStats.greed;
+            actualStats.curse += rune.actualStats.curse;
+            //actualStats.magnet += rune.actualStats.magnet;
+            //actualStats.revival += rune.actualStats.revival;
+            //actualStats.dashDuration += rune.actualStats.dashDuration;
+            actualStats.dashCooldown += rune.actualStats.dashCooldown;
+            actualStats.maxDashes += rune.actualStats.dashCount;
+            //actualStats.StunReduction += rune.actualStats.StunReduction;
+            //actualStats.BurnReduction += rune.actualStats.BurnReduction;
+            //actualStats.SlowReduction += rune.actualStats.SlowReduction;
+            if (rune.actualStats.heartRune > 0 && rune.takesDamage)
+            {
+                actualStats.heartRune += rune.actualStats.heartRune;
+            }
+        }
+    }
+
+    private Rune GetEquippedDamageAbsorbingRune()
+    {
+        foreach (Rune rune in runeInventory.equippedRuneBag.rune)
+        {
+            if (rune.actualStats.heartRune > 0 && rune.takesDamage)
+            {
+                return rune;
+            }
+        }
+        return null;
+    }
+
+    // Method to remove the damage-absorbing rune from the inventory
+    private void RemoveDamageAbsorbingRune(Rune rune)
+    {
+        runeInventory.equippedRuneBag.rune.Remove(rune);
     }
 }

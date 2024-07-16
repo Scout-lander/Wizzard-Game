@@ -12,7 +12,7 @@ public class Steamid : MonoBehaviour
         if(!SteamManager.Initialized) {return; }
 
         string name = SteamFriends.GetPersonaName();
-        Debug.Log(name);   
+        Debug.Log("Steam_ID " + name);   
         SteamName.text = name;
     }
 

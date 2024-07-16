@@ -8,25 +8,20 @@ public class WeaponInventory : MonoBehaviour
 
     public event Action OnInventoryChanged; // Event to notify UI when inventory changes
 
+    private SaveLoadManager saveLoadManager;
+
     private void Start()
     {
+        saveLoadManager = FindObjectOfType<SaveLoadManager>();
         LoadEquippedWeapon();
     }
 
     private void LoadEquippedWeapon()
     {
-        string equippedWeaponName = PlayerPrefs.GetString("EquippedWeapon", "");
-        if (!string.IsNullOrEmpty(equippedWeaponName))
+        equippedWeapon = saveLoadManager.LoadEquippedWeapon();
+        if (equippedWeapon != null)
         {
-            for (int i = 0; i < weaponSlots.Length; i++)
-            {
-                if (weaponSlots[i] != null && weaponSlots[i].weaponName == equippedWeaponName)
-                {
-                    equippedWeapon = weaponSlots[i];
-                    Debug.Log($"Loaded equipped weapon: {equippedWeapon.weaponName}");
-                    return;
-                }
-            }
+            Debug.Log($"Loaded equipped weapon: {equippedWeapon.weaponName}");
         }
     }
 
@@ -34,8 +29,7 @@ public class WeaponInventory : MonoBehaviour
     {
         if (equippedWeapon != null)
         {
-            PlayerPrefs.SetString("EquippedWeapon", equippedWeapon.weaponName);
-            PlayerPrefs.Save();
+            saveLoadManager.SaveEquippedWeapon(equippedWeapon);
         }
     }
 

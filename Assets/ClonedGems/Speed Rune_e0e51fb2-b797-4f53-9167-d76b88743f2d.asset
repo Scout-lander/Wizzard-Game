@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bb87d863665e80489cdee49bb7084f3, type: 3}
+  m_Name: Speed Rune_e0e51fb2-b797-4f53-9167-d76b88743f2d
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 5f89ed579de19f740b57d26f63bab809, type: 3}
+  gemName: Speed Rune
+  description: A lightweight Rune that dramatically increases movement speed. The
+    trade-off is a reduction in maximum health.
+  rarity: 3
+  isInitialized: 1
+  commonMaterial: {fileID: 0}
+  uncommonMaterial: {fileID: 2100000, guid: c53fe931908e6024bac6edd01ddb75f3, type: 2}
+  rareMaterial: {fileID: 2100000, guid: 85a83daa26a16cf4ea993f26342116f0, type: 2}
+  epicMaterial: {fileID: 2100000, guid: f27808b8eae67c44a854a3b1f80e7666, type: 2}
+  legendaryMaterial: {fileID: 2100000, guid: 18ebced2617fedd4695536d54271b3fd, type: 2}
+  mythicMaterial: {fileID: 0}
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mithicProbabilities: 0
+  cMinMoveSpeedIncrease: 0.01
+  cMaxMoveSpeedIncrease: 0.05
+  cMinHealthDecrease: 1
+  cMaxHealthDecrease: 5
+  uMinMoveSpeedIncrease: 0.05
+  uMaxMoveSpeedIncrease: 0.1
+  uMinHealthDecrease: 5
+  uMaxHealthDecrease: 10
+  rMinMoveSpeedIncrease: 0.1
+  rMaxMoveSpeedIncrease: 0.2
+  rMinHealthDecrease: 10
+  rMaxHealthDecrease: 15
+  eMinMoveSpeedIncrease: 0.2
+  eMaxMoveSpeedIncrease: 0.3
+  eMinHealthDecrease: 15
+  eMaxHealthDecrease: 20
+  lMinMoveSpeedIncrease: 0.3
+  lMaxMoveSpeedIncrease: 0.4
+  lMinHealthDecrease: 20
+  lMaxHealthDecrease: 25
+  mMinMoveSpeedIncrease: 0.4
+  mMaxMoveSpeedIncrease: 0.5
+  mMinHealthDecrease: 0
+  mMaxHealthDecrease: 0
+  moveSpeedIncrease: 0.2832168
+  healthDecrease: 18.786583

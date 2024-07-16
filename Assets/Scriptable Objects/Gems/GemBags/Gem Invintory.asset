@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3eb0c7439f69b49a681f59b0c3729fe3, type: 3}
   m_Name: Gem Invintory
   m_EditorClassIdentifier: 
-  maxCapacity: 28
+  maxCapacity: 32
   gems: []
