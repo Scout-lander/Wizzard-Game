@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9ea9c8c2212c946b3c8dbd86b0ccb3, type: 3}
   m_Name: Dash Rune
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: a70359593c03e714da4d4383c1ab87f3, type: 3}
+  icon: {fileID: 21300000, guid: dad853f998390c24991f6fb6ce7c8d78, type: 3}
+  iconName: Rune3
   gemName: Dash Rune
   description: This mystical Rune increases your maximum dash count and reduces dash
     cooldown, allowing you to outmaneuver your enemies and strike with precision.
@@ -30,7 +31,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.5
+    dashCooldown: 0.5
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -42,7 +43,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.7
+    dashCooldown: 0.7
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -54,7 +55,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.4
+    dashCooldown: 0.4
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -66,7 +67,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.6
+    dashCooldown: 0.6
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -78,7 +79,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.2
+    dashCooldown: 0.2
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -90,7 +91,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.4
+    dashCooldown: 0.4
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -102,7 +103,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.18
+    dashCooldown: 0.18
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -114,7 +115,7 @@ MonoBehaviour:
     luck: 0
     curse: 0
     dashCount: 1
-    dashCooldown: -0.4
+    dashCooldown: 0.4
     armor: 0
     heartRune: 0
     lifeRegen: 0
@@ -163,6 +164,18 @@ MonoBehaviour:
     curse: 0
     dashCount: 2
     dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0
+    moveSpeed: 0
+  maxStats:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 2
+    dashCooldown: 0.5
     armor: 0
     heartRune: 0
     lifeRegen: 0

@@ -3,13 +3,15 @@ using System.Collections;
 
 public class EnemyAbility : MonoBehaviour
 {
+    public bool boostedByCurse = true;
+
     [Header("Ability Chance")]
     public float generalAbilityChance = 70f; // Chance of having any ability, in percentage
     public float lightningAbilityChance = 50f; // Chance of having lightning ability, in percentage
     public float burningAbilityChance = 30f; // Chance of having burning ability, in percentage
     public float iceAbilityChance = 20f; // Chance of having ice ability, in percentage
     public float poisonAbilityChance = 1f; // Chance of having poison ability, in percentage
-    public float poisonCloudChance = 50f; // can onlly get this if enemy as poison
+    public float poisonCloudChance = 50f; // can only get this if enemy has poison
     public float voxAbilityChance = 10f; // Chance of having Vox ability, in percentage
     public float shieldAbilityChance = 25f; // Chance of having Shield ability, in percentage
 
@@ -20,6 +22,9 @@ public class EnemyAbility : MonoBehaviour
     public Material poisonMaterial;
     public Material shieldMaterial;
 
+    [Header("Ability Limit")]
+    public float maxAbilities = 1f; // Maximum number of abilities an enemy can have
+
     [Header("Lightning")]
     public bool hasLightningAbility = false;
     public GameObject lightningEffectPrefab; // Prefab for the lightning effect
@@ -27,7 +32,8 @@ public class EnemyAbility : MonoBehaviour
     public float projectileLightningSpeed = 5f;
     public float projectileDuration = 4f; // Adjust the duration as needed
     public int numLightningProjectiles = 3;
-    
+    public float lightningCooldown = 2f; // Cooldown duration for the lightning ability
+    private float lastLightningTime; // Timestamp when the last lightning ability was triggered
 
     [Header("Burn")]
     public bool hasBurningAbility = false;
@@ -82,7 +88,6 @@ public class EnemyAbility : MonoBehaviour
     private bool isShieldOnCooldown;
     private GameObject shieldInstance;
 
-
     // Reference to the instantiated effects
     private GameObject lightningEffect;
     private GameObject fireEffect;
@@ -90,46 +95,51 @@ public class EnemyAbility : MonoBehaviour
     private GameObject poisonEffect;
     private GameObject shieldEffect;
 
-
     void Start()
     {
         lastIceTrailTime = Time.time; // Initialize the last ice trail time to the current time
         lastVoxTime = -voxCooldown; // Start with a cooldown already passed (effectively allowing the first use immediately)
+        lastLightningTime = -lightningCooldown; // Initialize the last lightning time to allow immediate use
 
+        int abilitiesAssigned = 0;
 
         // Check if the enemy has the capability to possess any ability
         if (Random.Range(0f, 100f) <= generalAbilityChance)
         {
             // Check if the enemy has the lightning ability based on probability
-            if (Random.Range(0f, 100f) <= lightningAbilityChance && lightningEffectPrefab != null)
+            if (abilitiesAssigned < maxAbilities && Random.Range(0f, 100f) <= lightningAbilityChance && lightningEffectPrefab != null)
             {
                 hasLightningAbility = true;
                 lightningEffect = InstantiateEffect(lightningEffectPrefab);
                 ApplyMaterial(lightningMaterial);
+                abilitiesAssigned++;
             }
 
             // Check if the enemy has the burning ability based on probability
-            if (Random.Range(0f, 100f) <= burningAbilityChance && fireEffectPrefab != null)
+            if (abilitiesAssigned < maxAbilities && Random.Range(0f, 100f) <= burningAbilityChance && fireEffectPrefab != null)
             {
                 hasBurningAbility = true;
                 //fireEffect = InstantiateEffect(fireEffectPrefab);
                 ApplyMaterial(burningMaterial);
+                abilitiesAssigned++;
             }
 
             // Check if the enemy has the ice ability based on probability
-            if (Random.Range(0f, 100f) <= iceAbilityChance && iceEffectPrefab != null)
+            if (abilitiesAssigned < maxAbilities && Random.Range(0f, 100f) <= iceAbilityChance && iceEffectPrefab != null)
             {
                 hasIceAbility = true;
                 iceEffect = InstantiateEffect(iceEffectPrefab);
                 ApplyMaterial(iceMaterial);
+                abilitiesAssigned++;
             }
 
             // Check if the enemy has the Poison ability based on probability
-            if (Random.Range(0f, 100f) <= poisonAbilityChance && poisonEffectPrefab != null)
+            if (abilitiesAssigned < maxAbilities && Random.Range(0f, 100f) <= poisonAbilityChance && poisonEffectPrefab != null)
             {
                 hasPoisonAbility = true;
                 //poisonEffect = InstantiateEffect(poisonEffectPrefab);
                 ApplyMaterial(poisonMaterial);
+                abilitiesAssigned++;
 
                 if (Random.Range(0f, 100f) <= poisonCloudChance && hasPoisonAbility)
                 {
@@ -137,25 +147,33 @@ public class EnemyAbility : MonoBehaviour
                 }
             }
 
-            if (Random.Range(0f, 100f) <= voxAbilityChance && voxPrefab != null)
+            if (abilitiesAssigned < maxAbilities && Random.Range(0f, 100f) <= voxAbilityChance && voxPrefab != null)
             {
                 hasVoxAbility = true;
                 isVoxOnCooldown = false;
                 ThrowVox();
+                abilitiesAssigned++;
                 //ApplyMaterial(voxMaterial);
             }
 
             // Check if the enemy has the shield ability based on probability
-            if (Random.Range(0f, 100f) <= shieldAbilityChance && shieldPrefab != null)
+            if (abilitiesAssigned < maxAbilities && Random.Range(0f, 100f) <= shieldAbilityChance && shieldPrefab != null)
             {
                 hasShieldAbility = true;
                 shieldEffect = InstantiateEffect(shieldPrefab);
                 //ApplyMaterial(shieldMaterial);
                 //SpawnShield();
+                abilitiesAssigned++;
             }
         }
+        ActivateCooldown();
     }
 
+    void ActivateCooldown()
+    {
+        float curseBoost = boostedByCurse ? GameManager.GetCumulativeCurse() : 1;
+        generalAbilityChance *=  curseBoost;
+    }
     // Method to apply material to the instantiated effect
     private void ApplyMaterial(Material material)
     {
@@ -216,41 +234,63 @@ public class EnemyAbility : MonoBehaviour
                 player.ApplyPoison(poisonDuration, poisonDamagePerTick);
             }
         }
+
+        if (collision.gameObject.CompareTag("Player") && hasLightningAbility)
+        {
+            if (Time.time - lastLightningTime >= lightningCooldown)
+            {
+                // Trigger the lightning effect here
+                // Example: player.TakeDamage(lightningDamage);
+                lastLightningTime = Time.time; // Reset the cooldown timer
+            }
+            else
+            {
+                Debug.Log("Lightning ability is on cooldown.");
+            }
+        }
     }
 
     // Method to instantiate a lightning projectile in a given direction
     public void InstantiateLightningProjectile(Vector2 origin, Vector2 direction)
     {
-        if (lightningProjectilePrefab != null)
+        if (Time.time - lastLightningTime >= lightningCooldown)
         {
-            for (int i = 0; i < numLightningProjectiles; i++)
+            if (lightningProjectilePrefab != null)
             {
-                // Generate a random spread angle for each projectile
-                float randomSpreadAngle = Random.Range(0f, 360f);
-
-                // Calculate direction based on random angle
-                Vector2 projectileDirection = Quaternion.Euler(0, 0, randomSpreadAngle) * Vector2.right;
-
-                // Instantiate the projectile
-                GameObject lightningProjectile = Instantiate(lightningProjectilePrefab, origin, Quaternion.identity);
-                Rigidbody2D rb = lightningProjectile.GetComponent<Rigidbody2D>();
-                if (rb != null)
+                for (int i = 0; i < numLightningProjectiles; i++)
                 {
-                    // Set initial velocity
-                    rb.velocity = projectileDirection.normalized * projectileLightningSpeed; // Adjust projectile speed as needed
+                    // Generate a random spread angle for each projectile
+                    float randomSpreadAngle = Random.Range(0f, 360f);
 
-                    // Destroy the lightning projectile after the specified duration
-                    Destroy(lightningProjectile, projectileDuration);
+                    // Calculate direction based on random angle
+                    Vector2 projectileDirection = Quaternion.Euler(0, 0, randomSpreadAngle) * Vector2.right;
+
+                    // Instantiate the projectile
+                    GameObject lightningProjectile = Instantiate(lightningProjectilePrefab, origin, Quaternion.identity);
+                    Rigidbody2D rb = lightningProjectile.GetComponent<Rigidbody2D>();
+                    if (rb != null)
+                    {
+                        // Set initial velocity
+                        rb.velocity = projectileDirection.normalized * projectileLightningSpeed; // Adjust projectile speed as needed
+
+                        // Destroy the lightning projectile after the specified duration
+                        Destroy(lightningProjectile, projectileDuration);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Rigidbody2D component not found in the lightning projectile prefab.");
+                    }
                 }
-                else
-                {
-                    Debug.LogWarning("Rigidbody2D component not found in the lightning projectile prefab.");
-                }
+                lastLightningTime = Time.time; // Reset the cooldown timer
+            }
+            else
+            {
+                Debug.LogWarning("Lightning Projectile Prefab not assigned.");
             }
         }
         else
         {
-            Debug.LogWarning("Lightning Projectile Prefab not assigned.");
+            Debug.Log("Lightning ability is on cooldown.");
         }
     }
 
@@ -328,43 +368,43 @@ public class EnemyAbility : MonoBehaviour
     }
 
     private void ThrowVox()
-{
-    if (Time.time - lastVoxTime >= voxCooldown)
     {
-        if (voxPrefab != null)
+        if (Time.time - lastVoxTime >= voxCooldown)
         {
-            // Calculate random position around the enemy within a radius
-            Vector3 randomPosition = transform.position + (Vector3)Random.insideUnitCircle.normalized * voxEffectRadius;
-
-            // Instantiate Vox prefab at the calculated position
-            GameObject voxInstance = Instantiate(voxPrefab, randomPosition, Quaternion.identity);
-
-            // Initialize the VoxEffect script with the parameters from Ability
-            VoxEffect voxEffect = voxInstance.GetComponent<VoxEffect>();
-            if (voxEffect != null)
+            if (voxPrefab != null)
             {
-                voxEffect.Initialize(voxEffectRadius, pullForce, slowFactor, effectDuration);
+                // Calculate random position around the enemy within a radius
+                Vector3 randomPosition = transform.position + (Vector3)Random.insideUnitCircle.normalized * voxEffectRadius;
+
+                // Instantiate Vox prefab at the calculated position
+                GameObject voxInstance = Instantiate(voxPrefab, randomPosition, Quaternion.identity);
+
+                // Initialize the VoxEffect script with the parameters from Ability
+                VoxEffect voxEffect = voxInstance.GetComponent<VoxEffect>();
+                if (voxEffect != null)
+                {
+                    voxEffect.Initialize(voxEffectRadius, pullForce, slowFactor, effectDuration);
+                }
+                else
+                {
+                    Debug.LogWarning("VoxEffect script not found on Vox prefab.");
+                }
+
+                // Update the last Vox time to current time
+                lastVoxTime = Time.time;
+                isVoxOnCooldown = true;
+                StartCoroutine(VoxCooldown());
             }
             else
             {
-                Debug.LogWarning("VoxEffect script not found on Vox prefab.");
+                Debug.LogWarning("Vox Prefab not assigned.");
             }
-
-            // Update the last Vox time to current time
-            lastVoxTime = Time.time;
-            isVoxOnCooldown = true;
-            StartCoroutine(VoxCooldown());
         }
         else
         {
-            Debug.LogWarning("Vox Prefab not assigned.");
+            Debug.Log("Vox ability is on cooldown.");
         }
     }
-    else
-    {
-        Debug.Log("Vox ability is on cooldown.");
-    }
-}
 
     // Vox cooldown
     private IEnumerator VoxCooldown()
@@ -381,11 +421,14 @@ public class EnemyAbility : MonoBehaviour
             // Instantiate the shield prefab at the enemy's position
             shieldInstance = Instantiate(shieldPrefab, transform.position, Quaternion.identity, transform);
             ShieldEffect shieldEffect = shieldInstance.GetComponent<ShieldEffect>();
-            if (shieldEffect != null) {
+            if (shieldEffect != null)
+            {
                 shieldEffect.Initialize(damageBlockPercentage);
-            } else {
+            }
+            else
+            {
                 Debug.LogWarning("ShieldEffect component not found on the instantiated shield prefab.");
-            }            
+            }
             lastShieldTime = Time.time;
             isShieldOnCooldown = true;
             StartCoroutine(ShieldDuration());

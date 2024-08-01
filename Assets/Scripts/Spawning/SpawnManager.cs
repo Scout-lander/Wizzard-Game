@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     public int maximumEnemyCount = 300;
     float spawnTimer; // Timer used to determine when to spawn the next enemy.
     float currentWaveDuration = 0f;
+    public bool boostedByCurse = true;
 
     public static SpawnManager instance;
 
@@ -46,7 +47,13 @@ public class SpawnManager : MonoBehaviour
             }
 
             // Do not spawn enemies if we do not meet the conditions to do so.
-            if (!CanSpawn()) return;
+            // Do not spawn enemies if we do not meet the conditions to do so.
+            if (!CanSpawn())
+            {
+                spawnTimer += data[currentWaveIndex].GetSpawnInterval();
+                ActivateCooldown();
+                return;
+            }
 
             // Get the array of enemies that we are spawning for this tick.
             GameObject[] spawns = data[currentWaveIndex].GetSpawns(EnemyStats.count);
@@ -62,9 +69,15 @@ public class SpawnManager : MonoBehaviour
                 currentWaveSpawnCount++;
             }
             
-            // Regenerates the spawn timer.
-            spawnTimer += data[currentWaveIndex].GetSpawnInterval();
+            ActivateCooldown();
         }
+    }
+
+    // Resets the spawn interval.
+    public void ActivateCooldown()
+    {
+        float curseBoost = boostedByCurse ? GameManager.GetCumulativeCurse() : 1;
+        spawnTimer += data[currentWaveIndex].GetSpawnInterval() / curseBoost;
     }
 
     // Do we meet the conditions to be able to continue spawning?

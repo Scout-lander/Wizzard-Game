@@ -5,7 +5,7 @@ using UnityEngine;
 /// Base class for both the Passive and the Weapon classes. It is primarily intended
 /// to handle weapon evolution, as we want both weapons and passives to be evolve-able.
 /// </summary>
-public abstract class Item : MonoBehaviour
+public abstract class Skill : MonoBehaviour
 {
     public int currentLevel = 1, maxLevel = 1;
     [HideInInspector] public ItemData data;
@@ -52,7 +52,7 @@ public abstract class Item : MonoBehaviour
 
         foreach (ItemData.Evolution.Config c in evolution.catalysts)
         {
-            Item item = inventory.Get(c.itemType);
+            Skill item = inventory.Get(c.itemType);
             if (!item || item.currentLevel < c.level)
             {
                 Debug.LogWarning(string.Format("Evolution failed. Missing {0}", c.itemType.name));

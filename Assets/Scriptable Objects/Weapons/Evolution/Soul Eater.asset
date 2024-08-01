@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Soul Eater
   m_EditorClassIdentifier: 
   icon: {fileID: 1899642935618872360, guid: 9a4fc81d095024a48880d86a3c54f2b7, type: 3}
+  weaponName: 
+  weaponDescription: 
   maxLevel: 1
+  levelUpChance: 100
   evolutionData: []
   behaviour: AuraWeapon
   baseStats:
@@ -39,7 +42,5 @@ MonoBehaviour:
     number: 1
     piercing: 0
     maxInstances: 50
-    damageDone: 0
   linearGrowth: []
   randomGrowth: []
-  weaponTag: 

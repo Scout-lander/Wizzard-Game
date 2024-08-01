@@ -13,10 +13,9 @@ GameObject:
   - component: {fileID: 461759420925149488}
   - component: {fileID: 7047817430718585708}
   - component: {fileID: 4193112312619027109}
-  - component: {fileID: 5223095555527725130}
   - component: {fileID: 6605086367421788633}
   - component: {fileID: -2340778596631030845}
-  - component: {fileID: -3785793490939145552}
+  - component: {fileID: 69855083232066957}
   m_Layer: 7
   m_Name: Bat (mod)
   m_TagString: Enemy
@@ -175,7 +174,64 @@ MonoBehaviour:
   - name: Blue gem
     itemPrefab: {fileID: 3322201518369577180, guid: b4b6f1c086abc4e4fa68fe184495f0cc, type: 3}
     dropRate: 25
---- !u!114 &5223095555527725130
+--- !u!114 &6605086367421788633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461759420925149495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseStats:
+    maxHealth: 25
+    moveSpeed: 6
+    damage: 3
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: 0
+    levelBoosts: 21
+  actualStats:
+    maxHealth: 0
+    moveSpeed: 0
+    damage: 0
+    knockbackMultiplier: 0
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: 0
+    levelBoosts: 0
+  enemyAbility: {fileID: 0}
+  damageBlockPercentage: 0
+  hasShield: 0
+  goldAmount: 10
+  damageColor: {r: 1, g: 0, b: 0, a: 1}
+  damageFlashDuration: 0.2
+  deathFadeTime: 0.6
+--- !u!114 &-2340778596631030845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 461759420925149495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c731e74173d243e5bca22b14db0acef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingActive: 1
+  minimumDistance: 0.2
+  outOfFrameAction: 2
+  knockbackVariance: 2
+--- !u!114 &69855083232066957
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,38 +243,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05d3c4b4b6cd2468c9bfee78f2f797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generalAbilityChance: 1
-  lightningAbilityChance: 33
-  burningAbilityChance: 33
-  iceAbilityChance: 33
-  poisonAbilityChance: 1
-  poisonCloudChance: 50
-  voxAbilityChance: 10
-  shieldAbilityChance: 25
-  lightningMaterial: {fileID: 2100000, guid: ac4b8e6fe50927d4d8d70eeaa923df6e, type: 2}
-  burningMaterial: {fileID: 2100000, guid: 553ebce113c398941a96ca06138e2bf9, type: 2}
-  iceMaterial: {fileID: 2100000, guid: 595eafd5b6a355347af484b31efc2ec3, type: 2}
+  boostedByCurse: 1
+  generalAbilityChance: 100
+  lightningAbilityChance: 0
+  burningAbilityChance: 0
+  iceAbilityChance: 0
+  poisonAbilityChance: 0
+  poisonCloudChance: 0
+  voxAbilityChance: 0
+  shieldAbilityChance: 0
+  lightningMaterial: {fileID: 0}
+  burningMaterial: {fileID: 0}
+  iceMaterial: {fileID: 0}
   poisonMaterial: {fileID: 0}
   shieldMaterial: {fileID: 0}
+  maxAbilities: 0
   hasLightningAbility: 0
-  lightningEffectPrefab: {fileID: 338926138968033325, guid: 7b7c568fd23d9ac4790db6f0e3b2cfca, type: 3}
-  lightningProjectilePrefab: {fileID: 7655578187253603844, guid: 57be437be4a94d6419896ad97c971d8f, type: 3}
-  projectileLightningSpeed: 4
-  projectileDuration: 3
+  lightningEffectPrefab: {fileID: 0}
+  lightningProjectilePrefab: {fileID: 0}
+  projectileLightningSpeed: 5
+  projectileDuration: 4
   numLightningProjectiles: 3
+  lightningCooldown: 2
   hasBurningAbility: 0
-  fireEffectPrefab: {fileID: 5381768852406240756, guid: d2725825d79809c44bb377a6bace2c54, type: 3}
+  fireEffectPrefab: {fileID: 0}
   burnDuration: 5
-  burnDamagePerSecond: 2
+  burnDamagePerSecond: 1
   hasIceAbility: 0
-  iceEffectPrefab: {fileID: 8663787209360816095, guid: 9278e667178353c43b7acb39ce42d965, type: 3}
-  iceTrailPrefab: {fileID: 8401679876769343541, guid: bb3445d2cacf6b04d9fa6faebd510ba3, type: 3}
-  iceSpikePrefab: {fileID: 6324723262026519836, guid: f925d1747038ab6488343f4cab834bde, type: 3}
+  iceEffectPrefab: {fileID: 0}
+  iceTrailPrefab: {fileID: 0}
+  iceSpikePrefab: {fileID: 0}
   iceTrailInterval: 0.5
-  iceSlowDuration: 3
+  iceSlowDuration: 1
   iceSlowPercentage: 0.25
-  iceSpikeDuration: 3
-  iceSpikeDamage: 15
+  iceSpikeDuration: 2
+  iceSpikeDamage: 10
   hasPoisonAbility: 0
   poisonEffectPrefab: {fileID: 0}
   poisonDuration: 3
@@ -239,59 +298,6 @@ MonoBehaviour:
   shieldDuration: 5
   shieldCooldown: 10
   damageBlockPercentage: 50
---- !u!114 &6605086367421788633
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461759420925149495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  enemyAbility: {fileID: 0}
-  baseStats:
-    maxHealth: 25
-    moveSpeed: 6
-    damage: 3
-    knockbackMultipler: 1
-  actualStats:
-    maxHealth: 25
-    moveSpeed: 1.5
-    damage: 3
-    knockbackMultipler: 1
-  hasShield: 0
-  damageColor: {r: 1, g: 0, b: 0, a: 1}
-  damageFlashDuration: 0.2
-  deathFadeTime: 0.6
---- !u!114 &-2340778596631030845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461759420925149495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c731e74173d243e5bca22b14db0acef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  outOfFrameAction: 2
---- !u!114 &-3785793490939145552
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461759420925149495}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldAmount: 1
 --- !u!1 &599722430768068397
 GameObject:
   m_ObjectHideFlags: 0

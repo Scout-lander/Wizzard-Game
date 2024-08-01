@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4817587222972116372}
   - component: {fileID: 7790770082631338016}
   - component: {fileID: -5589315379820746451}
+  - component: {fileID: 8280680895134700105}
   m_Layer: 0
   m_Name: Tree
   m_TagString: Prop
@@ -53,7 +54,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -117,7 +118,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.011177421, y: -0.5216119}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -128,5 +129,36 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.53125, y: 1.96875}
+  m_Size: {x: 0.6147034, y: 0.92552614}
   m_EdgeRadius: 0
+--- !u!114 &8280680895134700105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3213165586144295414}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 0000000063c8cf613f02bbde476342db37a06a771dfd4ad7e966c59cfdbc099a
+  m_ShapePath:
+  - {x: -0.15309536, y: -0.6650219, z: 0}
+  - {x: -0.12691891, y: 0.11008072, z: 0}
+  - {x: 0.17403662, y: 0.28284526, z: 0}
+  - {x: 0.08340883, y: -0.37844086, z: 0}
+  - {x: 0.13215423, y: -0.70166874, z: 0}
+  m_ShapePathHash: 158334103
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -405676
+  m_LocalBounds:
+    m_Center: {x: 0.010470629, y: -0.20941174, z: 0}
+    m_Extent: {x: 0.163566, y: 0.492257, z: 0}

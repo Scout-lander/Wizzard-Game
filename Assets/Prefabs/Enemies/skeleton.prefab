@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 1281309217516037336}
   - component: {fileID: 5719147696024251480}
   - component: {fileID: 8352527260723866207}
-  - component: {fileID: -4725952690401799605}
   m_Layer: 7
   m_Name: skeleton
   m_TagString: Enemy
@@ -139,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outOfFrameAction: 1
+  knockbackVariance: 2
 --- !u!114 &6166088086864913589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,34 +241,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAbility: {fileID: 0}
   baseStats:
     maxHealth: 30
     moveSpeed: 2
     damage: 3
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0.0022416408
+    curseBoosts: -1
+    levelBoosts: -1
   actualStats:
     maxHealth: 10
     moveSpeed: 1.5
     damage: 3
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: 0
+    levelBoosts: 0
+  enemyAbility: {fileID: 0}
+  damageBlockPercentage: 0
   hasShield: 0
+  goldAmount: 10
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
---- !u!114 &-4725952690401799605
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3823444607504333816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldAmount: 1
 --- !u!1 &5355443369473314441
 GameObject:
   m_ObjectHideFlags: 0

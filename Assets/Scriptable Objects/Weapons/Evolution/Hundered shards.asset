@@ -16,6 +16,7 @@ MonoBehaviour:
   weaponName: Hundered shards
   weaponDescription: 
   maxLevel: 4
+  levelUpChance: 100
   evolutionData: []
   behaviour: ProjectileWeapon
   baseStats:

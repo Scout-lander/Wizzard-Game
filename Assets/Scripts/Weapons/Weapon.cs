@@ -6,7 +6,7 @@ using UnityEngine;
 /// Component to be attached to all Weapon prefabs. The Weapon prefab works together with the WeaponData
 /// ScriptableObjects to manage and run the behaviours of all weapons in the game.
 /// </summary>
-public abstract class Weapon : Item
+public abstract class Weapon : Skill
 {
     [System.Serializable]
     public class Stats : LevelData

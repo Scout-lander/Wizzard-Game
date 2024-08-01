@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using HeathenEngineering.SteamworksIntegration;
+using Achievements = HeathenEngineering.SteamworksIntegration.API.StatsAndAchievements.Client;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +21,7 @@ public class GameManager : MonoBehaviour
 
     public GameState currentState;
     public GameState previousState;
+    private UploadScore uploadScore;
 
     [Header("Damage Text Settings")]
     public Canvas damageTextCanvas;
@@ -43,6 +46,7 @@ public class GameManager : MonoBehaviour
     public TMP_Text totalDPSDisplay;
     public TMP_Text totalGoldDisplay;
     public TMP_Text goldMultiplierDisplay;
+    public TMP_Text gameOverMessage; // Add this line
 
     [Header("Stopwatch")]
     public float timeLimit;
@@ -54,8 +58,9 @@ public class GameManager : MonoBehaviour
     public DifficultyManager.DifficultyStats difficultyIncrement;
     public float difficultyIncrementTime = 600f;
 
-    public GameObject playerObject;
-    private PlayerStats playerStats;
+    //public GameObject playerObject;
+    public PlayerStats playerStats;
+    PlayerStats[] players;
 
     public bool isGameOver { get { return currentState == GameState.GameOver; } }
     public bool choosingUpgrade { get { return currentState == GameState.LevelUp; } }
@@ -64,6 +69,8 @@ public class GameManager : MonoBehaviour
     public int killCount = 0;
     public float totalDamageDone = 0;
     public float dps;
+
+     public int PlayerLevel;
 
     [Header("Gold")]
     public int totalGoldCollected = 0;
@@ -79,12 +86,42 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float goldWeight = 0.05f;
 
     [Header("Leaderboard")]
-    public LeaderboardFinder leaderboardManager; // Add reference to LeaderboardManager
+    //public LeaderboardFinder leaderboardManager; // Add reference to LeaderboardManager
+    public LeaderboardObject leaderboard;
 
     public float GetElapsedTime() { return stopwatchTime; }
 
+    // Sums up the curse stat of all players and returns the value.
+    public static float GetCumulativeCurse()
+    {
+        if (!instance) return 1;
+
+        float totalCurse = 0;
+        foreach(PlayerStats p in instance.players)
+        {
+            totalCurse += p.ActualStats.curse;
+        }
+        return Mathf.Max(1, totalCurse);
+    }
+
+    // Sum up the levels of all players and returns the value.
+    public static int GetCumulativeLevels()
+    {
+        if (!instance) return 1;
+
+        int totalLevel = 0;
+        foreach (PlayerStats p in instance.players)
+        {
+            totalLevel += p.level;
+        }
+        return Mathf.Max(1, totalLevel);
+    }
+
+
     void Awake()
     {
+        players = FindObjectsOfType<PlayerStats>();
+
         if (instance == null)
         {
             instance = this;
@@ -101,7 +138,8 @@ public class GameManager : MonoBehaviour
         StartCoroutine(UpdateDamageTextCoroutine());
         StartCoroutine(UpdateDPSTextCoroutine());
 
-        playerStats = playerObject.GetComponent<PlayerStats>();
+        //playerStats = playerObject.GetComponent<PlayerStats>();
+        uploadScore = GetComponent<UploadScore>(); // Ensure UploadScore component is assigned
     }
 
     void Update()
@@ -303,11 +341,10 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 0f;
         DisplayResults();
 
-        if (leaderboardManager != null)
-        {
-            leaderboardManager.UploadScore((int)score); // Upload the score when game is over
-        }
-        SteamLeaderboardManager.UpdateScore((int)score);
+        PlayerLevel = playerStats.level;
+        uploadScore.UploadGameScore(score, totalGoldCollected, killCount, dps, stopwatchTime, PlayerLevel);
+        leaderboard.KeepBestUploadScore((int)score);
+        Achievements.SetAchievement("ACHIEVEMENT_1_0");
     }
 
     void DisplayResults()
@@ -334,7 +371,13 @@ public class GameManager : MonoBehaviour
 
         if (stopwatchTime >= timeLimit)
         {
-            playerObject.SendMessage("Kill");
+            gameOverMessage.text = "Time limit reached";
+
+            foreach(PlayerStats p in players)
+                p.SendMessage("Kill");
+            GameOver();
+
+            //playerObject.SendMessage("Kill");
         }
     }
 
@@ -355,7 +398,11 @@ public class GameManager : MonoBehaviour
         {
             levelUpScreen.SetActive(true);
             Time.timeScale = 0f;
-            playerObject.SendMessage("RemoveAndApplyUpgrades");
+
+            foreach(PlayerStats p in players)
+                p.SendMessage("RemoveAndApplyUpgrades");
+
+            //playerObject.SendMessage("RemoveAndApplyUpgrades");
         }
     }
 

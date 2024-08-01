@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,18 +5,26 @@ using UnityEngine;
 public class RuneBagSerializable
 {
     public int maxCapacity;
-    public List<Rune> rune = new List<Rune>();
+    public List<Rune> runes = new List<Rune>();
 
     public void AddRune(Rune newRune)
     {
-        if (rune.Count < maxCapacity)
+        if (runes.Count < maxCapacity)
         {
-            rune.Add(newRune);
+            runes.Add(newRune);
         }
     }
 
     public void RemoveRune(Rune oldRune)
     {
-        rune.Remove(oldRune);
+        runes.Remove(oldRune);
+    }
+
+    public void InitializeIcons()
+    {
+        foreach (var rune in runes)
+        {
+            rune.GetIcon(); // Ensure the icon is loaded
+        }
     }
 }

@@ -100,10 +100,11 @@ GameObject:
   - component: {fileID: 3626230454287115114}
   - component: {fileID: 3319409448705292309}
   - component: {fileID: 3550191308079486200}
-  - component: {fileID: 2578920499084937298}
+  - component: {fileID: 3450515850257611289}
+  - component: {fileID: 6646081682345374356}
   m_Layer: 7
   m_Name: ghost
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -221,7 +222,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8354af90658fa984495e7be309fc3bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sortingActive: 1
+  minimumDistance: 0.2
   outOfFrameAction: 1
+  knockbackVariance: 2
 --- !u!114 &3626230454287115114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,22 +300,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAbility: {fileID: 0}
   baseStats:
     maxHealth: 15
     moveSpeed: 2
     damage: 5
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: -1
+    levelBoosts: 0
   actualStats:
     maxHealth: 15
     moveSpeed: 2
     damage: 5
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: 0
+    levelBoosts: 0
+  enemyAbility: {fileID: 0}
+  damageBlockPercentage: 0
   hasShield: 0
+  goldAmount: 10
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
---- !u!114 &2578920499084937298
+--- !u!114 &3450515850257611289
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -320,7 +338,95 @@ MonoBehaviour:
   m_GameObject: {fileID: 5783190142156780217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Script: {fileID: 11500000, guid: dd05d3c4b4b6cd2468c9bfee78f2f797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 1
+  boostedByCurse: 1
+  generalAbilityChance: 1
+  lightningAbilityChance: 0
+  burningAbilityChance: 0
+  iceAbilityChance: 0
+  poisonAbilityChance: 0
+  poisonCloudChance: 0
+  voxAbilityChance: 0
+  shieldAbilityChance: 0
+  lightningMaterial: {fileID: 0}
+  burningMaterial: {fileID: 0}
+  iceMaterial: {fileID: 0}
+  poisonMaterial: {fileID: 0}
+  shieldMaterial: {fileID: 0}
+  maxAbilities: 1
+  hasLightningAbility: 0
+  lightningEffectPrefab: {fileID: 0}
+  lightningProjectilePrefab: {fileID: 0}
+  projectileLightningSpeed: 5
+  projectileDuration: 4
+  numLightningProjectiles: 3
+  lightningCooldown: 2
+  hasBurningAbility: 0
+  fireEffectPrefab: {fileID: 0}
+  burnDuration: 5
+  burnDamagePerSecond: 1
+  hasIceAbility: 0
+  iceEffectPrefab: {fileID: 0}
+  iceTrailPrefab: {fileID: 0}
+  iceSpikePrefab: {fileID: 0}
+  iceTrailInterval: 0.5
+  iceSlowDuration: 1
+  iceSlowPercentage: 0.25
+  iceSpikeDuration: 2
+  iceSpikeDamage: 10
+  hasPoisonAbility: 0
+  poisonEffectPrefab: {fileID: 0}
+  poisonDuration: 3
+  poisonDamagePerTick: 2
+  leavesPoisonCloud: 0
+  poisonCloudPrefab: {fileID: 0}
+  poisonCloudDuration: 5
+  poisonCloudDamagePerTick: 1.5
+  hasVoxAbility: 0
+  voxPrefab: {fileID: 0}
+  voxEffectRadius: 3
+  pullForce: 5
+  slowFactor: 0.5
+  effectDuration: 5
+  voxCooldown: 10
+  hasShieldAbility: 0
+  shieldPrefab: {fileID: 0}
+  shieldDuration: 5
+  shieldCooldown: 10
+  damageBlockPercentage: 50
+--- !u!114 &6646081682345374356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5783190142156780217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 0
+  m_CastsShadows: 1
+  m_SelfShadows: 1
+  m_ApplyToSortingLayers: 0000000063c8cf613f02bbde476342db37a06a771dfd4ad7e966c59cfdbc099a
+  m_ShapePath:
+  - {x: -0.19358575, y: -0.28679407, z: 0}
+  - {x: -0.14515829, y: 0.093084216, z: 0}
+  - {x: -0.042984247, y: 0.19716322, z: 0}
+  - {x: 0.07943535, y: 0.103461504, z: 0}
+  - {x: 0.20953023, y: 0.038044333, z: 0}
+  - {x: 0.057329655, y: -0.07956517, z: 0}
+  - {x: 0.048303485, y: -0.30063057, z: 0}
+  - {x: -0.08103442, y: -0.3908844, z: 0}
+  m_ShapePathHash: 320239989
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -372886
+  m_LocalBounds:
+    m_Center: {x: 0.00797224, y: -0.09686059, z: 0}
+    m_Extent: {x: 0.201558, y: 0.2940238, z: 0}

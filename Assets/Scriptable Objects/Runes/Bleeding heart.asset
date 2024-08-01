@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9ea9c8c2212c946b3c8dbd86b0ccb3, type: 3}
   m_Name: Bleeding heart
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 7ba58945965443d419a20f1ce067e00c, type: 3}
+  icon: {fileID: 21300000, guid: 9d7738cdecbe7604fbefc24c120d83da, type: 3}
+  iconName: BleedingHeart
   gemName: Bleeding heart
   description: A mystical Rune infused with protective energies. When equipped, it
     creates a barrier that absorbs all incoming damage until its own energy is depleted.
@@ -161,6 +162,18 @@ MonoBehaviour:
     might: 0
     moveSpeed: 0
   mythicMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 100
+    lifeRegen: 0
+    might: 0
+    moveSpeed: 0
+  maxStats:
     health: 0
     attackSpeed: 0
     luck: 0

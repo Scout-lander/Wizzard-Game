@@ -16,6 +16,7 @@ MonoBehaviour:
   weaponName: 
   weaponDescription: 
   maxLevel: 2
+  levelUpChance: 100
   evolutionData:
   - name: 
     condition: 0

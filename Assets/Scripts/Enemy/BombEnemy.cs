@@ -77,7 +77,7 @@ public class BombEnemy : MonoBehaviour
                 isExploding = true;
 
                 // Increase movement speed and move pattern
-                enemystats.ModifyActualStats(new EnemyStats.Stats { moveSpeed = actualStats.movementSpeedIncrease });
+               // enemystats.ModifyActualStats(new EnemyStats.Stats { moveSpeed = actualStats.movementSpeedIncrease });
 
                 // Flash color
                 StartCoroutine(FlashColor());

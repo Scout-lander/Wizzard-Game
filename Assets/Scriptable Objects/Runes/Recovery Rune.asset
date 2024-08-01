@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9ea9c8c2212c946b3c8dbd86b0ccb3, type: 3}
+  m_Name: Recovery Rune
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: a04c6b6dbed04a5428b14370af8acdbf, type: 3}
+  iconName: Rune1
+  gemName: Recovery Rune
+  description: A Rune that accelerates health recovery rates. Be cautious, as it
+    comes at the cost of reducing your maximum health
+  rarity: 0
+  takesDamage: 0
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mythicProbabilities: 0
+  commonMinimumPossible:
+    health: -25
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.1
+    might: 0
+    moveSpeed: 0
+  commonMaximumPossible:
+    health: -20
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.4
+    might: 0
+    moveSpeed: 0
+  uncommonMinimumPossible:
+    health: -15
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.4
+    might: 0
+    moveSpeed: 0
+  uncommonMaximumPossible:
+    health: -20
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.6
+    might: 0
+    moveSpeed: 0
+  rareMinimumPossible:
+    health: -8
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.6
+    might: 0
+    moveSpeed: 0
+  rareMaximumPossible:
+    health: -15
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.7
+    might: 0
+    moveSpeed: 0
+  epicMinimumPossible:
+    health: -5
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.7
+    might: 0
+    moveSpeed: 0
+  epicMaximumPossible:
+    health: -11
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.8
+    might: 0
+    moveSpeed: 0
+  legendaryMinimumPossible:
+    health: -1
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0.9
+    might: 0
+    moveSpeed: 0
+  legendaryMaximumPossible:
+    health: -10
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 1
+    might: 0
+    moveSpeed: 0
+  mythicMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 1
+    might: 0
+    moveSpeed: 0
+  mythicMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 2
+    might: 0
+    moveSpeed: 0
+  maxStats:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 2
+    might: 0
+    moveSpeed: 0

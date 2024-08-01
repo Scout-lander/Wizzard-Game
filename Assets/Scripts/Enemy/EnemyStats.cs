@@ -5,29 +5,63 @@ using UnityEngine;
 public class EnemyStats : MonoBehaviour
 {
     [System.Serializable]
-    public class Stats
+    public class Resistances
     {
-        public float maxHealth = 10, moveSpeed = 1.5f, damage = 3, knockbackMultiplier = 1f;
+        [Range(0f, 1f)] public float freeze = 0f, kill = 0f, debuff = 0f;
 
-        public static Stats operator +(Stats s1, Stats s2)
+        // To allow us to multiply the resistances.
+        public static Resistances operator *(Resistances r, float factor)
         {
-            s1.maxHealth += s2.maxHealth;
-            s1.moveSpeed += s2.moveSpeed;
-            s1.damage += s2.damage;
-            s1.knockbackMultiplier += s2.knockbackMultiplier;
-            return s1;
+            r.freeze = Mathf.Min(1, r.freeze * factor);
+            r.kill = Mathf.Min(1, r.kill * factor);
+            r.debuff = Mathf.Min(1, r.debuff * factor);
+            return r;
         }
     }
 
+    [System.Serializable]
+    public class Stats
+    {
+        [Min(0)] public float maxHealth, moveSpeed, damage;
+        public float knockbackMultiplier;
+        public Resistances resistances;
+
+        [System.Flags]
+        public enum Boostable { health = 1, moveSpeed = 2, damage = 4, knockbackMultiplier = 8, resistances = 16 }
+        public Boostable curseBoosts, levelBoosts;
+
+        private static Stats Boost(Stats s1, float factor, Boostable boostable)
+        {
+            if ((boostable & Boostable.health) != 0) s1.maxHealth *= factor;
+            if ((boostable & Boostable.moveSpeed) != 0) s1.moveSpeed *= factor;
+            if ((boostable & Boostable.damage) != 0) s1.damage *= factor;
+            if ((boostable & Boostable.knockbackMultiplier) != 0) s1.knockbackMultiplier /= factor;
+            if ((boostable & Boostable.resistances) != 0) s1.resistances *= factor;
+            return s1;
+        }
+        // Use the multiply operator for curse.
+        public static Stats operator *(Stats s1, float factor) { return Boost(s1, factor, s1.curseBoosts); }
+
+        // Use the XOR operator for level boosted stats.
+        public static Stats operator ^(Stats s1, float factor) { return Boost(s1, factor, s1.levelBoosts); }
+    }
+
+    public Stats baseStats = new Stats { maxHealth = 10, moveSpeed = 1, damage = 3, knockbackMultiplier = 1 };
+    public Stats actualStats;
+    public Stats Actual
+    {
+        get { return actualStats; }
+    }
+    float currentHealth;
+
     public EnemyAbility enemyAbility;
-    public Stats baseStats;
-    [SerializeField] private Stats actualStats;
-    private float health;
+    //public Stats baseStats;
+    //[SerializeField] private Stats actualStats;
     public float damageBlockPercentage;
     public bool hasShield;
     public int goldAmount = 10;
 
-    public Stats ActualStats => actualStats;
+    //public Stats ActualStats => actualStats;
 
     [Header("Damage Feedback")]
     public Color damageColor = new Color(1, 0, 0, 1);
@@ -43,27 +77,40 @@ public class EnemyStats : MonoBehaviour
     void Awake()
     {
         count++;
+    }
+
+    void Start()
+    {
+        RecalculateStats();
+        currentHealth = actualStats.maxHealth;
         sr = GetComponent<SpriteRenderer>();
-        movement = GetComponent<EnemyMovement>();
+        originalColor = sr.color;
+
         enemyAbility = GetComponent<EnemyAbility>();
         gameManager = FindObjectOfType<GameManager>();
 
-        originalColor = sr.color;
-        actualStats = baseStats;
+        movement = GetComponent<EnemyMovement>();
 
         AdjustStatsBasedOnDifficulty(DifficultyManager.Instance?.CurrentDifficultyLevel ?? 0);
-        health = actualStats.maxHealth;
     }
 
     public void ModifyActualStats(Stats modification)
     {
-        actualStats += modification;
+        //actualStats += modification;
     }
 
+    // Calculates the actual stats of the enemy based on a variety of factors.
+    public void RecalculateStats()
+    {
+        // Calculate curse boosts.
+        float curse = GameManager.GetCumulativeCurse(),
+              level = GameManager.GetCumulativeLevels();
+        actualStats = (baseStats * curse) ^ level;
+    }
     public void ApplyShieldEffect(float blockPercentage)
     {
         hasShield = true;
-        damageBlockPercentage = 10;
+        damageBlockPercentage = .7f;
     }
 
     public void RemoveShieldEffect()
@@ -74,14 +121,34 @@ public class EnemyStats : MonoBehaviour
 
     public void TakeDamage(float dmg, Vector2 sourcePosition, float knockbackForce = 5f, float knockbackDuration = 0.2f)
     {
-        float damage = dmg * (1f - damageBlockPercentage);
-        health -= damage;
+
+        // If damage is exactly equal to maximum health, we assume it is an insta-kill and 
+        // check for the kill resistance to see if we can dodge this damage.
+        if(Mathf.Approximately(dmg, actualStats.maxHealth))
+        {
+            // Roll a die to check if we can dodge the damage.
+            // Gets a random value between 0 to 1, and if the number is 
+            // below the kill resistance, then we avoid getting killed.
+            if(Random.value < actualStats.resistances.kill)
+            {
+                return; // Don't take damage.
+            }
+        }
+
+        float damage = enemyAbility.hasShieldAbility ? dmg : dmg * (1f - damageBlockPercentage);
+        currentHealth -= damage;
 
         if (damage > 0)
         {
             StartCoroutine(FlashDamage());
-            GameManager.GenerateFloatingText(Mathf.FloorToInt(dmg).ToString(), transform);
+            GameManager.GenerateFloatingText(Mathf.FloorToInt(damage).ToString(), transform);
             gameManager?.IncrementTotalDamageDone(damage);
+
+            if(enemyAbility.hasLightningAbility)
+            {
+                enemyAbility?.InstantiateLightningProjectile(transform.position, ((Vector2)transform.position - sourcePosition).normalized);
+            }        
+
         }
 
         if (knockbackForce > 0 && damage > 0)
@@ -90,13 +157,12 @@ public class EnemyStats : MonoBehaviour
             movement.Knockback(dir.normalized * knockbackForce, knockbackDuration);
         }
 
-        enemyAbility?.InstantiateLightningProjectile(transform.position, ((Vector2)transform.position - sourcePosition).normalized);
-
-        if (health <= 0)
+        if (currentHealth  <= 0)
         {
             Kill();
         }
     }
+
 
     private IEnumerator FlashDamage()
     {
@@ -133,9 +199,10 @@ public class EnemyStats : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        // Check for whether there is a PlayerStats object we can damage.
+        if(col.collider.TryGetComponent(out PlayerStats p))
         {
-            col.gameObject.GetComponent<PlayerStats>()?.TakeDamage(actualStats.damage);
+            p.TakeDamage(Actual.damage);
         }
     }
 

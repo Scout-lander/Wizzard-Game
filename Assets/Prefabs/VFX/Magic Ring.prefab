@@ -14722,8 +14722,8 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2003476535
-  m_SortingLayer: 4
+  m_SortingLayerID: -1710637827
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_RenderMode: 4
   m_MeshDistribution: 0
@@ -14910,8 +14910,8 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 2
-      minColor: {r: 0.755, g: 0.6572941, b: 0.36713722, a: 0.8}
-      maxColor: {r: 0.755, g: 0.6572941, b: 0.36713722, a: 0.4}
+      minColor: {r: 0, g: 0, b: 0, a: 0.8}
+      maxColor: {r: 1, g: 0.039559267, b: 0, a: 0.4}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -14976,7 +14976,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 3
       scalar: 0.2
-      minScalar: 0.1
+      minScalar: 0.22
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -19748,7 +19748,7 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.99215686, g: 0.81830066, b: 0.47058818, a: 1}
-  m_Intensity: 2.9305463
+  m_Intensity: 2.9621365
   m_Range: 4
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   possibleSpawnPrefabs:
   - {fileID: 3585417497295723144, guid: e56bb35b240fa40e0b8113f297428e2d, type: 3}
-  spawnInterval: {x: 2, y: 3}
+  spawnInterval: {x: 5, y: 6}
   spawnsPerTick: {x: 40, y: 40}
   duration: 1
   probability: 1
@@ -23,4 +23,4 @@ MonoBehaviour:
   spawnEffectPrefab: {fileID: 0}
   scale: {x: 1, y: 1}
   spawnRadius: 10
-  lifespan: 15
+  lifespan: 10

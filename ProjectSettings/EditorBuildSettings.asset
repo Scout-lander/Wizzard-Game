@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Update.unity
     guid: 7596c57794cd623469ac88a37f4c77b4
   - enabled: 1
-    path: Assets/Scenes/Title Screen.unity
+    path: Assets/Scenes/TitleScreen.unity
     guid: 1d34f6ad067266c40b35ad9e41793a4c
   - enabled: 1
     path: Assets/Scenes/Base.unity
@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Menu.unity
     guid: b0dc500a22ec474489a3c7eb21ff8c04
+  - enabled: 1
+    path: Assets/Scenes/Megapack.unity
+    guid: 44e64b29e7a9ff540a198446fc05c595
   m_configObjects: {}

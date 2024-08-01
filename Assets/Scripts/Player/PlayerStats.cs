@@ -108,6 +108,7 @@ public class PlayerStats : MonoBehaviour
     public ParticleSystem damageEffect;
     public ParticleSystem blockedEffect;
     public GameObject fireEffect;
+    public HurtUI hurtUI;
 
     [Header("Materials")]
     public Material DefaultMaterial;
@@ -150,10 +151,7 @@ public class PlayerStats : MonoBehaviour
     public Image healthBar;
     public Image expBar;
     public TMP_Text levelText;
-
-    public GemBag equippedBag;
     public RuneInventory runeInventory; // Reference to the RuneInventory
-
     private SaveLoadManager saveLoadManager;
 
     void Awake()
@@ -201,7 +199,6 @@ public class PlayerStats : MonoBehaviour
             EquipStartingWeapon();
         }
 
-        ApplyEquippedGemEffects();
         ApplyEquippedRuneEffects();
 
         experienceCap = levelRanges[0].experienceCapIncrease;
@@ -249,7 +246,6 @@ public class PlayerStats : MonoBehaviour
         }
 
         // Apply gem effects
-        ApplyEquippedGemEffects();
         ApplyEquippedRuneEffects();
 
         // Update collector radius
@@ -313,7 +309,7 @@ public class PlayerStats : MonoBehaviour
             bool damageAbsorbed = false;
 
             // Check if there's any equipped rune with takesDamage enabled
-            foreach (Rune rune in runeInventory.equippedRuneBag.rune)
+            foreach (Rune rune in runeInventory.equippedRuneBag.runes)
             {
                 if (rune.takesDamage && rune.actualStats.heartRune > 0)
                 {
@@ -332,39 +328,29 @@ public class PlayerStats : MonoBehaviour
 
             if (!damageAbsorbed)
             {
-                // Check if there's a HealthGem equipped
-                HealthGem healthGem = GetEquippedHealthGem();
-                if (healthGem != null)
+                dmg -= actualStats.armor;
+
+                if (dmg > 0)
                 {
-                    healthGem.TakeDamage(dmg);
-                    if (healthGem.currentGemHealth <= 0)
+                    CurrentHealth -= dmg;
+                    hurtUI.FlashHurtColor();
+
+                    if (damageEffect) Destroy(Instantiate(damageEffect, transform.position, Quaternion.identity), 5f);
+
+                    if (CurrentHealth <= 0)
                     {
-                        equippedBag.RemoveGem(healthGem); // Remove the gem if it's destroyed
+                        Kill();
                     }
                 }
                 else
                 {
-                    dmg -= actualStats.armor;
-
-                    if (dmg > 0)
-                    {
-                        CurrentHealth -= dmg;
-
-                        if (damageEffect) Destroy(Instantiate(damageEffect, transform.position, Quaternion.identity), 5f);
-
-                        if (CurrentHealth <= 0)
-                        {
-                            Kill();
-                        }
-                    }
-                    else
-                    {
-                        if (blockedEffect) Destroy(Instantiate(blockedEffect, transform.position, Quaternion.identity), 5f);
-                    }
-
-                    invincibilityTimer = invincibilityDuration;
-                    isInvincible = true;
+                    if (blockedEffect) Destroy(Instantiate(blockedEffect, transform.position, Quaternion.identity), 5f);
                 }
+
+                invincibilityTimer = invincibilityDuration;
+                //invincibilityTimer = 0.1f;
+
+                isInvincible = true;
             }
         }
     }
@@ -401,7 +387,7 @@ public class PlayerStats : MonoBehaviour
         GameObject fireInstance = Instantiate(fireEffect, transform.position, Quaternion.identity);
         fireInstance.transform.parent = transform;
 
-        playerRenderer.material = FireMaterial;
+        //playerRenderer.material = FireMaterial;
 
         StartCoroutine(StopFireEffect(fireInstance, duration));
     }
@@ -411,7 +397,7 @@ public class PlayerStats : MonoBehaviour
         yield return new WaitForSeconds(duration);
         isBurning = false;
 
-        playerRenderer.material = DefaultMaterial;
+        //playerRenderer.material = DefaultMaterial;
 
         Destroy(fireInstance);
     }
@@ -455,80 +441,12 @@ public class PlayerStats : MonoBehaviour
         }
         else if (playerMovement.IsIceSlowed)
         {
-            playerRenderer.material = SlowMaterial;
+            //playerRenderer.material = SlowMaterial;
         }
         else
         {
-            playerRenderer.material = DefaultMaterial;
+            //playerRenderer.material = DefaultMaterial;
         }
-    }
-
-    public void ApplyEquippedGemEffects()
-    {
-        foreach (GemData gem in equippedBag.gems)
-        {
-            ApplyGemEffect(gem);
-        }
-    }
-
-    public void ApplyGemEffect(GemData gem)
-    {
-        if (gem is LifeGem lifeGem)
-        {
-            actualStats.maxHealth += lifeGem.maxHpIncrease;
-            actualStats.recovery += lifeGem.lifeRegenPerSecond;
-        }
-        else if (gem is PowerGem powerGem)
-        {
-            actualStats.might += powerGem.attackPowerIncrease;
-            actualStats.moveSpeed -= powerGem.moveSpeedDecrease;
-            actualStats.moveSpeed = Mathf.Max(actualStats.moveSpeed, 0.01f);
-        }
-        else if (gem is DefenseGem defenseGem)
-        {
-            actualStats.armor += defenseGem.armorIncrease;
-            actualStats.speed -= defenseGem.attackSpeedDecrease;
-            actualStats.speed = Mathf.Max(actualStats.speed, 0.01f);
-        }
-        else if (gem is SpeedGem speedGem)
-        {
-            actualStats.moveSpeed += speedGem.moveSpeedIncrease;
-            actualStats.maxHealth -= speedGem.healthDecrease;
-            actualStats.maxHealth = Mathf.Max(actualStats.maxHealth, 0);
-        }
-        else if (gem is LuckGem luckGem)
-        {
-            actualStats.luck += luckGem.luckIncrease;
-            actualStats.curse += luckGem.curseIncrease;
-        }
-        else if (gem is RecoveryGem recoveryGem)
-        {
-            actualStats.recovery += recoveryGem.recoveryIncrease;
-            actualStats.maxHealth -= recoveryGem.maxHealthDecrease;
-            actualStats.maxHealth = Mathf.Max(actualStats.maxHealth, 0);
-        }
-        else if (gem is DashGem dashGem)
-        {
-            actualStats.maxDashes += dashGem.dashCountIncrease;
-            actualStats.dashCooldown -= dashGem.dashCooldownIncrease;
-        }
-        if (CurrentHealth > actualStats.maxHealth)
-        {
-            CurrentHealth = actualStats.maxHealth;
-        }
-        UpdateHealthBar();
-    }
-
-    private HealthGem GetEquippedHealthGem()
-    {
-        foreach (GemData gem in equippedBag.gems)
-        {
-            if (gem is HealthGem healthGem)
-            {
-                return healthGem;
-            }
-        }
-        return null;
     }
 
     private void EquipStartingWeapon()
@@ -553,7 +471,7 @@ public class PlayerStats : MonoBehaviour
             return;
         }
 
-        foreach (Rune rune in runeInventory.equippedRuneBag.rune)
+        foreach (Rune rune in runeInventory.equippedRuneBag.runes)
         {
             ApplyRuneEffect(rune);
         }
@@ -568,6 +486,7 @@ public class PlayerStats : MonoBehaviour
             actualStats.armor += rune.actualStats.armor;
             actualStats.moveSpeed += rune.actualStats.moveSpeed;
             actualStats.speed += rune.actualStats.attackSpeed;
+            actualStats.might += rune.actualStats.might;
             //actualStats.area += rune.actualStats.area;
             //actualStats.duration += rune.actualStats.duration;
             //actualStats.amount += rune.actualStats.amount;
@@ -588,12 +507,15 @@ public class PlayerStats : MonoBehaviour
             {
                 actualStats.heartRune += rune.actualStats.heartRune;
             }
+
+            actualStats.moveSpeed = Mathf.Max(actualStats.moveSpeed, 0.01f);
+            actualStats.maxHealth = Mathf.Max(actualStats.maxHealth, 1f);
         }
     }
 
     private Rune GetEquippedDamageAbsorbingRune()
     {
-        foreach (Rune rune in runeInventory.equippedRuneBag.rune)
+        foreach (Rune rune in runeInventory.equippedRuneBag.runes)
         {
             if (rune.actualStats.heartRune > 0 && rune.takesDamage)
             {
@@ -606,6 +528,6 @@ public class PlayerStats : MonoBehaviour
     // Method to remove the damage-absorbing rune from the inventory
     private void RemoveDamageAbsorbingRune(Rune rune)
     {
-        runeInventory.equippedRuneBag.rune.Remove(rune);
+        runeInventory.equippedRuneBag.runes.Remove(rune);
     }
 }

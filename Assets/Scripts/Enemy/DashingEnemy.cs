@@ -73,7 +73,7 @@ public class DashingEnemy : MonoBehaviour
         canDash = false; // Disable dashing until cooldown
 
         float originalMoveSpeed;
-        originalMoveSpeed = enemyStats.ActualStats.moveSpeed; // Access moveSpeed directly from the instance
+        originalMoveSpeed = enemyStats.Actual.moveSpeed; // Access moveSpeed directly from the instance
         enemyStats.ModifyActualStats(new EnemyStats.Stats { moveSpeed =  0}); // removes move speed
 
         animator.SetBool("Jump", true);  // trigger dash animation

@@ -17,10 +17,9 @@ GameObject:
   - component: {fileID: 2799724857867647035}
   - component: {fileID: 1717255249464545241}
   - component: {fileID: 3435257868763181474}
-  - component: {fileID: -109017940818378767}
   m_Layer: 7
   m_Name: Summoner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,6 +138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   outOfFrameAction: 1
+  knockbackVariance: 2
 --- !u!61 &3073836973588752355
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -246,34 +246,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAbility: {fileID: 0}
   baseStats:
     maxHealth: 30
     moveSpeed: 1.5
     damage: 3
-    knockbackMultipler: 1
+    knockbackMultiplier: 0.5
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: -1
+    levelBoosts: -1
   actualStats:
     maxHealth: 10
     moveSpeed: 1.5
     damage: 3
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: 0
+    levelBoosts: 0
+  enemyAbility: {fileID: 0}
+  damageBlockPercentage: 0
   hasShield: 0
+  goldAmount: 10
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
---- !u!114 &-109017940818378767
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567190153320119419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goldAmount: 1
 --- !u!1 &3553241470260793684
 GameObject:
   m_ObjectHideFlags: 0

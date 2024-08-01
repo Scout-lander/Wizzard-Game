@@ -20,11 +20,11 @@ MonoBehaviour:
   evolutionData: []
   baseStats:
     name: Armor
-    description: Reduces incoming damage by 1. Increases retaliatory damage by 10%.
+    description: Increase Armor by 10%
     boosts:
       maxHealth: 0
       recovery: 0
-      armor: 1
+      armor: 0.1
       moveSpeed: 0
       might: 0
       area: 0
@@ -44,13 +44,14 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   growth:
   - name: Level 2
-    description: Reduces incoming damage by 1. Increases retaliatory damage by 10%.
+    description: Increase Armor by 10%
     boosts:
       maxHealth: 0
       recovery: 0
-      armor: 1
+      armor: 0.1
       moveSpeed: 0
       might: 0
       area: 0
@@ -70,12 +71,13 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   - name: Level 3
-    description: Reduces incoming damage by 1. Increases retaliatory damage by 10%.
+    description: Increase Armor by 10%
     boosts:
       maxHealth: 0
       recovery: 0
-      armor: 1
+      armor: 0.1
       moveSpeed: 0
       might: 0
       area: 0
@@ -95,12 +97,13 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   - name: Level 4
-    description: Reduces incoming damage by 1. Increases retaliatory damage by 10%.
+    description: Increase Armor by 10%
     boosts:
       maxHealth: 0
       recovery: 0
-      armor: 1
+      armor: 0.1
       moveSpeed: 0
       might: 0
       area: 0
@@ -120,12 +123,13 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   - name: Level 5
-    description: Reduces incoming damage by 1. Increases retaliatory damage by 10%.
+    description: Increase Armor by 10%
     boosts:
       maxHealth: 0
       recovery: 0
-      armor: 1
+      armor: 0.1
       moveSpeed: 0
       might: 0
       area: 0
@@ -145,4 +149,5 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   randomGrowth: []

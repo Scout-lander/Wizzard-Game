@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using HeathenEngineering.SteamworksIntegration;
+using Achievements = HeathenEngineering.SteamworksIntegration.API.StatsAndAchievements.Client;
 
 public class TreasureChest : MonoBehaviour
 {
@@ -35,6 +37,7 @@ public class TreasureChest : MonoBehaviour
                 if (e.condition == ItemData.Evolution.Condition.treasureChest)
                 {
                     bool attempt = w.AttemptEvolution(e, 0);
+                    Achievements.SetAchievement("ACHIEVEMENT_1_1");
                     if (attempt) return; // If evolution suceeds, stop.
                 }
 

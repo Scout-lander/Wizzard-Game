@@ -69,7 +69,7 @@ public class UIInventoryIconsDisplay : MonoBehaviour
             }
 
             // Get the item data.
-            Item item = items[i].item;
+            Skill item = items[i].item;
 
             Transform iconObj = slots[i].transform.Find(iconPath);
             if (iconObj)

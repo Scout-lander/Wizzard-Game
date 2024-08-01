@@ -4,12 +4,15 @@ public class BossSpawner : MonoBehaviour
 {
     public GameObject prefabToSpawn;
     public float spawnDistance = 10f;
+    private float cooldownTime = 2f; // 2 seconds cooldown
+    private float nextSpawnTime = 0f;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) && Time.time >= nextSpawnTime)
         {
             SpawnPrefab();
+            nextSpawnTime = Time.time + cooldownTime; // Set the next spawn time
         }
     }
 

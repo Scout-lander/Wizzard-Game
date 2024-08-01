@@ -24,7 +24,6 @@ public class Pickup : MonoBehaviour
     public int health;
 
     public PickupType pickupType;  // Added pickup type
-    public GemData gemData;  // Reference to the GemData scriptable object
     public RuneDataNew runeDataNew; // Reference to the RuneDataNew scriptable object
 
     protected virtual void Start()
@@ -59,16 +58,7 @@ public class Pickup : MonoBehaviour
             this.speed = speed;
             if (lifespan > 0) this.lifespan = lifespan;
 
-            if (pickupType == PickupType.Gem)  // Handling gem pickup
-            {
-                GemInventory gemInventory = target.GetComponent<GemInventory>();
-                if (gemInventory)
-                {
-                    gemInventory.AddGem(gemData);
-                    Debug.Log("Gem collected");
-                }
-            }
-            else if (pickupType == PickupType.Rune)  // Handling rune pickup
+        if (pickupType == PickupType.Rune)  // Handling rune pickup
             {
                 Debug.LogWarning("RunePickup script should handle this case.");
             }

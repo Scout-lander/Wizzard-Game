@@ -13,7 +13,7 @@ public class PassiveData : ItemData
     public Passive.Modifier[] growth;
     public Passive.Modifier[] randomGrowth;
 
-    public override Item.LevelData GetLevelData(int level)
+    public override Skill.LevelData GetLevelData(int level)
     {
         if (level <= 1) return baseStats;
 

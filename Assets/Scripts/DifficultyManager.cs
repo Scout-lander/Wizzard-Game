@@ -12,7 +12,7 @@ public class DifficultyManager : MonoBehaviour
         public SplittingEnemy.Stats splittingEnemyStats;
         public DashingEnemy.Stats dashingEnemyStats;
         public ShootingEnemy.Stats shootingEnemyStats;
-        public EnemyStats.Stats enemyStats; // Add reference to EnemyStats stats
+        public EnemyStats stats; // Add reference to EnemyStats stats
 
         [Header("Boss")]
         public CrimsonCrusader.Stats crimsonCrusaderStats;
@@ -24,7 +24,7 @@ public class DifficultyManager : MonoBehaviour
             ds1.splittingEnemyStats += ds2.splittingEnemyStats;
             ds1.dashingEnemyStats += ds2.dashingEnemyStats;
             ds1.shootingEnemyStats += ds2.shootingEnemyStats;
-            ds1.enemyStats += ds2.enemyStats; // Add for EnemyStats stats
+            //ds1.stats.Actual += ds2.stats; // Add for EnemyStats stats
             ds1.crimsonCrusaderStats += ds2.crimsonCrusaderStats;
             return ds1;
         }
@@ -92,7 +92,7 @@ public class DifficultyManager : MonoBehaviour
         EnemyStats[] enemyStats = FindObjectsOfType<EnemyStats>(); // Find all enemy stats
         foreach (EnemyStats enemyStat in enemyStats)
         {
-            enemyStat.ModifyActualStats(difficultyIncrement.enemyStats); // Modify enemy stats
+            //EnemyStats.ModifyActualStats(difficultyIncrement.stats); // Modify enemy stats
         }
 
         CrimsonCrusader[] crimsonCrusaders = FindObjectsOfType<CrimsonCrusader>();

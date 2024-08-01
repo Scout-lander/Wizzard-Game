@@ -24,7 +24,7 @@ public class RuneEffectApplier : MonoBehaviour
         playerStats.ActualStats = playerStats.baseStats;
 
         // Apply each rune's effects
-        foreach (Rune rune in runeInventory.equippedRuneBag.rune)
+        foreach (Rune rune in runeInventory.equippedRuneBag.runes)
         {
             ApplyRuneEffect(rune);
         }

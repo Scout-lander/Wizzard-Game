@@ -31,12 +31,12 @@ public class RunePickup : Pickup
                 RuneInventory runeInventory = target.GetComponent<RuneInventory>();
                 if (runeInventory != null)
                 {
-                    Debug.Log("Rune bag current capacity: " + runeInventory.runeBag.rune.Count + "/" + runeInventory.runeBag.maxCapacity);
+                    Debug.Log("Rune bag current capacity: " + runeInventory.runeBag.runes.Count + "/" + runeInventory.runeBag.maxCapacity);
 
-                    if (runeInventory.runeBag.rune.Count < runeInventory.runeBag.maxCapacity)
+                    if (runeInventory.runeBag.runes.Count < runeInventory.runeBag.maxCapacity)
                     {
                         Rune rune = ConvertToRuneNew(runeDataNew);
-                        runeInventory.runeBag.rune.Add(rune);
+                        runeInventory.runeBag.runes.Add(rune);
                     }
                     else
                     {
@@ -45,7 +45,7 @@ public class RunePickup : Pickup
                 }
                 else
                 {
-                    Debug.LogWarning("Target does not have a RuneInventoryNew component.");
+                    Debug.LogWarning("Target does not have a RuneInventory component.");
                 }
 
                 Destroy(gameObject, Mathf.Max(0.01f, this.lifespan));  // Destroy the pickup object
@@ -53,7 +53,7 @@ public class RunePickup : Pickup
             }
             else
             {
-                Debug.Log("Target is already set. Rune collection aborted.");
+                //Debug.Log("Target is already set. Rune collection aborted.");
             }
         }
         else
@@ -71,7 +71,8 @@ public class RunePickup : Pickup
 
         // Create and initialize the new rune with the stats from the rolled rarity
         Rune newRune = new Rune();
-        newRune.icon = runeDataNew.icon;
+        //newRune.icon = runeDataNew.icon;
+        newRune.iconName = runeDataNew.iconName;
         newRune.name = runeDataNew.gemName;
         newRune.description = runeDataNew.description;
         newRune.rarity = rolledRarity;

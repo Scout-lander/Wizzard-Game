@@ -14,7 +14,7 @@ public class MapController : MonoBehaviour
     [Header("Optimization")]
     public List<GameObject> spawnedChunks;
     GameObject latestChunk;
-    public float maxOpDist; //Must be greater than the length and width of the tilemap
+    public float maxOpDist; // Must be greater than the length and width of the tilemap
     float opDist;
     float optimizerCooldown;
     public float optimizerCooldownDur;
@@ -27,7 +27,7 @@ public class MapController : MonoBehaviour
     void Update()
     {
         ChunkChecker();
-        ChunkOptimzer();
+        ChunkOptimizer();
     }
 
     void ChunkChecker()
@@ -65,9 +65,36 @@ public class MapController : MonoBehaviour
 
     void CheckAndSpawnChunk(string direction)
     {
-        if (!Physics2D.OverlapCircle(currentChunk.transform.Find(direction).position, checkerRadius, terrainMask))
+        Transform directionTransform = currentChunk.transform.Find(direction);
+        if (directionTransform == null)
         {
-            SpawnChunk(currentChunk.transform.Find(direction).position);
+            Debug.LogWarning("Direction transform not found for direction: " + direction);
+            return;
+        }
+
+        if (!Physics2D.OverlapCircle(directionTransform.position, checkerRadius, terrainMask))
+        {
+            SpawnChunk(directionTransform.position);
+            SpawnAdditionalChunks(directionTransform.position);
+        }
+    }
+
+    void SpawnAdditionalChunks(Vector3 basePosition)
+    {
+        Vector3[] directions = new Vector3[]
+        {
+            Vector3.right, Vector3.up, Vector3.down, Vector3.left, // Cardinal directions
+            Vector3.right + Vector3.up, Vector3.right + Vector3.down, // Diagonal directions
+            Vector3.left + Vector3.up, Vector3.left + Vector3.down // Diagonal directions
+        };
+
+        foreach (var direction in directions)
+        {
+            Vector3 newPosition = basePosition + direction * checkerRadius * 2; // Adjust distance as necessary
+            if (!Physics2D.OverlapCircle(newPosition, checkerRadius, terrainMask))
+            {
+                SpawnChunk(newPosition);
+            }
         }
     }
 
@@ -122,13 +149,13 @@ public class MapController : MonoBehaviour
         spawnedChunks.Add(latestChunk);
     }
 
-    void ChunkOptimzer()
+    void ChunkOptimizer()
     {
         optimizerCooldown -= Time.deltaTime;
 
         if (optimizerCooldown <= 0f)
         {
-            optimizerCooldown = optimizerCooldownDur;   //Check every 1 second to save cost, change this value to lower to check more times
+            optimizerCooldown = optimizerCooldownDur; // Check every optimizerCooldownDur seconds to save cost, change this value to lower to check more times
         }
         else
         {

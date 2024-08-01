@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -15,11 +16,18 @@ public class RuneMergeUI : MonoBehaviour
     public TextMeshProUGUI probabilitiesProbText; // Text to show rarity probabilities
     public TextMeshProUGUI probabilitiesErrorText; // Text to show error messages
 
+    public GameObject newRunePanelParent; // Parent GameObject for the new rune panel
+    public TextMeshProUGUI newRuneNameText; // Text to show the new rune name
+    public TextMeshProUGUI newRuneRarityText; // Text to show the new rune rarity
+
     private List<GameObject> mergeSlots = new List<GameObject>();
     private Rune[] runesInMergeSlots = new Rune[3];
     private int selectedRuneIndex = -1;
     private int selectedMergeSlotIndex = -1;
     private RuneInventory runeInventory;
+    private GameObject newRuneSlot; // Slot for displaying the new rune
+
+    public RuneDataNew[] runeDataNewList; // Array to hold references to RuneDataNew ScriptableObjects
 
     void Start()
     {
@@ -47,11 +55,18 @@ public class RuneMergeUI : MonoBehaviour
     public void InitializeMergeUI()
     {
         ClearMergeSlots();
-        //CreateMergeSlots();
         UpdateProbabilitiesText();
         addButton.gameObject.SetActive(false);
         removeButton.gameObject.SetActive(false);
         mergeButton.interactable = false;
+
+        if (newRuneSlot != null)
+        {
+            Destroy(newRuneSlot);
+        }
+        newRunePanelParent.SetActive(false); // Ensure the new rune panel is initially inactive
+        newRuneNameText.text = "";
+        newRuneRarityText.text = "";
     }
 
     private void CreateMergeSlots()
@@ -103,13 +118,13 @@ public class RuneMergeUI : MonoBehaviour
             return;
         }
 
-        if (selectedRuneIndex < 0 || selectedRuneIndex >= runeBag.rune.Count)
+        if (selectedRuneIndex < 0 || selectedRuneIndex >= runeBag.runes.Count)
         {
             Debug.LogError("Invalid selectedRuneIndex: " + selectedRuneIndex);
             return;
         }
 
-        Rune rune = runeBag.rune[selectedRuneIndex];
+        Rune rune = runeBag.runes[selectedRuneIndex];
         if (rune == null)
         {
             Debug.LogError("Selected rune is null at index: " + selectedRuneIndex);
@@ -139,7 +154,7 @@ public class RuneMergeUI : MonoBehaviour
                         Image iconImage = iconTransform.GetComponent<Image>();
                         if (iconImage != null)
                         {
-                            iconImage.sprite = rune.icon;
+                            iconImage.sprite = rune.GetIcon();
                             iconImage.color = Color.white; // Ensure the icon is visible
                         }
                     }
@@ -176,7 +191,16 @@ public class RuneMergeUI : MonoBehaviour
             selectedMergeSlotIndex = index;
             addButton.gameObject.SetActive(false);
             removeButton.gameObject.SetActive(true);
+            ShowRuneDetails(runesInMergeSlots[index]);
         }
+    }
+
+    private void ShowRuneDetails(Rune rune)
+    {
+        runeBagUI.runeNameText.text = $"<color=#{ColorUtility.ToHtmlStringRGBA(runeBagUI.GetRarityColor(rune.rarity))}>({rune.rarity})</color> {rune.name}";
+        runeBagUI.runeDescriptionText.text = runeBagUI.GetRuneDescription(rune);
+        runeBagUI.runeNameText.gameObject.SetActive(true);
+        runeBagUI.runeDescriptionText.gameObject.SetActive(true);
     }
 
     private void OnRemoveButtonClicked()
@@ -192,7 +216,7 @@ public class RuneMergeUI : MonoBehaviour
     {
         if (runesInMergeSlots[index] != null)
         {
-            int runeIndex = runeInventory.runeBag.rune.IndexOf(runesInMergeSlots[index]);
+            int runeIndex = runeInventory.runeBag.runes.IndexOf(runesInMergeSlots[index]);
             HighlightRuneInInventory(runeIndex, false);
             Image slotImage = mergeSlots[index].GetComponent<Image>();
             slotImage.color = new Color(0, 0, 0, 0.5f); // Set color to semi-transparent
@@ -248,14 +272,14 @@ public class RuneMergeUI : MonoBehaviour
             Rune newRune = CreateNewRune(runesInMergeSlots[0]);
             foreach (Rune rune in runesInMergeSlots)
             {
-                int index = runeInventory.runeBag.rune.IndexOf(rune);
-                runeInventory.runeBag.rune.Remove(rune);
+                int index = runeInventory.runeBag.runes.IndexOf(rune);
+                runeInventory.runeBag.runes.Remove(rune);
                 HighlightRuneInInventory(index, false);
             }
-            runeInventory.runeBag.rune.Add(newRune);
+            runeInventory.runeBag.runes.Add(newRune);
             ClearMergeSlots();
-            //CreateMergeSlots(); // Re-create merge slots after clearing
             runeBagUI.UpdateSlots();
+            ShowNewRuneDetails(newRune); // Show the details of the new rune
             Debug.Log("Runes merged successfully");
         }
         else
@@ -274,15 +298,31 @@ public class RuneMergeUI : MonoBehaviour
 
     private Rune CreateNewRune(Rune baseRune)
     {
+        RuneRarity newRarity = CalculateNewRarity(baseRune.rarity);
+        RuneDataNew runeData = FindRuneData(baseRune.name);
+
+        if (runeData == null)
+        {
+            Debug.LogError("RuneData for " + baseRune.name + " is not found.");
+            return null; // Or handle the error appropriately
+        }
+
         Rune newRune = new Rune
         {
-            icon = baseRune.icon,
+            iconName = baseRune.iconName,
             name = baseRune.name,
             description = baseRune.description,
-            rarity = CalculateNewRarity(baseRune.rarity),
-            actualStats = baseRune.actualStats, // You might want to randomize or average stats here
+            rarity = newRarity,
+            actualStats = InitializeRuneStats(runeData, newRarity),
             takesDamage = baseRune.takesDamage
         };
+
+        if (newRune.actualStats == null)
+        {
+            Debug.LogError("Failed to initialize rune stats for " + baseRune.name);
+            return null; // Or handle the error appropriately
+        }
+
         return newRune;
     }
 
@@ -305,6 +345,81 @@ public class RuneMergeUI : MonoBehaviour
             default:
                 return RuneRarity.Mythic;
         }
+    }
+
+    private RuneDataNew FindRuneData(string runeName)
+    {
+        foreach (var runeData in runeDataNewList)
+        {
+            if (runeData.name == runeName)
+            {
+                return runeData;
+            }
+        }
+        return null;
+    }
+
+    private RuneDataNew.Stats InitializeRuneStats(RuneDataNew runeDataNew, RuneRarity rarity)
+    {
+        if (runeDataNew == null)
+        {
+            Debug.LogError("RuneDataNew is null. Ensure it is properly initialized.");
+            return null; // Or return a default value if necessary
+        }
+
+        RuneDataNew.Stats minStats;
+        RuneDataNew.Stats maxStats;
+
+        // Set the min and max stats based on the rarity
+        switch (rarity)
+        {
+            case RuneRarity.Common:
+                minStats = runeDataNew.commonMinimumPossible ?? new RuneDataNew.Stats();
+                maxStats = runeDataNew.commonMaximumPossible ?? new RuneDataNew.Stats();
+                break;
+            case RuneRarity.Uncommon:
+                minStats = runeDataNew.uncommonMinimumPossible ?? new RuneDataNew.Stats();
+                maxStats = runeDataNew.uncommonMaximumPossible ?? new RuneDataNew.Stats();
+                break;
+            case RuneRarity.Rare:
+                minStats = runeDataNew.rareMinimumPossible ?? new RuneDataNew.Stats();
+                maxStats = runeDataNew.rareMaximumPossible ?? new RuneDataNew.Stats();
+                break;
+            case RuneRarity.Epic:
+                minStats = runeDataNew.epicMinimumPossible ?? new RuneDataNew.Stats();
+                maxStats = runeDataNew.epicMaximumPossible ?? new RuneDataNew.Stats();
+                break;
+            case RuneRarity.Legendary:
+                minStats = runeDataNew.legendaryMinimumPossible ?? new RuneDataNew.Stats();
+                maxStats = runeDataNew.legendaryMaximumPossible ?? new RuneDataNew.Stats();
+                break;
+            case RuneRarity.Mythic:
+                minStats = runeDataNew.mythicMinimumPossible ?? new RuneDataNew.Stats();
+                maxStats = runeDataNew.mythicMaximumPossible ?? new RuneDataNew.Stats();
+                break;
+            default:
+                minStats = new RuneDataNew.Stats();
+                maxStats = new RuneDataNew.Stats();
+                break;
+        }
+
+        // Generate stats within the min and max range
+        RuneDataNew.Stats rolledStats = new RuneDataNew.Stats
+        {
+            health = Random.Range(minStats.health, maxStats.health),
+            attackSpeed = Random.Range(minStats.attackSpeed, maxStats.attackSpeed),
+            luck = Random.Range(minStats.luck, maxStats.luck),
+            curse = Random.Range(minStats.curse, maxStats.curse),
+            dashCount = Random.Range(minStats.dashCount, maxStats.dashCount),
+            dashCooldown = Random.Range(minStats.dashCooldown, maxStats.dashCooldown),
+            armor = Random.Range(minStats.armor, maxStats.armor),
+            heartRune = Random.Range(minStats.heartRune, maxStats.heartRune),
+            lifeRegen = Random.Range(minStats.lifeRegen, maxStats.lifeRegen),
+            might = Random.Range(minStats.might, maxStats.might),
+            moveSpeed = Random.Range(minStats.moveSpeed, maxStats.moveSpeed)
+        };
+
+        return rolledStats;
     }
 
     private void ClearMergeSlots()
@@ -361,5 +476,67 @@ public class RuneMergeUI : MonoBehaviour
             $"{probabilities[3]:F2}%\n" +
             $"{probabilities[4]:F2}%\n" +
             $"{probabilities[5]:F2}%\n";
+    }
+
+    private void ShowNewRuneDetails(Rune newRune)
+    {
+        if (newRuneSlot != null)
+        {
+            Destroy(newRuneSlot);
+        }
+
+        newRuneSlot = Instantiate(slotPrefab, newRunePanelParent.transform);
+        newRuneSlot.SetActive(true);
+
+        Image slotImage = newRuneSlot.GetComponent<Image>();
+        if (slotImage != null)
+        {
+            slotImage.color = runeBagUI.GetRarityColor(newRune.rarity);
+
+            Transform iconTransform = newRuneSlot.transform.Find("Icon");
+            if (iconTransform != null)
+            {
+                Image iconImage = iconTransform.GetComponent<Image>();
+                if (iconImage != null)
+                {
+                    iconImage.sprite = newRune.GetIcon();
+                    iconImage.color = Color.white; // Ensure the icon is visible
+                }
+            }
+
+            Transform frameTransform = newRuneSlot.transform.Find("Frame");
+            if (frameTransform != null)
+            {
+                Image frameImage = frameTransform.GetComponent<Image>();
+                if (frameImage != null)
+                {
+                    frameImage.enabled = true; // Ensure the frame is enabled
+                }
+            }
+        }
+
+        newRuneNameText.text = newRune.name;
+        newRuneRarityText.text = newRune.rarity.ToString();
+        newRuneRarityText.color = runeBagUI.GetRarityColor(newRune.rarity); // Set text color to rarity color
+
+        newRunePanelParent.SetActive(true); // Show the new rune panel
+
+        StartCoroutine(CloseNewRunePanelAfterDelay(5.0f));
+    }
+
+    private IEnumerator CloseNewRunePanelAfterDelay(float delay)
+    {
+        float timeElapsed = 0f;
+        while (timeElapsed < delay)
+        {
+            if (Input.GetMouseButtonDown(0)) // Close panel if mouse is clicked
+            {
+                newRunePanelParent.SetActive(false);
+                yield break;
+            }
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+        newRunePanelParent.SetActive(false);
     }
 }

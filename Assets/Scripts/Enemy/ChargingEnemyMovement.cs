@@ -13,6 +13,6 @@ public class ChargingEnemyMovement : EnemyMovement
 
     public override void Move()
     {
-        transform.position += (Vector3)chargeDirection * enemy.ActualStats.moveSpeed * Time.deltaTime;
+        transform.position += (Vector3)chargeDirection * stats.Actual.moveSpeed * Time.deltaTime;
     }
 }

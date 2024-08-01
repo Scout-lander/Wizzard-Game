@@ -24,6 +24,7 @@ public class CrimsonCrusader : MonoBehaviour
     private Transform player;
     private bool isWhirlwindActive = false;
     private bool hasUsedWhirlwind = false;
+    private float originalMoveSpeed;
 
     [System.Serializable]
     public class Stats
@@ -203,22 +204,23 @@ public class CrimsonCrusader : MonoBehaviour
             isWhirlwindActive = true;
 
             // Store the original moveSpeed
-            float originalMoveSpeed = enemyStats.ActualStats.moveSpeed;
+            originalMoveSpeed = enemyStats.Actual.moveSpeed;
 
             // Modify the moveSpeed during whirlwind
-            enemyStats.ModifyActualStats(new EnemyStats.Stats { moveSpeed = originalMoveSpeed * actualStats.whirlwindMoveSpeedMultiplier });
+            float modifiedMoveSpeed = originalMoveSpeed * actualStats.whirlwindMoveSpeedMultiplier;
+            enemyStats.Actual.moveSpeed = modifiedMoveSpeed;
 
             StartCoroutine(ActivateWhirlwind());
-            StartCoroutine(StopWhirlwindAfterDuration(actualStats.whirlwindDuration, originalMoveSpeed));
+            StartCoroutine(StopWhirlwindAfterDuration(actualStats.whirlwindDuration));
         }
     }
 
-    private IEnumerator StopWhirlwindAfterDuration(float duration, float originalMoveSpeed)
+    private IEnumerator StopWhirlwindAfterDuration(float duration)
     {
         yield return new WaitForSeconds(duration);
-        
+
         // Restore the original moveSpeed
-        enemyStats.ModifyActualStats(new EnemyStats.Stats { moveSpeed = originalMoveSpeed + 0.5f});
+        enemyStats.Actual.moveSpeed = originalMoveSpeed + .2f;
 
         isWhirlwindActive = false;
         hasUsedWhirlwind = true;
@@ -234,7 +236,8 @@ public class CrimsonCrusader : MonoBehaviour
             Collider2D[] colliders = Physics2D.OverlapCircleAll(transform.position, actualStats.whirlwindRadius);
             foreach (Collider2D collider in colliders)
             {
-                if (collider.CompareTag("Player"))
+                    
+                if (collider.TryGetComponent(out PlayerStats p))
                 {
                     collider.GetComponent<PlayerStats>().TakeDamage(actualStats.whirlwindDamage);
                 }

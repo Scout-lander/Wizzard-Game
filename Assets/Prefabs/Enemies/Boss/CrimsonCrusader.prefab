@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 8733775121529283211}
   - component: {fileID: 5571715538652720198}
   - component: {fileID: 4975961482253657329}
+  - component: {fileID: -5678340633811572207}
   m_Layer: 0
   m_Name: CrimsonCrusader
   m_TagString: Untagged
@@ -499,13 +500,15 @@ MonoBehaviour:
     maxHealth: 100
     moveSpeed: 5
     damage: 14
-    knockbackMultipler: 0.2
+    knockbackMultiplier: 1
   actualStats:
     maxHealth: 10
     moveSpeed: 1.5
     damage: 3
-    knockbackMultipler: 1
-  hasSheild: 0
+    knockbackMultiplier: 1
+  damageBlockPercentage: 0
+  hasShield: 0
+  goldAmount: 10
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
@@ -534,7 +537,6 @@ MonoBehaviour:
   - {fileID: 8044248367160537044}
   minionSpawnParticles: {fileID: 108142839588649679, guid: ccedbd443abc5e84a9384d54b4765806, type: 3}
   teleportParticlesPrefab: {fileID: 2708598583397607910, guid: 6398d43fe79ea0140913dc5530c646af, type: 3}
-  originalMoveSpeed: 0
   baseStats:
     meteorShowerCooldown: 8
     minMeteorCount: 5
@@ -561,6 +563,72 @@ MonoBehaviour:
     whirlwindDuration: 5
     whirlwindCooldown: 30
     whirlwindMoveSpeedMultiplier: 0.5
+--- !u!114 &-5678340633811572207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7448900608228119757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd05d3c4b4b6cd2468c9bfee78f2f797, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generalAbilityChance: 100
+  lightningAbilityChance: 0
+  burningAbilityChance: 30
+  iceAbilityChance: 70
+  poisonAbilityChance: 0
+  poisonCloudChance: 0
+  voxAbilityChance: 0
+  shieldAbilityChance: 0
+  lightningMaterial: {fileID: 0}
+  burningMaterial: {fileID: 2100000, guid: 553ebce113c398941a96ca06138e2bf9, type: 2}
+  iceMaterial: {fileID: 2100000, guid: d5b15fd85e7e3864b892aeff2120e285, type: 2}
+  poisonMaterial: {fileID: 0}
+  shieldMaterial: {fileID: 0}
+  maxAbilities: 1
+  hasLightningAbility: 0
+  lightningEffectPrefab: {fileID: 0}
+  lightningProjectilePrefab: {fileID: 0}
+  projectileLightningSpeed: 5
+  projectileDuration: 4
+  numLightningProjectiles: 3
+  lightningCooldown: 2
+  hasBurningAbility: 0
+  fireEffectPrefab: {fileID: 0}
+  burnDuration: 8
+  burnDamagePerSecond: 1
+  hasIceAbility: 0
+  iceEffectPrefab: {fileID: 0}
+  iceTrailPrefab: {fileID: 8401679876769343541, guid: bb3445d2cacf6b04d9fa6faebd510ba3, type: 3}
+  iceSpikePrefab: {fileID: 6324723262026519836, guid: f925d1747038ab6488343f4cab834bde, type: 3}
+  iceTrailInterval: 0.5
+  iceSlowDuration: 1
+  iceSlowPercentage: 0.25
+  iceSpikeDuration: 2
+  iceSpikeDamage: 10
+  hasPoisonAbility: 0
+  poisonEffectPrefab: {fileID: 0}
+  poisonDuration: 3
+  poisonDamagePerTick: 2
+  leavesPoisonCloud: 0
+  poisonCloudPrefab: {fileID: 0}
+  poisonCloudDuration: 5
+  poisonCloudDamagePerTick: 1.5
+  hasVoxAbility: 0
+  voxPrefab: {fileID: 0}
+  voxEffectRadius: 3
+  pullForce: 5
+  slowFactor: 0.5
+  effectDuration: 5
+  voxCooldown: 10
+  hasShieldAbility: 0
+  shieldPrefab: {fileID: 0}
+  shieldDuration: 5
+  shieldCooldown: 10
+  damageBlockPercentage: 50
 --- !u!1 &8436319842817891552
 GameObject:
   m_ObjectHideFlags: 0

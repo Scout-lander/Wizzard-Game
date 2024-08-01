@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f9ea9c8c2212c946b3c8dbd86b0ccb3, type: 3}
+  m_Name: Power Rune
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 92501eed19b51cc42b6d6ff94072a404, type: 3}
+  iconName: PowerRune
+  gemName: Power Rune
+  description: Rune that grants immense power, increasing attack might significantly.
+    However, its weight reduces the wielder's speed
+  rarity: 0
+  takesDamage: 0
+  commonProbabilities: 0.5
+  uncommonProbabilities: 0.3
+  rareProbabilities: 0.1
+  epicProbabilities: 0.07
+  legendaryProbabilities: 0.03
+  mythicProbabilities: 0
+  commonMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.01
+    moveSpeed: -0.4
+  commonMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.05
+    moveSpeed: -0.5
+  uncommonMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.1
+    moveSpeed: -0.4
+  uncommonMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.3
+    moveSpeed: -0.3
+  rareMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.3
+    moveSpeed: -0.3
+  rareMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.5
+    moveSpeed: -0.2
+  epicMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.5
+    moveSpeed: -0.2
+  epicMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.7
+    moveSpeed: -0.15
+  legendaryMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0.7
+    moveSpeed: -0.15
+  legendaryMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 1
+    moveSpeed: -0.1
+  mythicMinimumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 1
+    moveSpeed: 0
+  mythicMaximumPossible:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 2
+    moveSpeed: 0
+  maxStats:
+    health: 0
+    attackSpeed: 0
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 2
+    moveSpeed: 0

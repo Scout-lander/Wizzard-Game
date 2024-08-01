@@ -16,12 +16,12 @@ public class RuneUI : MonoBehaviour
     public Button sortButton;
     public Button openMergeUIButton;
     public Button closeMergeUIButton;
-    public GameObject mergeUI; // The merge UI panel
-    public TMP_Text notificationText;  // Reference to the TMP text component
+    public GameObject mergeUI;
+    public TMP_Text notificationText;
 
     private Transform equippedRuneTransform;
     private Transform inventoryRuneTransform;
-    public List<Image> runeSlotImages = new List<Image>(); // Changed to public
+    public List<Image> runeSlotImages = new List<Image>();
     private List<Image> runeIconImages = new List<Image>();
     private List<Image> frameImages = new List<Image>();
     private List<Image> equippedRuneSlotImages = new List<Image>();
@@ -29,24 +29,21 @@ public class RuneUI : MonoBehaviour
     private int selectedRuneIndex = -1;
     private int selectedEquippedRuneIndex = -1;
 
-    public GameObject playerObject;  // Public field for the player object
+    public GameObject playerObject;
     private RuneInventory runeInventory;
-    private SaveLoadManager saveLoadManager; // Reference to the SaveLoadManager
-    private EquippedRuneStatsUI equippedRuneStatsUI; // Reference to the EquippedRuneStatsUI
+    private SaveLoadManager saveLoadManager;
+    private EquippedRuneStatsUI equippedRuneStatsUI;
 
     void Start()
     {
-        // Get the RuneInventory component from the player object
         runeInventory = playerObject.GetComponent<RuneInventory>();
-
         if (runeInventory == null)
         {
             Debug.LogError("RuneInventory component not found on the player object.");
             return;
         }
 
-        // Get the SaveLoadManager component
-        saveLoadManager = FindObjectOfType<SaveLoadManager>(); // Get the SaveLoadManager component
+        saveLoadManager = FindObjectOfType<SaveLoadManager>();
         equippedRuneStatsUI = FindObjectOfType<EquippedRuneStatsUI>();
 
         equippedRuneTransform = transform.Find("Rune Equipped");
@@ -141,11 +138,11 @@ public class RuneUI : MonoBehaviour
     private void OnRuneClicked(int index)
     {
         RuneBagSerializable runeBag = runeInventory.runeBag;
-        if (index < runeBag.rune.Count && runeBag.rune[index] != null)
+        if (index < runeBag.runes.Count && runeBag.runes[index] != null)
         {
             selectedRuneIndex = index;
             selectedEquippedRuneIndex = -1;
-            Rune rune = runeBag.rune[index];
+            Rune rune = runeBag.runes[index];
             runeDescriptionText.text = GetRuneDescription(rune);
             runeNameText.text = $"<color=#{ColorUtility.ToHtmlStringRGBA(GetRarityColor(rune.rarity))}>({rune.rarity})</color> {rune.name}";
 
@@ -159,9 +156,12 @@ public class RuneUI : MonoBehaviour
             {
                 RuneMergeUI mergeScript = mergeUI.GetComponent<RuneMergeUI>();
                 mergeScript.OnRuneClicked(rune, index);
+                if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+                {
+                    mergeScript.AddRuneToMergeSlot();
+                }
             }
-
-            if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
+            else if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
             {
                 EquipSelectedRune();
             }
@@ -171,11 +171,11 @@ public class RuneUI : MonoBehaviour
     private void OnEquippedRuneClicked(int index)
     {
         RuneBagSerializable equippedBag = runeInventory.equippedRuneBag;
-        if (index < equippedBag.rune.Count && equippedBag.rune[index] != null)
+        if (index < equippedBag.runes.Count && equippedBag.runes[index] != null)
         {
             selectedEquippedRuneIndex = index;
             selectedRuneIndex = -1;
-            Rune rune = equippedBag.rune[index];
+            Rune rune = equippedBag.runes[index];
             runeDescriptionText.text = GetRuneDescription(rune);
             runeNameText.text = $"<color=#{ColorUtility.ToHtmlStringRGBA(GetRarityColor(rune.rarity))}>({rune.rarity})</color> {rune.name}";
 
@@ -198,9 +198,8 @@ public class RuneUI : MonoBehaviour
         }
     }
 
-    private string GetRuneDescription(Rune rune)
+    public string GetRuneDescription(Rune rune)
     {
-        // Customize the description as per your game's requirements
         string description = rune.description;
 
         if (rune.actualStats != null)
@@ -230,12 +229,12 @@ public class RuneUI : MonoBehaviour
         else if (statValue > 0)
         {
             string color = isNegativeGood ? "red" : "yellow";
-            return $"<color={color}>{statName}</color>: +{statValue}\n";
+            return $"<color={color}>{statName}</color>: +{statValue:F2}\n";
         }
         else
         {
             string color = isNegativeGood ? "yellow" : "red";
-            return $"<color={color}>{statName}</color>: {statValue}\n";
+            return $"<color={color}>{statName}</color>: {statValue:F2}\n";
         }
     }
 
@@ -261,17 +260,24 @@ public class RuneUI : MonoBehaviour
     {
         RuneBagSerializable runeBag = runeInventory.runeBag;
         RuneBagSerializable equippedBag = runeInventory.equippedRuneBag;
-        if (selectedRuneIndex >= 0 && selectedRuneIndex < runeBag.rune.Count)
+        if (selectedRuneIndex >= 0 && selectedRuneIndex < runeBag.runes.Count)
         {
-            Rune rune = runeBag.rune[selectedRuneIndex];
-            if (equippedBag.rune.Count < equippedBag.maxCapacity)
+            Rune rune = runeBag.runes[selectedRuneIndex];
+            if (equippedBag.runes.Count < equippedBag.maxCapacity)
             {
-                equippedBag.rune.Add(rune);
-                runeBag.rune.RemoveAt(selectedRuneIndex);
+                int sameNameCount = equippedBag.runes.Count(r => r.name == rune.name);
+                if (sameNameCount >= 4)
+                {
+                    ShowNotification("Can't equip rune. You already have 4 runes with the same name equipped.");
+                    return;
+                }
+
+                equippedBag.runes.Add(rune);
+                runeBag.runes.RemoveAt(selectedRuneIndex);
                 UpdateSlots();
                 UpdateEquippedSlots();
                 ClearSelectedRune();
-                SaveRuneBags();// Save the rune bags
+                SaveRuneBags();
                 equippedRuneStatsUI.UpdateEquippedRuneStats();
             }
             else
@@ -289,13 +295,13 @@ public class RuneUI : MonoBehaviour
     {
         RuneBagSerializable runeBag = runeInventory.runeBag;
         RuneBagSerializable equippedBag = runeInventory.equippedRuneBag;
-        if (selectedEquippedRuneIndex >= 0 && selectedEquippedRuneIndex < equippedBag.rune.Count)
+        if (selectedEquippedRuneIndex >= 0 && selectedEquippedRuneIndex < equippedBag.runes.Count)
         {
-            Rune rune = equippedBag.rune[selectedEquippedRuneIndex];
-            if (runeBag.rune.Count < runeBag.maxCapacity)
+            Rune rune = equippedBag.runes[selectedEquippedRuneIndex];
+            if (runeBag.runes.Count < runeBag.maxCapacity)
             {
-                runeBag.rune.Add(rune);
-                equippedBag.rune.RemoveAt(selectedEquippedRuneIndex);
+                runeBag.runes.Add(rune);
+                equippedBag.runes.RemoveAt(selectedEquippedRuneIndex);
                 UpdateSlots();
                 UpdateEquippedSlots();
                 ClearSelectedRune();
@@ -317,17 +323,17 @@ public class RuneUI : MonoBehaviour
     {
         RuneBagSerializable runeBag = runeInventory.runeBag;
         RuneBagSerializable equippedBag = runeInventory.equippedRuneBag;
-        if (selectedRuneIndex >= 0 && selectedRuneIndex < runeBag.rune.Count)
+        if (selectedRuneIndex >= 0 && selectedRuneIndex < runeBag.runes.Count)
         {
-            runeBag.rune.RemoveAt(selectedRuneIndex);
+            runeBag.runes.RemoveAt(selectedRuneIndex);
             UpdateSlots();
             ClearSelectedRune();
             equippedRuneStatsUI.UpdateEquippedRuneStats();
             SaveRuneBags();
         }
-        else if (selectedEquippedRuneIndex >= 0 && selectedEquippedRuneIndex < equippedBag.rune.Count)
+        else if (selectedEquippedRuneIndex >= 0 && selectedEquippedRuneIndex < equippedBag.runes.Count)
         {
-            equippedBag.rune.RemoveAt(selectedEquippedRuneIndex);
+            equippedBag.runes.RemoveAt(selectedEquippedRuneIndex);
             UpdateEquippedSlots();
             ClearSelectedRune();
             SaveRuneBags();
@@ -345,12 +351,22 @@ public class RuneUI : MonoBehaviour
         RuneBagSerializable runeBag = runeInventory.runeBag;
         for (int i = 0; i < runeSlotImages.Count; i++)
         {
-            if (i < runeBag.rune.Count && runeBag.rune[i] != null)
+            if (i < runeBag.runes.Count && runeBag.runes[i] != null)
             {
-                Rune rune = runeBag.rune[i];
-                runeSlotImages[i].color = GetRarityColor(rune.rarity);
-                runeIconImages[i].sprite = rune.icon;
-                runeIconImages[i].color = Color.white;
+                Rune rune = runeBag.runes[i];
+                Sprite icon = rune.GetIcon();
+                if (icon != null && !IsDestroyed(icon))
+                {
+                    runeSlotImages[i].color = GetRarityColor(rune.rarity);
+                    runeIconImages[i].sprite = icon;
+                    runeIconImages[i].color = Color.white;
+                }
+                else
+                {
+                    Debug.LogWarning($"Rune '{rune.name}' is missing its icon and will be removed.");
+                    runeBag.runes.RemoveAt(i);
+                    i--;
+                }
             }
             else
             {
@@ -360,6 +376,13 @@ public class RuneUI : MonoBehaviour
             }
             frameImages[i].enabled = true;
         }
+
+        SaveRuneBags();
+    }
+
+    private bool IsDestroyed(Object obj)
+    {
+        return obj == null || obj.Equals(null);
     }
 
     public void UpdateEquippedSlots()
@@ -373,12 +396,22 @@ public class RuneUI : MonoBehaviour
         RuneBagSerializable equippedBag = runeInventory.equippedRuneBag;
         for (int i = 0; i < equippedRuneSlotImages.Count; i++)
         {
-            if (i < equippedBag.rune.Count && equippedBag.rune[i] != null)
+            if (i < equippedBag.runes.Count && equippedBag.runes[i] != null)
             {
-                Rune rune = equippedBag.rune[i];
-                equippedRuneSlotImages[i].color = GetRarityColor(rune.rarity);
-                equippedRuneIconImages[i].sprite = rune.icon;
-                equippedRuneIconImages[i].color = Color.white;
+                Rune rune = equippedBag.runes[i];
+                Sprite icon = rune.GetIcon();
+                if (icon != null)
+                {
+                    equippedRuneSlotImages[i].color = GetRarityColor(rune.rarity);
+                    equippedRuneIconImages[i].sprite = icon;
+                    equippedRuneIconImages[i].color = Color.white;
+                }
+                else
+                {
+                    equippedRuneSlotImages[i].color = new Color(0, 0, 0, 0.5f);
+                    equippedRuneIconImages[i].sprite = null;
+                    equippedRuneIconImages[i].color = new Color(0, 0, 0, 0.5f);
+                }
             }
             else
             {
@@ -426,7 +459,7 @@ public class RuneUI : MonoBehaviour
     private void SortRunesByTypeAndRarity()
     {
         RuneBagSerializable runeBag = runeInventory.runeBag;
-        runeBag.rune = runeBag.rune
+        runeBag.runes = runeBag.runes
             .OrderBy(rune => rune.name)
             .ThenBy(rune => rune.rarity)
             .ToList();
@@ -441,7 +474,6 @@ public class RuneUI : MonoBehaviour
         destroyButton.gameObject.SetActive(false);
         openMergeUIButton.gameObject.SetActive(false);
 
-        // Initialize the merge UI when opened
         mergeUI.GetComponent<RuneMergeUI>().InitializeMergeUI();
     }
 
@@ -449,7 +481,6 @@ public class RuneUI : MonoBehaviour
     {
         mergeUI.SetActive(false);
         openMergeUIButton.gameObject.SetActive(true);
-        // Re-enable equip and destroy buttons only if a rune is selected
         if (selectedRuneIndex >= 0)
         {
             equipButton.gameObject.SetActive(true);
@@ -476,7 +507,7 @@ public class RuneUI : MonoBehaviour
 
     private IEnumerator HideNotification()
     {
-        yield return new WaitForSeconds(2f); // Show the message for 2 seconds
+        yield return new WaitForSeconds(2f);
         notificationText.gameObject.SetActive(false);
     }
 

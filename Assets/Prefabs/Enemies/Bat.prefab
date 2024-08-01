@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4193112312619027109}
   - component: {fileID: 5223095555527725130}
   - component: {fileID: 6605086367421788633}
-  - component: {fileID: -4008963803231840987}
+  - component: {fileID: 8958507625473812624}
   m_Layer: 7
   m_Name: Bat
   m_TagString: Enemy
@@ -60,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -170,7 +170,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8354af90658fa984495e7be309fc3bc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sortingActive: 1
+  minimumDistance: 0.2
   outOfFrameAction: 1
+  knockbackVariance: 2
 --- !u!114 &4193112312619027109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,25 +203,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd05d3c4b4b6cd2468c9bfee78f2f797, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generalAbilityChance: 99
+  boostedByCurse: 1
+  generalAbilityChance: 50
   lightningAbilityChance: 33
   burningAbilityChance: 33
   iceAbilityChance: 33
   poisonAbilityChance: 33
   poisonCloudChance: 80
   voxAbilityChance: 33
-  shieldAbilityChance: 0
+  shieldAbilityChance: 5
   lightningMaterial: {fileID: 2100000, guid: ac4b8e6fe50927d4d8d70eeaa923df6e, type: 2}
   burningMaterial: {fileID: 2100000, guid: 553ebce113c398941a96ca06138e2bf9, type: 2}
   iceMaterial: {fileID: 2100000, guid: 595eafd5b6a355347af484b31efc2ec3, type: 2}
   poisonMaterial: {fileID: 0}
   shieldMaterial: {fileID: 0}
+  maxAbilities: 2
   hasLightningAbility: 0
   lightningEffectPrefab: {fileID: 338926138968033325, guid: 7b7c568fd23d9ac4790db6f0e3b2cfca, type: 3}
-  lightningProjectilePrefab: {fileID: 7655578187253603844, guid: 57be437be4a94d6419896ad97c971d8f, type: 3}
+  lightningProjectilePrefab: {fileID: 7655578187253603844, guid: d52a21904cac5214a99cb18b12e0c301, type: 3}
   projectileLightningSpeed: 4
   projectileDuration: 3
   numLightningProjectiles: 3
+  lightningCooldown: 2
   hasBurningAbility: 0
   fireEffectPrefab: {fileID: 5381768852406240756, guid: d2725825d79809c44bb377a6bace2c54, type: 3}
   burnDuration: 5
@@ -233,11 +239,11 @@ MonoBehaviour:
   iceSpikeDuration: 3
   iceSpikeDamage: 15
   hasPoisonAbility: 0
-  poisonEffectPrefab: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c, type: 3}
+  poisonEffectPrefab: {fileID: 1965343156803978, guid: fd86e4391ae05044f8fc45fdeb618dc8, type: 3}
   poisonDuration: 3
   poisonDamagePerTick: 2
   leavesPoisonCloud: 0
-  poisonCloudPrefab: {fileID: 7226888052703040409, guid: 7ec363c8df426644ea85f8d6d570561c, type: 3}
+  poisonCloudPrefab: {fileID: 1965343156803978, guid: fd86e4391ae05044f8fc45fdeb618dc8, type: 3}
   poisonCloudDuration: 5
   poisonCloudDamagePerTick: 1.5
   hasVoxAbility: 0
@@ -248,8 +254,8 @@ MonoBehaviour:
   effectDuration: 5
   voxCooldown: 5
   hasShieldAbility: 0
-  shieldPrefab: {fileID: 3280519133390621005, guid: a71be3e7990efb040a07565c43cbb198, type: 3}
-  shieldDuration: 5
+  shieldPrefab: {fileID: 100006, guid: 8be1942f295cd1a41b28d8159973bdd9, type: 3}
+  shieldDuration: 11
   shieldCooldown: 10
   damageBlockPercentage: 50
 --- !u!114 &6605086367421788633
@@ -264,22 +270,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7f8ef098f9c46c1bf597f50232c655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAbility: {fileID: 0}
   baseStats:
     maxHealth: 20
     moveSpeed: 1.5
     damage: 3
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: -1
+    levelBoosts: 0
   actualStats:
     maxHealth: 20
     moveSpeed: 1.5
     damage: 3
-    knockbackMultipler: 1
+    knockbackMultiplier: 1
+    resistances:
+      freeze: 0
+      kill: 0
+      debuff: 0
+    curseBoosts: 0
+    levelBoosts: 0
+  enemyAbility: {fileID: 0}
+  damageBlockPercentage: 0
   hasShield: 0
+  goldAmount: 10
   damageColor: {r: 1, g: 0, b: 0, a: 1}
   damageFlashDuration: 0.2
   deathFadeTime: 0.6
---- !u!114 &-4008963803231840987
+--- !u!114 &8958507625473812624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -288,10 +308,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 461759420925149495}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b359d6ea8b0668642944c7447c5651be, type: 3}
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldAmount: 1
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 0000000063c8cf613f02bbde476342db37a06a771dfd4ad7e966c59cfdbc099a
+  m_ShapePath:
+  - {x: -0.07056546, y: -0.014170885, z: 0}
+  - {x: -0.08505225, y: 0.26044977, z: 0}
+  - {x: 0.092295885, y: 0.23147582, z: 0}
+  - {x: 0.0995394, y: -0.0069274306, z: 0}
+  m_ShapePathHash: -2119751215
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -367318
+  m_LocalBounds:
+    m_Center: {x: 0.0072435737, y: 0.12313944, z: 0}
+    m_Extent: {x: 0.092295825, y: 0.13731033, z: 0}
 --- !u!1 &599722430768068397
 GameObject:
   m_ObjectHideFlags: 0

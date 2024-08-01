@@ -15,7 +15,7 @@ MonoBehaviour:
   possibleSpawnPrefabs:
   - {fileID: 461759420925149495, guid: 15bbb831d41eb4b53b6e2980da5df468, type: 3}
   spawnInterval: {x: 2, y: 3}
-  spawnsPerTick: {x: 25, y: 36}
+  spawnsPerTick: {x: 30, y: 40}
   duration: 60
   probability: 1
   luckFactor: 1

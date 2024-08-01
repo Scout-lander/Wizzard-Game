@@ -44,6 +44,7 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   growth: []
   randomGrowth:
   - name: 'Dash '
@@ -71,8 +72,9 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
-  - name: 'Dash '
-    description: Dash CoolDown - 0.5
+      heartRune: 0
+  - name: Dash
+    description: Dash Cool Down -0.5 seconds
     boosts:
       maxHealth: 0
       recovery: 0
@@ -96,6 +98,7 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0
   - name: 'Dash '
     description: Add 1 Dash
     boosts:
@@ -121,3 +124,4 @@ MonoBehaviour:
       StunReduction: 0
       BurnReduction: 0
       SlowReduction: 0
+      heartRune: 0

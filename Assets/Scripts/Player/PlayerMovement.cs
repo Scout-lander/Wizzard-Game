@@ -39,7 +39,9 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private PlayerStats player;
     private FrostCoolDownUI frostCoolDown;
-    private CoolDowns coolDowns;
+    public CoolDowns coolDowns;
+
+    [SerializeField] public TrailRenderer tr;
 
     void Start()
     {
@@ -47,7 +49,8 @@ public class PlayerMovement : MonoBehaviour
         coolDowns = FindObjectOfType<CoolDowns>();
         rb = GetComponent<Rigidbody2D>();
         lastMovedVector = new Vector2(1, 0f);
-        animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
+        tr = GetComponentInChildren<TrailRenderer>();
         dashSpeed = player.ActualStats.moveSpeed * 20;
         SBuff = player.ActualStats.moveSpeed * 20;
         EnemyAbility enemyAbilityInstance = new EnemyAbility();
@@ -144,10 +147,12 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = moveDir * dashSpeed;
         animator.Play("Wizzard_dash");
+        tr.emitting = true;
         yield return new WaitForSeconds(player.ActualStats.dashDuration);
         isDashing = false;
         Physics2D.IgnoreLayerCollision(7, 8, false);
         animator.Play("Wizzard_Idle");
+        tr.emitting = false;
 
         if (currentDashes < player.ActualStats.maxDashes)
         {

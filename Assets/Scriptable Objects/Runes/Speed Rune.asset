@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f9ea9c8c2212c946b3c8dbd86b0ccb3, type: 3}
   m_Name: Speed Rune
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 5f89ed579de19f740b57d26f63bab809, type: 3}
+  icon: {fileID: 21300000, guid: 2dbba0f8f67c8f14cabb0e98507ea885, type: 3}
+  iconName: SpeedRune
   gemName: Speed Rune
   description: A lightweight Rune that dramatically increases movement speed. The
     trade-off is a reduction in maximum health.
@@ -157,6 +158,18 @@ MonoBehaviour:
     might: 0
     moveSpeed: 0
   mythicMaximumPossible:
+    health: 0
+    attackSpeed: 0.6
+    luck: 0
+    curse: 0
+    dashCount: 0
+    dashCooldown: 0
+    armor: 0
+    heartRune: 0
+    lifeRegen: 0
+    might: 0
+    moveSpeed: 0
+  maxStats:
     health: 0
     attackSpeed: 0.6
     luck: 0

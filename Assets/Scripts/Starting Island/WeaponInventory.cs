@@ -1,10 +1,14 @@
 using UnityEngine;
 using System;
+using UnityEngine.UI; // Add this for Image
 
 public class WeaponInventory : MonoBehaviour
 {
     public WeaponData[] weaponSlots = new WeaponData[10]; // Array to hold weapon data slots
     public WeaponData equippedWeapon; // The currently equipped weapon data
+    public WeaponData brokenBottleWeapon; // The "broken bottle" weapon data
+
+    public Image equippedWeaponIcon; // UI element to display equipped weapon icon
 
     public event Action OnInventoryChanged; // Event to notify UI when inventory changes
 
@@ -14,15 +18,26 @@ public class WeaponInventory : MonoBehaviour
     {
         saveLoadManager = FindObjectOfType<SaveLoadManager>();
         LoadEquippedWeapon();
+        OnInventoryChanged += UpdateEquippedWeaponIcon; // Subscribe to the event
+        OnInventoryChanged?.Invoke();
+        UpdateEquippedWeaponIcon();
     }
 
     private void LoadEquippedWeapon()
     {
         equippedWeapon = saveLoadManager.LoadEquippedWeapon();
-        if (equippedWeapon != null)
+        if (equippedWeapon == null && brokenBottleWeapon != null)
+        {
+            equippedWeapon = brokenBottleWeapon;
+            Debug.Log($"No weapon equipped. Auto-equipped: {equippedWeapon.weaponName}");
+            SaveEquippedWeapon();
+            UpdateEquippedWeaponIcon();
+        }
+        else if (equippedWeapon != null)
         {
             Debug.Log($"Loaded equipped weapon: {equippedWeapon.weaponName}");
         }
+        OnInventoryChanged?.Invoke(); // Notify UI about the change
     }
 
     private void SaveEquippedWeapon()
@@ -77,5 +92,19 @@ public class WeaponInventory : MonoBehaviour
         Debug.Log($"Weapon {weaponSlots[slotIndex].weaponName} removed from slot {slotIndex}.");
         weaponSlots[slotIndex] = null;
         OnInventoryChanged?.Invoke(); // Notify UI about the change
+    }
+
+    // Method to update the equipped weapon icon
+    private void UpdateEquippedWeaponIcon()
+    {
+        if (equippedWeapon != null && equippedWeaponIcon != null)
+        {
+            equippedWeaponIcon.sprite = equippedWeapon.icon;
+            equippedWeaponIcon.gameObject.SetActive(true); // Ensure the icon is visible
+        }
+        else if (equippedWeaponIcon != null)
+        {
+            equippedWeaponIcon.gameObject.SetActive(false); // Hide the icon if no weapon is equipped
+        }
     }
 }

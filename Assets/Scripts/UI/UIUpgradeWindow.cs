@@ -130,7 +130,7 @@ public class UIUpgradeWindow : MonoBehaviour
 
                 // Select one of the picked upgrades.
                 ItemData selected = selectedUpgrades[activeOptions];
-                Item item = inventory.Get(selected);
+                Skill item = inventory.Get(selected);
 
                 // Insert the name of the item.
                 TextMeshProUGUI name = r.Find(namePath).GetComponent<TextMeshProUGUI>();

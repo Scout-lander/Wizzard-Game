@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7c695651be6f340a32fef05a7d7c9a, type: 3}
+  m_Name: Content Builder Config
+  m_EditorClassIdentifier: 
+  username: Ox9tlPOw1bVhabx0yqWo9o/CLiyxKNUaFdOJMBWq5cSFkoDsC9cmkhQZIyNmG0cfaQctQPUUCbR0kl42t1MU+uG0cZx6mv67DIeLK+MpWtOrtKvySp+AYeV28diOzxbc
+  rememberPassword: 1
+  password: RRmkJOPMv9Fcx7WmLgaRZyM6nOTnsEWJoYjLwKAHLhrkNCUvob+Kc7Ym+0haGckDCVZ5Db08oCvQnWYgeOtC2OEHrXJMHOgFAwhvpcFpeOFPbtmVG5nq1X6JRU/7ViKV
+  targetApp: 3099850
+  lastDepot: 0
+  depots:
+  - name: Arcane Pursuit
+    id: 0
+    target: 5
+    extension: 

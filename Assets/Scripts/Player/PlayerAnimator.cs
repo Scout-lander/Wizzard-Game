@@ -1,19 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAnimator : MonoBehaviour
 {
-    //References
-    Animator am;
-    PlayerMovement pm;
-    SpriteRenderer sr;
+    // References
+    private Animator am;
+    private PlayerMovement pm;
+    private Transform tr;
+
+    [SerializeField]
+    private GameObject otherObjectToFlip;
 
     void Start()
     {
-        am = GetComponent<Animator>();
+        am = GetComponentInChildren<Animator>();
         pm = GetComponent<PlayerMovement>();
-        sr = GetComponent<SpriteRenderer>();
+        tr = GetComponent<Transform>();
     }
 
     void Update()
@@ -21,12 +22,14 @@ public class PlayerAnimator : MonoBehaviour
         if (pm.moveDir.x != 0 || pm.moveDir.y != 0)
         {
             am.SetBool("Move", true);
+            am.SetInteger("State", 2);
 
             SpriteDirectionChecker();
         }
         else
         {
             am.SetBool("Move", false);
+            am.SetInteger("State", 0);
         }
     }
 
@@ -34,11 +37,19 @@ public class PlayerAnimator : MonoBehaviour
     {
         if (pm.lastHorizontalVector < 0)
         {
-            sr.flipX = true;
+            tr.localScale = new Vector3(-Mathf.Abs(tr.localScale.x), tr.localScale.y, tr.localScale.z);
+            if (otherObjectToFlip != null)
+            {
+                otherObjectToFlip.transform.localScale = new Vector3(-Mathf.Abs(otherObjectToFlip.transform.localScale.x), otherObjectToFlip.transform.localScale.y, otherObjectToFlip.transform.localScale.z);
+            }
         }
-        else
+        else if (pm.lastHorizontalVector > 0)
         {
-            sr.flipX = false;
+            tr.localScale = new Vector3(Mathf.Abs(tr.localScale.x), tr.localScale.y, tr.localScale.z);
+            if (otherObjectToFlip != null)
+            {
+                otherObjectToFlip.transform.localScale = new Vector3(Mathf.Abs(otherObjectToFlip.transform.localScale.x), otherObjectToFlip.transform.localScale.y, otherObjectToFlip.transform.localScale.z);
+            }
         }
     }
 }

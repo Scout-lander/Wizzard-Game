@@ -36,15 +36,15 @@ public static class RuneMergeRarityCalculator
                         mythicProb += 0.0f;
                         break;
                     case RuneRarity.Rare:
-                        commonProb += 0.5f;
-                        uncommonProb += 0.15f;
-                        rareProb += 0.5f;
+                        commonProb += 0.02f;
+                        uncommonProb += 0.18f;
+                        rareProb += 0.4f;
                         epicProb += 0.2f;
                         legendaryProb += 0.1f;
                         mythicProb += 0.0f;
                         break;
                     case RuneRarity.Epic:
-                        commonProb += 0.3f;
+                        commonProb += 0.02f;
                         uncommonProb += 0.07f;
                         rareProb += 0.2f;
                         epicProb += 0.5f;

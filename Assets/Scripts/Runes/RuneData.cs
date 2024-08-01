@@ -7,6 +7,7 @@ public enum RuneRarity { Common, Uncommon, Rare, Epic, Legendary, Mythic }
 public class RuneDataNew : ScriptableObject
 {
     public Sprite icon;
+    public string iconName;
     public string gemName;
     public string description;
     public RuneRarity rarity;
@@ -26,14 +27,14 @@ public class RuneDataNew : ScriptableObject
     {
         public int health;
         public float attackSpeed;
-        public int luck;
-        public int curse;
+        public float luck;
+        public float curse;
         public float dashCount;
         public float dashCooldown;
-        public int armor;
+        public float armor;
         public float heartRune;
         public float lifeRegen;
-        public int might;
+        public float might;
         public float moveSpeed;
     }
 
@@ -54,4 +55,23 @@ public class RuneDataNew : ScriptableObject
 
     public Stats mythicMinimumPossible;
     public Stats mythicMaximumPossible;
+
+    
+[System.Serializable]
+    public class MaxStats
+    {
+        public int health;
+        public float attackSpeed;
+        public int luck;
+        public int curse;
+        public float dashCount;
+        public float dashCooldown;
+        public float armor;
+        public float heartRune;
+        public float lifeRegen;
+        public float might;
+        public float moveSpeed;
+    }
+
+    public MaxStats maxStats; // Instance to hold max stat values
 }

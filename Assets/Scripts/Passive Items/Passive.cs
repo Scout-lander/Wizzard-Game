@@ -4,7 +4,7 @@ using UnityEngine;
 /// A class that takes a PassiveData and is used to increment a player's
 /// stats when received.
 /// </summary>
-public class Passive : Item
+public class Passive : Skill
 {
     [SerializeField] private PlayerStats.Stats currentBoosts;
 

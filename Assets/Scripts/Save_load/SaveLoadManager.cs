@@ -7,11 +7,25 @@ public class SaveLoadManager : MonoBehaviour
 {
     private string runeBagsSavePath;
     private string equippedWeaponSavePath;
+    private string toggleStateSavePath;
 
     private void Awake()
     {
-        runeBagsSavePath = Application.persistentDataPath + "/runeBags.json";
-        equippedWeaponSavePath = Application.persistentDataPath + "/equippedWeapon.json";
+        // Combine the paths to ensure they are within the Save folder
+        string saveFolderPath = System.IO.Path.Combine(Application.persistentDataPath, "Save");
+
+        // Ensure the Save directory exists
+        if (!System.IO.Directory.Exists(saveFolderPath))
+        {
+            System.IO.Directory.CreateDirectory(saveFolderPath);
+        }
+
+        // Set the paths for the save files within the Save folder
+        runeBagsSavePath = System.IO.Path.Combine(saveFolderPath, "runeBags.json");
+        equippedWeaponSavePath = System.IO.Path.Combine(saveFolderPath, "equippedWeapon.json");
+        toggleStateSavePath = System.IO.Path.Combine(saveFolderPath, "toggleState.json");
+
+        // Register the scene loaded and unloaded events
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
@@ -44,7 +58,7 @@ public class SaveLoadManager : MonoBehaviour
 
             runeInventory.runeBag = data.runeBag;
             runeInventory.equippedRuneBag = data.equippedRuneBag;
-            Debug.Log("Rune bags loaded from " + runeBagsSavePath);
+            //Debug.Log("Rune bags loaded from " + runeBagsSavePath);
         }
         else
         {
@@ -70,13 +84,41 @@ public class SaveLoadManager : MonoBehaviour
         {
             string json = File.ReadAllText(equippedWeaponSavePath);
             EquippedWeaponData data = JsonUtility.FromJson<EquippedWeaponData>(json);
-            Debug.Log("Equipped weapon loaded from " + equippedWeaponSavePath);
+            //Debug.Log("Equipped weapon loaded from " + equippedWeaponSavePath);
             return data.equippedWeapon;
         }
         else
         {
             Debug.LogWarning("Equipped weapon save file not found at " + equippedWeaponSavePath);
             return null;
+        }
+    }
+
+    public void SaveToggleState(bool isOn)
+    {
+        ToggleStateData data = new ToggleStateData
+        {
+            isOn = isOn
+        };
+
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(toggleStateSavePath, json);
+        Debug.Log("Toggle state saved to " + toggleStateSavePath);
+    }
+
+    public bool LoadToggleState()
+    {
+        if (File.Exists(toggleStateSavePath))
+        {
+            string json = File.ReadAllText(toggleStateSavePath);
+            ToggleStateData data = JsonUtility.FromJson<ToggleStateData>(json);
+            //Debug.Log("Toggle state loaded from " + toggleStateSavePath);
+            return data.isOn;
+        }
+        else
+        {
+            Debug.LogWarning("Toggle state save file not found at " + toggleStateSavePath);
+            return false;
         }
     }
 
@@ -87,6 +129,13 @@ public class SaveLoadManager : MonoBehaviour
         {
             LoadRuneBags(runeInventory);
         }
+
+        ToggleGameObjects toggleGameObjects = FindObjectOfType<ToggleGameObjects>();
+        if (toggleGameObjects != null)
+        {
+            bool toggleState = LoadToggleState();
+            toggleGameObjects.SetToggleState(toggleState);
+        }
     }
 
     private void OnSceneUnloaded(Scene scene)
@@ -95,6 +144,27 @@ public class SaveLoadManager : MonoBehaviour
         if (runeInventory != null)
         {
             SaveRuneBags(runeInventory.runeBag, runeInventory.equippedRuneBag);
+        }
+    }
+
+    public void DeleteRuneSaveFiles()
+    {
+        if (File.Exists(runeBagsSavePath))
+        {
+            File.Delete(runeBagsSavePath);
+            Debug.Log("Rune bags save file deleted.");
+        }
+
+        if (File.Exists(equippedWeaponSavePath))
+        {
+            File.Delete(equippedWeaponSavePath);
+            Debug.Log("Equipped weapon save file deleted.");
+        }
+
+        if (File.Exists(toggleStateSavePath))
+        {
+            File.Delete(toggleStateSavePath);
+            Debug.Log("Toggle state save file deleted.");
         }
     }
 
@@ -109,5 +179,11 @@ public class SaveLoadManager : MonoBehaviour
     private class EquippedWeaponData
     {
         public WeaponData equippedWeapon;
+    }
+
+    [System.Serializable]
+    private class ToggleStateData
+    {
+        public bool isOn;
     }
 }

@@ -9,9 +9,9 @@ public class PlayerInventory : MonoBehaviour
     [System.Serializable]
     public class Slot
     {
-        public Item item;
+        public Skill item;
 
-        public void Assign(Item assignedItem)
+        public void Assign(Skill assignedItem)
         {
             item = assignedItem;
             if(item is Weapon)
@@ -51,7 +51,7 @@ public class PlayerInventory : MonoBehaviour
     // Checks if the inventory has an item of a certain type.
     public bool Has(ItemData type) { return Get(type); }
 
-    public Item Get(ItemData type)
+    public Skill Get(ItemData type)
     {
         if (type is WeaponData) return Get(type as WeaponData);
         else if (type is PassiveData) return Get(type as PassiveData);
@@ -239,13 +239,13 @@ public class PlayerInventory : MonoBehaviour
     // item in the inventory.
     public bool LevelUp(ItemData data)
     {
-        Item item = Get(data);
+        Skill item = Get(data);
         if (item) return LevelUp(item);
         return false;
     }
 
     // Levels up a selected weapon in the player inventory.
-    public bool LevelUp(Item item)
+    public bool LevelUp(Skill item)
     {
         // Tries to level up the item.
         if(!item.DoLevelUp())
@@ -288,17 +288,13 @@ public class PlayerInventory : MonoBehaviour
         List<ItemData> allPossibleUpgrades = new List<ItemData>(availableWeapons);
         allPossibleUpgrades.AddRange(availablePassives);
 
-        // We need to know how many weapon / passive slots are left.
-        int weaponSlotsLeft = GetSlotsLeft(weaponSlots);
-        int passiveSlotsLeft = GetSlotsLeft(passiveSlots);
-
         // Filters through the available weapons and passives and add those
         // that can possibly be an option.
         foreach (ItemData data in allPossibleUpgrades)
         {
-            // If a weapon of this type exists, allow for the upgrade if the
-            // level of the weapon is not already maxed out.
-            Item obj = Get(data);
+            // If a weapon or passive of this type exists, allow for the upgrade if the
+            // level of the item is not already maxed out.
+            Skill obj = Get(data);
             if (obj)
             {
                 if (obj.currentLevel < data.maxLevel) availableUpgrades.Add(data);
@@ -306,75 +302,23 @@ public class PlayerInventory : MonoBehaviour
             else
             {
                 // If we don't have this item in the inventory yet, check if
-                // we still have enough slots to take new items.
-                if (data is WeaponData && weaponSlotsLeft > 0) availableUpgrades.Add(data);
-                else if (data is PassiveData && passiveSlotsLeft > 0) availableUpgrades.Add(data);
+                // it can be added.
+                if (data is WeaponData) availableUpgrades.Add(data);
+                else if (data is PassiveData) availableUpgrades.Add(data);
             }
         }
 
+        // Remove items that are at max level
+        availableUpgrades.RemoveAll(item => 
+        {
+            Skill existingItem = Get(item);
+            return existingItem != null && existingItem.currentLevel >= item.maxLevel;
+        });
+
         // Pass the possible upgrades.
         bool getExtraItem = 1f - 1f / player.ActualStats.luck > UnityEngine.Random.value;
-        if(getExtraItem) upgradeWindow.SetUpgrades(this, allPossibleUpgrades, 4);
+        if(getExtraItem) upgradeWindow.SetUpgrades(this, availableUpgrades, 4);
         else upgradeWindow.SetUpgrades(this, availableUpgrades, 3, "Increase your Luck stat for a chance to get 4 items!");
-
-        //// Iterate through each slot in the upgrade UI and populate the options.
-        //foreach (UpgradeUI upgradeOption in upgradeUIOptions)
-        //{
-        //    // If there are no more available upgrades, then we abort.
-        //    if (availableUpgrades.Count <= 0) return;
-
-        //    // Pick an upgrade, then remove it so that we don't get it twice.
-        //    ItemData chosenUpgrade = availableUpgrades[UnityEngine.Random.Range(0, availableUpgrades.Count)];
-        //    availableUpgrades.Remove(chosenUpgrade);
-
-        //    // Ensure that the selected weapon data is valid.
-        //    if (chosenUpgrade != null)
-        //    {
-        //        // Turns on the UI slot.
-        //        EnableUpgradeUI(upgradeOption);
-
-        //        // If our inventory already has the upgrade, we will make it a level up.
-        //        Item item = Get(chosenUpgrade);
-        //        if(item)
-        //        {
-        //            upgradeOption.upgradeButton.onClick.AddListener(() => LevelUp(item)); //Apply button functionality
-        //            if (item is Weapon)
-        //            {
-        //                Weapon.Stats nextLevel = ((WeaponData)chosenUpgrade).GetLevelData(item.currentLevel + 1);
-        //                upgradeOption.upgradeDescriptionDisplay.text = nextLevel.description;
-        //                upgradeOption.upgradeNameDisplay.text = chosenUpgrade.name + " - " + nextLevel.name;
-        //                upgradeOption.upgradeIcon.sprite = chosenUpgrade.icon;
-        //            }
-        //            else
-        //            {
-        //                Passive.Modifier nextLevel = ((PassiveData)chosenUpgrade).GetLevelData(item.currentLevel + 1);
-        //                upgradeOption.upgradeDescriptionDisplay.text = nextLevel.description;
-        //                upgradeOption.upgradeNameDisplay.text = chosenUpgrade.name + " - " + nextLevel.name;
-        //                upgradeOption.upgradeIcon.sprite = chosenUpgrade.icon;
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if(chosenUpgrade is WeaponData)
-        //            {
-        //                WeaponData data = chosenUpgrade as WeaponData;
-        //                upgradeOption.upgradeButton.onClick.AddListener(() => Add(chosenUpgrade)); //Apply button functionality
-        //                upgradeOption.upgradeDescriptionDisplay.text = data.baseStats.description;  //Apply initial description
-        //                upgradeOption.upgradeNameDisplay.text = data.baseStats.name;    //Apply initial name
-        //                upgradeOption.upgradeIcon.sprite = data.icon;
-        //            }
-        //            else
-        //            {
-        //                PassiveData data = chosenUpgrade as PassiveData;
-        //                upgradeOption.upgradeButton.onClick.AddListener(() => Add(chosenUpgrade)); //Apply button functionality
-        //                upgradeOption.upgradeDescriptionDisplay.text = data.baseStats.description;  //Apply initial description
-        //                upgradeOption.upgradeNameDisplay.text = data.baseStats.name;    //Apply initial name
-        //                upgradeOption.upgradeIcon.sprite = data.icon;
-        //            }
-
-        //        }
-        //    }
-        //}
     }
 
     void RemoveUpgradeOptions()
